@@ -1,0 +1,111 @@
+﻿@model BITS.Models.Product
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProductId" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Developer" class="control-label"></label>
+                <input asp-for="Developer" class="form-control" />
+                <span asp-validation-for="Developer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Publisher" class="control-label"></label>
+                <input asp-for="Publisher" class="form-control" />
+                <span asp-validation-for="Publisher" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <table>
+                <p>Genres</p>
+                @{
+                    int count = 0;
+                    List<BITS.ViewModel.AssignedGenresData> list = ViewBag.Genres;
+
+                    foreach (var i in list)
+                    {
+                        if (count % 3 == 0)
+                        {
+                            @:<tr>
+                        }
+                        @:<td>
+                        <input type="checkbox" name="selectedGenres" value="@i.Name" @(Html.Raw(i.Assigned ? "checked=\"checked\"" : "")) />
+                        @i.Name
+                        @:</td>
+                        if (count % 3 == 0)
+                        {
+                            @:</tr>
+                        }
+                        count++;
+                    }
+                }
+                </table>
+            </div>
+            <div class="form-group">
+                <table>
+                <p>Features</p>
+                @{
+                    int countFeatures = 0;
+                    List<BITS.ViewModel.AssignedFeaturesData> listFeatures = ViewBag.Features;
+                    
+                    foreach (var i in listFeatures)
+                    {
+                        if (countFeatures % 3 == 0)
+                        {
+                            @:<tr>
+                        }
+                        @:<td>
+                        <input type="checkbox" name="selectedFeatures" value="@i.Name" @(Html.Raw(i.Assigned ? "checked=\"checked\"" : "")) />
+                        @i.Name
+                        @:</td>
+                        if (countFeatures % 3 == 0)
+                        {
+                            @:</tr>
+                        }
+                        countFeatures++;
+                    }
+                }
+                </table>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReleaseDate" class="control-label"></label>
+                <input asp-for="ReleaseDate" class="form-control" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastUpdated" class="control-label"></label>
+                <input asp-for="LastUpdated" class="form-control" />
+                <span asp-validation-for="LastUpdated" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
