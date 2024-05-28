@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BITS.Models;
@@ -42,7 +43,9 @@ public class Product
     public string Developer { get; set; }
     public string Publisher { get; set; }
     public string Description { get; set; }
+    [ValidateNever]
     public IList<Genre> Genres { get; set; }
+    [ValidateNever]
     public IList<Features> Features { get; set; }
     public DateTime ReleaseDate{ get; set; }
     public User? LastUpdatedBy { get; set; }

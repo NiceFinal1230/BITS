@@ -40,48 +40,46 @@
                     int count = 0;
                     List<BITS.ViewModel.AssignedGenresData> list = ViewBag.Genres;
 
+                    @:<tr>
                     foreach (var i in list)
                     {
-                        if (count % 3 == 0)
-                        {
-                            @:<tr>
-                        }
                         @:<td>
                         <input type="checkbox" name="selectedGenres" value="@i.Name" @(Html.Raw(i.Assigned ? "checked=\"checked\"" : "")) />
                         @i.Name
                         @:</td>
+                        count++;
+        
                         if (count % 3 == 0)
                         {
                             @:</tr>
+                            @:<tr>
                         }
-                        count++;
                     }
+                    @:</tr>
                 }
                 </table>
             </div>
             <div class="form-group">
                 <table>
-                <p>Features</p>
                 @{
                     int countFeatures = 0;
                     List<BITS.ViewModel.AssignedFeaturesData> listFeatures = ViewBag.Features;
                     
+                    @:<tr>
                     foreach (var i in listFeatures)
                     {
-                        if (countFeatures % 3 == 0)
-                        {
-                            @:<tr>
-                        }
                         @:<td>
                         <input type="checkbox" name="selectedFeatures" value="@i.Name" @(Html.Raw(i.Assigned ? "checked=\"checked\"" : "")) />
                         @i.Name
                         @:</td>
+                        countFeatures++;
                         if (countFeatures % 3 == 0)
                         {
                             @:</tr>
+                            @:<tr>
                         }
-                        countFeatures++;
                     }
+                    @:</tr>
                 }
                 </table>
             </div>

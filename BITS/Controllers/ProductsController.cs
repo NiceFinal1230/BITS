@@ -49,6 +49,8 @@ namespace BITS.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
+            PopulateAssignedGenresData();
+            PopulateAssignedFeaturesData();
             return View();
         }
 
@@ -57,14 +59,18 @@ namespace BITS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Name,Developer,Publisher,Description,Genres,Features,ReleaseDate,LastUpdated")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,Name,Developer,Publisher,Description,Genres,Features,ReleaseDate,LastUpdated")] Product product, string[] selectedFeatures, string[] selectedGenres)
         {
+            SetGenres(product, selectedGenres);
+            SetFeatures(product, selectedFeatures);
             if (ModelState.IsValid)
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            PopulateAssignedGenresData(product);
+            PopulateAssignedFeaturesData(product);
             return View(product);
         }
 
@@ -97,65 +103,28 @@ namespace BITS.Controllers
             {
                 return NotFound();
             }
-
-            if(product.Genres == null)
-                product.Genres = new List<Genre>();
-            if (selectedGenres != null)
+            SetGenres(product, selectedGenres);
+            SetFeatures(product, selectedFeatures);
+            if (ModelState.IsValid)
             {
-                var list = Enum.GetValues(typeof(Genre)).Cast<Genre>().ToList();
-                var set = new HashSet<string>(selectedGenres);
-                foreach(var i in list)
+                try
                 {
-                    if (set.Contains(i.ToString()))
+                    _context.Update(product);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductExists(product.ProductId))
                     {
-                        if (!product.Genres.Contains(i))
-                            product.Genres.Add(i);
+                        return NotFound();
                     }
                     else
                     {
-                        if (product.Genres.Contains(i))
-                            product.Genres.Remove(i);
+                        throw;
                     }
                 }
             }
-
-            if(product.Features == null)
-                product.Features = new List<Features>();
-            if (selectedFeatures != null)
-            {
-                var list = Enum.GetValues(typeof(Features)).Cast<Features>().ToList();
-                var set = new HashSet<string>(selectedFeatures);
-                foreach (var i in list)
-                {
-                    if (set.Contains(i.ToString()))
-                    {
-                        if (!product.Features.Contains(i))
-                            product.Features.Add(i);
-                    }
-                    else
-                    {
-                        if (product.Features.Contains(i))
-                            product.Features.Remove(i);
-                    }
-                }
-            }
-
-            try
-            {
-                _context.Update(product);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(product.ProductId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            
             PopulateAssignedFeaturesData(product);
             PopulateAssignedGenresData(product);
             return View(product);
@@ -200,35 +169,115 @@ namespace BITS.Controllers
             return _context.Product.Any(e => e.ProductId == id);
         }
 
-        private void PopulateAssignedGenresData(Product product)
+        private void PopulateAssignedGenresData(Product product = null)
         {
+            
             var list = Enum.GetValues(typeof(Genre)).Cast<Genre>().ToList();
-            var set = new HashSet<Genre>(product.Genres);
             var viewModel = new List<AssignedGenresData>();
-            foreach (var i in list)
+
+            if (product != null && product.Genres != null)
             {
-                viewModel.Add(new AssignedGenresData
+                var set = new HashSet<Genre>(product.Genres);
+                foreach (var i in list)
                 {
-                    Name = i,
-                    Assigned = set.Contains(i)
-                });
+                    viewModel.Add(new AssignedGenresData
+                    {
+                        Name = i,
+                        Assigned = set.Contains(i)
+                    });
+                }
             }
+            else
+            {
+                foreach (var i in list)
+                {
+                    viewModel.Add(new AssignedGenresData
+                    {
+                        Name = i,
+                        Assigned = false
+                    });
+                }
+            }
+
             ViewData["Genres"] = viewModel;
         }
-        private void PopulateAssignedFeaturesData(Product product)
+        private void PopulateAssignedFeaturesData(Product product = null)
         {
             var list = Enum.GetValues(typeof(Features)).Cast<Features>().ToList();
-            var set = new HashSet<Features>(product.Features);
+
             var viewModel = new List<AssignedFeaturesData>();
-            foreach (var i in list)
+            if (product != null && product.Features != null)
             {
-                viewModel.Add(new AssignedFeaturesData
+                var set = new HashSet<Features>(product.Features);
+                foreach (var i in list)
                 {
-                    Name = i,
-                    Assigned = set.Contains(i)
-                });
+                    viewModel.Add(new AssignedFeaturesData
+                    {
+                        Name = i,
+                        Assigned = set.Contains(i)
+                    });
+                }
             }
+            else
+            {
+                foreach (var i in list)
+                {
+                    viewModel.Add(new AssignedFeaturesData
+                    {
+                        Name = i,
+                        Assigned = false
+                    });
+                }
+            }
+
             ViewData["Features"] = viewModel;
+        }
+
+        private void SetGenres(Product product, string[] selectedGenres)
+        {
+            if (product.Genres == null)
+                product.Genres = new List<Genre>();
+            if (selectedGenres != null)
+            {
+                var list = Enum.GetValues(typeof(Genre)).Cast<Genre>().ToList();
+                var set = new HashSet<string>(selectedGenres);
+                foreach (var i in list)
+                {
+                    if (set.Contains(i.ToString()))
+                    {
+                        if (!product.Genres.Contains(i))
+                            product.Genres.Add(i);
+                    }
+                    else
+                    {
+                        if (product.Genres.Contains(i))
+                            product.Genres.Remove(i);
+                    }
+                }
+            }
+        }
+        private void SetFeatures(Product product, string[] selectedFeatures)
+        {
+            if (product.Features == null)
+                product.Features = new List<Features>();
+            if (selectedFeatures != null)
+            {
+                var list = Enum.GetValues(typeof(Features)).Cast<Features>().ToList();
+                var set = new HashSet<string>(selectedFeatures);
+                foreach (var i in list)
+                {
+                    if (set.Contains(i.ToString()))
+                    {
+                        if (!product.Features.Contains(i))
+                            product.Features.Add(i);
+                    }
+                    else
+                    {
+                        if (product.Features.Contains(i))
+                            product.Features.Remove(i);
+                    }
+                }
+            }
         }
     }
 }
