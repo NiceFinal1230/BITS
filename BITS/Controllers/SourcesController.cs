@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BITS.Controllers;
 
-[Authorize(Roles = "Administrator")]
+//[Authorize(Roles = "Administrator")]
 public class SourcesController : Controller
 {
     private readonly BITSContext _context;

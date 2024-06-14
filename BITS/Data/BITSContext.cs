@@ -17,5 +17,6 @@ namespace BITS.Data
         public DbSet<BITS.Models.User> User { get; set; } = default!;
         public DbSet<BITS.Models.Source> Source { get; set; } = default!;
         public DbSet<BITS.Models.Product> Product { get; set; } = default!;
+        public DbSet<BITS.Models.Cart> Cart { get; set; } = default!;
     }
 }
