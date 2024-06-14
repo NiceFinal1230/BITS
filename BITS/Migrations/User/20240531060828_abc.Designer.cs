@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BITS.Migrations
+namespace BITS.Migrations.User
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20240528180053_test1")]
-    partial class test1
+    [Migration("20240531060828_abc")]
+    partial class abc
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

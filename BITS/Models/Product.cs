@@ -50,7 +50,16 @@ public class Product
     public DateTime ReleaseDate{ get; set; }
     public User? LastUpdatedBy { get; set; }
     public DateTime LastUpdated { get; set; }
-
+    public string? OSMinimum { get; set; }
+    public string? OSRecommended { get; set; }
+    public string? ProcessorMinimum { get; set; }
+    public string? ProcessorRecommended { get; set; }
+    public string? MemoryMinimum { get; set; }
+    public string? MemoryRecommended { get; set; }
+    public string? StorageMinimum { get; set; }
+    public string? StorageRecommended { get; set; }
+    public string? GraphicsMinimum { get; set; }
+    public string? GraphicsRecommended { get; set; }
 }
 
 public class Stocktake
