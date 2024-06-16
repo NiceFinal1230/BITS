@@ -69,18 +69,42 @@ namespace BITS.Migrations.BITS
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("GraphicsMinimum")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GraphicsRecommended")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("LastUpdatedByUserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("MemoryMinimum")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MemoryRecommended")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OSMinimum")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OSRecommended")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PreviewImages")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProcessorMinimum")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProcessorRecommended")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Publisher")
@@ -89,6 +113,12 @@ namespace BITS.Migrations.BITS
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("StorageMinimum")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StorageRecommended")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductId");
 
