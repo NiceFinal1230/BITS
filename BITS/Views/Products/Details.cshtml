@@ -281,10 +281,19 @@
                     <img class="img-fluid" src="@Model.PreviewImages.Last()" id="checkout-thumbnail-image" />
                 </div>
                 <div class="d-flex justify-content-between align-items-center product">
-                    <div class="product-type">Base Game</div>
-                    <div class="product-price">@Html.DisplayFor(model => model.ProductType)</div>
+                    <div class="product-type">@Html.DisplayFor(model => model.ProductType)</div>
+                    <div class="product-price">$@ViewBag.Price</div>
                 </div>
-                <p class="product-sale">Sale ends 6/13/2024 at 11:00 PM</p>
+                @{
+                    if (@ViewBag.EndDate != null)
+                    {
+                        <p class="product-sale">Sale ends at @ViewBag.EndDate</p>
+                    }
+                    else
+                    {
+                        <p class="product-sale">No sale available</p>
+                    }
+                }
                 <button type="button" class="buy-now">Buy Now</button>
                 <a class="add-to-cart" asp-controller="Carts" asp-action="Create" asp-route-id="@Model?.ProductId">Add to Cart</a>
                 

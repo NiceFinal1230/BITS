@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using BITS.Areas.Identity.Data;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,7 +22,7 @@ public class Product
     [ValidateNever]
     public IList<Features> Features { get; set; }
     public DateTime ReleaseDate{ get; set; }
-    public User? LastUpdatedBy { get; set; }
+    public string? LastUpdatedBy { get; set; }
     public DateTime LastUpdated { get; set; }
     public string? OSMinimum { get; set; }
     public string? OSRecommended { get; set; }

@@ -43,6 +43,7 @@ namespace BITS.Controllers
                 else
                 {
                     List<CartViewModel> list = new List<CartViewModel>();
+
                     ViewBag.UserId = user.Id;
                     foreach(Cart i in carts)
                     {

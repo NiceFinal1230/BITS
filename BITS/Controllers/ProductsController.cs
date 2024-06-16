@@ -43,6 +43,33 @@ namespace BITS.Controllers
                 return NotFound();
             }
 
+            ViewBag.StocktakeId = -1;
+            ViewBag.Quantity = 0;
+            ViewBag.Price = 0;
+            ViewBag.DiscountId = -1;
+            ViewBag.DiscountRate = 0.00;
+
+            var stocks = await _context.Stocktake
+                .Where(stock => stock.ProductId == id)
+                .OrderByDescending(stock => stock.Price)
+                .ToListAsync();
+
+            if (stocks.Any())
+            {
+                var firstStock = stocks.First();
+                ViewBag.Quantity = firstStock.Quantity;
+                ViewBag.Price = firstStock.Price;
+                ViewBag.SotcktakeId = firstStock.StocktakeId;
+                var discount = await _context.Discount.FindAsync(firstStock.StocktakeId);
+                if(discount != null)
+                {
+                    ViewBag.DiscountRate = discount.Rate;
+                    ViewBag.StartDate = discount.StartDate;
+                    ViewBag.EndDate = discount.EndDate;
+                }
+
+            }
+
             return View(product);
         }
 
