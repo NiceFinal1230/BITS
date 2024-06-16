@@ -80,35 +80,81 @@
         margin-top: 18px;
     }
 
-    .share{
+    .share-report{
+        display: flex;
+        justify-content: space-evenly;
+        box-sizing: border-box;
+
+    }
+
+    .share {
+        display: flex;
+        justify-content: space-evenly;
+        width: 45%;
         text-align: center;
         border: 1px solid #4BC140;
         border-radius: 4px;
-        padding: 0px;
+        padding: 3px 6px;
     }
 
     .report {
+        display: flex;
+        justify-content: space-evenly;
+        width: 45%;
         text-align: center;
         border: 1px solid #E03030;
         border-radius: 4px;
-        padding: 0px;
+        padding: 3px 6px;
     }
+
+    .product-subtitle{
+        font-weight: bold;
+    }
+
+    .product-description,
+    .product-requirement,
+    #product-content {
+        margin-top: 24px;
+    }
+
+    .product-requirement{
+        padding: 1em;
+        font-weight: bold;
+        font-size: 0.75em;
+    }
+
+    .product-requirement div{
+        background-color: #202020;
+    }
+
+    #product-requirement-row-container{
+        padding: 1em;
+    }
+
+    #product-requirement-row-container .index{
+        color: #f5f5f5;
+        opacity: 60%;
+        margin-top: 0.5em;
+    }
+
 </style>
 <div class="container">
 
     <div class="row  align-items-center">
         <div class="col-lg-8"> <h1>@Html.DisplayFor(model => model.Name)</h1> </div>
-        <div class="col-lg-2 share">
-            <i class="bi bi-share-fill"></i>
-            Share
-        </div>
-        <div class="col-lg-2 report">
-            <i class="bi bi-flag"></i>
-            Report
+        <div class="col-lg-4 share-report">
+            <a asp-action="Details" asp-route-id="@Model.ProductId" class="share">
+                <i class="bi bi-share-fill"></i>
+                <span>Share</span>
+            </a>
+            <a asp-action="Details" asp-route-id="@Model.ProductId" class="report">
+                <i class="bi bi-flag"></i>
+                <span>Report</span>
+            </a>
         </div>
     </div>
     <h5><u>Overview</u></h5>
-    <div class="row">
+    <div class="row" id="product-content">
         <div class="col-lg-8">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
@@ -161,12 +207,12 @@
                     <span class="sr-only">Previous</span>
                 </a>
             </div>
-            <p>@Html.DisplayFor(model => model.Description)</p>
+            <p class="product-description">@Html.DisplayFor(model => model.Description)</p>
 
             <div class="container">
                 <div class="row">
-                    <div class="col-sm">@Html.DisplayNameFor(model => model.Genres)</div>
-                    <div class="col-sm">@Html.DisplayNameFor(model => model.Features)</div>
+                    <div class="col-sm product-subtitle">@Html.DisplayNameFor(model => model.Genres)</div>
+                    <div class="col-sm product-subtitle">@Html.DisplayNameFor(model => model.Features)</div>
                 </div>
                 <div class="row">
                     <div class="col-sm">
@@ -191,17 +237,42 @@
                     </div>
                 </div>
             </div>
-            <p>System Requirements</p>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm"></div>
-                    <div class="col-sm"></div>
-                </div>
-                <div class="row">
-                    <div class="col-sm"></div>
-                    <div class="col-sm"></div>
+
+            <div class="product-requirement">
+                <p>System Requirements</p>
+                <div class="container">
+                    <div class="row" id="product-requirement-row-container">
+                        <div class="col-sm">
+                            <div class="index">Minimum</div>
+                            <div class="index">Operating System</div>
+                            <div class="value">@Html.DisplayFor(model => model.OSMinimum)</div>
+                            <div class="index">Processor</div>
+                            <div class="value">@Html.DisplayFor(model => model.ProcessorMinimum)</div>
+                            <div class="index">Memory</div>
+                            <div class="value">@Html.DisplayFor(model => model.MemoryMinimum)</div>
+                            <div class="index">Storage</div>
+                            <div class="value">@Html.DisplayFor(model => model.StorageMinimum)</div>
+                            <div class="index">Graphics</div>
+                            <div class="value">@Html.DisplayFor(model => model.GraphicsMinimum)</div>
+                        </div>
+                        <div class="col">
+                            <div class="index">Recommended</div>
+                            <div class="index">Operating System</div>
+                            <div class="value">@Html.DisplayFor(model => model.OSRecommended)</div>
+                            <div class="index">Processor</div>
+                            <div class="value">@Html.DisplayFor(model => model.ProcessorRecommended)</div>
+                            <div class="index">Memory</div>
+                            <div class="value">@Html.DisplayFor(model => model.MemoryRecommended)</div>
+                            <div class="index">Storage</div>
+                            <div class="value">@Html.DisplayFor(model => model.StorageRecommended)</div>
+                            <div class="index">Graphics</div>
+                            <div class="value">@Html.DisplayFor(model => model.GraphicsRecommended)</div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
+            
         </div>
 
         <div class="col-lg-4">
@@ -211,7 +282,7 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-center product">
                     <div class="product-type">Base Game</div>
-                    <div class="product-price">SGD 79.90</div>
+                    <div class="product-price">@Html.DisplayFor(model => model.ProductType)</div>
                 </div>
                 <p class="product-sale">Sale ends 6/13/2024 at 11:00 PM</p>
                 <button type="button" class="buy-now">Buy Now</button>
@@ -220,7 +291,7 @@
                 <div class="right-details">
                     <div class="d-flex justify-content-between">
                         <div class="right-index">Refund Type</div>
-                        <div class="right-value">Self-Refundable</div>
+                        <div class="right-value">@Html.DisplayFor(model => model.RefundType)</div>
                     </div>
                     <div class="d-flex justify-content-between">
                         <div class="right-index">@Html.DisplayNameFor(model => model.Developer)</div>
@@ -239,10 +310,4 @@
             </div>
         </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.ProductId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-
 </div>

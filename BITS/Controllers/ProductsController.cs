@@ -180,22 +180,14 @@ namespace BITS.Controllers
                 var set = new HashSet<Genre>(product.Genres);
                 foreach (var i in list)
                 {
-                    viewModel.Add(new AssignedGenresData
-                    {
-                        Name = i,
-                        Assigned = set.Contains(i)
-                    });
+                    viewModel.Add(new AssignedGenresData { Name = i, Assigned = set.Contains(i) });
                 }
             }
             else
             {
                 foreach (var i in list)
                 {
-                    viewModel.Add(new AssignedGenresData
-                    {
-                        Name = i,
-                        Assigned = false
-                    });
+                    viewModel.Add(new AssignedGenresData { Name = i, Assigned = false });
                 }
             }
 
@@ -211,22 +203,14 @@ namespace BITS.Controllers
                 var set = new HashSet<Features>(product.Features);
                 foreach (var i in list)
                 {
-                    viewModel.Add(new AssignedFeaturesData
-                    {
-                        Name = i,
-                        Assigned = set.Contains(i)
-                    });
+                    viewModel.Add(new AssignedFeaturesData { Name = i, Assigned = set.Contains(i) });
                 }
             }
             else
             {
                 foreach (var i in list)
                 {
-                    viewModel.Add(new AssignedFeaturesData
-                    {
-                        Name = i,
-                        Assigned = false
-                    });
+                    viewModel.Add(new AssignedFeaturesData { Name = i, Assigned = false });
                 }
             }
 

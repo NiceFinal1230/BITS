@@ -52,12 +52,13 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer id="BITS-footer">
-        <div class="container">
+    <div>
+        <div style="height: 10em;"></div>
+        <div id="BITS-footer">
             &copy; 2024 - BITS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </div>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -11,6 +11,9 @@ public class Product
     public string Developer { get; set; }
     public string Publisher { get; set; }
     public string Description { get; set; }
+    public string ProductType { get; set; } = string.Empty;
+    public string RefundType { get; set; } = string.Empty;
+
     [ValidateNever]
     public IList<Genre> Genres { get; set; }
     [ValidateNever]
