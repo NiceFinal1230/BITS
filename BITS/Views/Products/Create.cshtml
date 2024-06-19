@@ -3,6 +3,11 @@
 @{
     ViewData["Title"] = "Create";
 }
+<style>
+    textarea{
+        width: 100%;
+    }
+</style>
 
 <h1>Create</h1>
 
@@ -11,6 +16,161 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Developer" class="control-label"></label>
+                <input asp-for="Developer" class="form-control" />
+                <span asp-validation-for="Developer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Publisher" class="control-label"></label>
+                <input asp-for="Publisher" class="form-control" />
+                <span asp-validation-for="Publisher" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <table>
+                <p>Genres</p>
+                @{
+                    int count = 0;
+                    List<BITS.ViewModel.AssignedGenresData> list = ViewBag.Genres;
+
+                    @:<tr>
+                    foreach (var i in list)
+                    {
+                        @:<td>
+                        <input type="checkbox" name="selectedGenres" value="@i.Name" @(Html.Raw(i.Assigned ? "checked=\"checked\"" : "")) />
+                        @i.Name
+                        @:</td>
+                        count++;
+        
+                        if (count % 3 == 0)
+                        {
+                            @:</tr>
+                            @:<tr>
+                        }
+                    }
+                    @:</tr>
+                }
+                </table>
+            </div>
+            <div class="form-group">
+                <table>
+                @{
+                    int countFeatures = 0;
+                    List<BITS.ViewModel.AssignedFeaturesData> listFeatures = ViewBag.Features;
+                    
+                    @:<tr>
+                    foreach (var i in listFeatures)
+                    {
+                        @:<td>
+                        <input type="checkbox" name="selectedFeatures" value="@i.Name" @(Html.Raw(i.Assigned ? "checked=\"checked\"" : "")) />
+                        @i.Name
+                        @:</td>
+                        countFeatures++;
+                        if (countFeatures % 3 == 0)
+                        {
+                            @:</tr>
+                            @:<tr>
+                        }
+                    }
+                    @:</tr>
+                }
+                </table>
+            </div>
+            <div>
+                <label name="_previewImages" id="_previewImages">Game Pictures</label>
+                <textarea name="_previewImages" rows="@Model.PreviewImages.Count">@ViewBag.PreviewImages</textarea>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReleaseDate" class="control-label"></label>
+                <input asp-for="ReleaseDate" class="form-control" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastUpdated" class="control-label"></label>
+                <input asp-for="LastUpdated" class="form-control" />
+                <span asp-validation-for="LastUpdated" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductType" class="control-label"></label>
+                <input asp-for="ProductType" class="form-control" />
+                <span asp-validation-for="ProductType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RefundType" class="control-label"></label>
+                <input asp-for="RefundType" class="form-control" />
+                <span asp-validation-for="RefundType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OSMinimum" class="control-label"></label>
+                <input asp-for="OSMinimum" class="form-control" />
+                <span asp-validation-for="OSMinimum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProcessorMinimum" class="control-label"></label>
+                <input asp-for="ProcessorMinimum" class="form-control" />
+                <span asp-validation-for="ProcessorMinimum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemoryMinimum" class="control-label"></label>
+                <input asp-for="MemoryMinimum" class="form-control" />
+                <span asp-validation-for="MemoryMinimum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StorageMinimum" class="control-label"></label>
+                <input asp-for="StorageMinimum" class="form-control" />
+                <span asp-validation-for="StorageMinimum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GraphicsMinimum" class="control-label"></label>
+                <input asp-for="GraphicsMinimum" class="form-control" />
+                <span asp-validation-for="GraphicsMinimum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OSRecommended" class="control-label"></label>
+                <input asp-for="OSRecommended" class="form-control" />
+                <span asp-validation-for="OSRecommended" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProcessorRecommended" class="control-label"></label>
+                <input asp-for="ProcessorRecommended" class="form-control" />
+                <span asp-validation-for="ProcessorRecommended" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemoryRecommended" class="control-label"></label>
+                <input asp-for="MemoryRecommended" class="form-control" />
+                <span asp-validation-for="MemoryRecommended" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StorageRecommended" class="control-label"></label>
+                <input asp-for="StorageRecommended" class="form-control" />
+                <span asp-validation-for="StorageRecommended" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GraphicsRecommended" class="control-label"></label>
+                <input asp-for="GraphicsRecommended" class="form-control" />
+                <span asp-validation-for="GraphicsRecommended" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+@*         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -83,7 +243,7 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-        </form>
+        </form> *@
     </div>
 </div>
 

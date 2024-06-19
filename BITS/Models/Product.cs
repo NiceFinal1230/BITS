@@ -1,4 +1,5 @@
 ﻿using BITS.Areas.Identity.Data;
+using BITS.Services;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,7 +19,7 @@ public class Product
     [ValidateNever]
     public IList<Genre> Genres { get; set; }
     [ValidateNever]
-    public IList<string> PreviewImages { get; set; }
+    public IList<string> PreviewImages { get; set; } = new List<string>();
     [ValidateNever]
     public IList<Features> Features { get; set; }
     public DateTime ReleaseDate{ get; set; }
@@ -34,6 +35,9 @@ public class Product
     public string? StorageRecommended { get; set; }
     public string? GraphicsMinimum { get; set; }
     public string? GraphicsRecommended { get; set; }
+    public double Price { get; set; }
+    public int? BaseGameId { get; set; }
+
 }
 
 

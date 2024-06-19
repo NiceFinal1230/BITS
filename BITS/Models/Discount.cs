@@ -1,12 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿//using Microsoft.EntityFrameworkCore;
 
-namespace BITS.Models;
+//namespace BITS.Models;
 
-[Keyless]
-public class Discount
-{
-    public int StocktakeId { get; set; }
-    public double Rate { get; set; }
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
-}
+//public class Discount
+//{
+//    public int DiscountId { get; set; }
+//    public int StocktakeId { get; set; }
+//    public double Rate { get; set; }
+//    public DateTime StartDate { get; set; }
+//    public DateTime EndDate { get; set; }
+//}

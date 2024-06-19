@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using BITS.Data;
 using BITS.Models;
 using BITS.ViewModel;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace BITS.Controllers
 {
@@ -27,6 +26,44 @@ namespace BITS.Controllers
             return View(await _context.Product.ToListAsync());
         }
 
+        public async Task<IActionResult> AddOn(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var products = await (from _addon in _context.Product
+                          where _addon.BaseGameId == id
+                          select _addon).ToListAsync();
+
+            if (products == null)
+            {
+                return NotFound();
+            }
+
+            List<ProductStocktakeViewModel> vm = new();
+            foreach(var product in products)
+            {
+                var result = _context.Stocktake.FirstOrDefault(i => i.ProductId == product.ProductId);
+                if(result != null)
+                    vm.Add(new ProductStocktakeViewModel { Product = product, Stocktake = result });
+                else
+                {
+                    vm.Add(new ProductStocktakeViewModel { Product = product, Stocktake = new() });
+                }
+            }
+
+            var baseProduct = await _context.Product.FindAsync(id);
+
+            if (baseProduct != null)
+            {
+                ViewBag.BaseProduct = baseProduct;
+            }
+
+            return View(vm);
+        }
+
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,11 +80,9 @@ namespace BITS.Controllers
                 return NotFound();
             }
 
-            ViewBag.StocktakeId = -1;
-            ViewBag.Quantity = 0;
-            ViewBag.Price = 0;
-            ViewBag.DiscountId = -1;
-            ViewBag.DiscountRate = 0.00;
+            ViewBag.Stocktake = await _context.Stocktake
+                .Where(stock => stock.ProductId == id)
+                .ToListAsync();
 
             var stocks = await _context.Stocktake
                 .Where(stock => stock.ProductId == id)
@@ -58,16 +93,11 @@ namespace BITS.Controllers
             {
                 var firstStock = stocks.First();
                 ViewBag.Quantity = firstStock.Quantity;
-                ViewBag.Price = firstStock.Price;
                 ViewBag.SotcktakeId = firstStock.StocktakeId;
-                var discount = await _context.Discount.FindAsync(firstStock.StocktakeId);
-                if(discount != null)
-                {
-                    ViewBag.DiscountRate = discount.Rate;
-                    ViewBag.StartDate = discount.StartDate;
-                    ViewBag.EndDate = discount.EndDate;
-                }
-
+                ViewBag.DiscountRate = firstStock.DiscountRate;
+                ViewBag.DiscountPrice = product.Price * (100 - firstStock.DiscountRate) / 100;
+                ViewBag.StartDate = firstStock.DiscountStartDate;
+                ViewBag.EndDate = firstStock.DiscountEndDate;
             }
 
             return View(product);
@@ -76,9 +106,11 @@ namespace BITS.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            PopulateAssignedGenresData();
-            PopulateAssignedFeaturesData();
-            return View();
+            var product = new Product { Name = "Multiplayer Strategy", Developer = "Strategy Masters", Publisher = "Strategic Games", Description = "A strategy game with multiplayer features.", Genres = new List<Genre> { Genre.Strategy, Genre.Simulation }, PreviewImages = new List<string> { "https://plus.unsplash.com/premium_photo-1701214498603-59f754e55543?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8", "https://images.unsplash.com/photo-1718046254335-d9ff832c9c3c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHx8", "https://images.unsplash.com/photo-1718115257239-7246f434a7b0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHx8", "https://images.unsplash.com/photo-1689602037070-fec2eca3f5b2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3fHx8ZW58MHx8fHx8", "https://images.unsplash.com/photo-1718019668172-5380fd58f2c5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw4fHx8ZW58MHx8fHx8", "https://images.unsplash.com/photo-1718078742597-6d07da10820f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMHx8fGVufDB8fHx8fA%3D%3D", "https://plus.unsplash.com/premium_photo-1709309934434-448b98065f66?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxN3x8fGVufDB8fHx8fA%3D%3D" }, Features = new List<Features> { Features.Multiplayer, Features.Coop }, ReleaseDate = new DateTime(2024, 2, 15), LastUpdated = DateTime.Now, OSMinimum = "Windows 7", OSRecommended = "Windows 10", ProcessorMinimum = "Intel Core i3", ProcessorRecommended = "Intel Core i5", MemoryMinimum = "4 GB RAM", MemoryRecommended = "8 GB RAM", StorageMinimum = "20 GB available space", StorageRecommended = "50 GB available space", GraphicsMinimum = "NVIDIA GeForce GTX 660", GraphicsRecommended = "NVIDIA GeForce GTX 1060", ProductType = "Base Game", RefundType = "Self-Refundable", Price = 99.99 };
+            PopulateAssignedGenresData(product);
+            PopulateAssignedFeaturesData(product);
+            PopulatePreviewImages(product);
+            return View(product);
         }
 
         // POST: Products/Create
@@ -86,10 +118,11 @@ namespace BITS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Name,Developer,Publisher,Description,Genres,Features,ReleaseDate,LastUpdated")] Product product, string[] selectedFeatures, string[] selectedGenres)
+        public async Task<IActionResult> Create(Product product, string _previewImages, string[] selectedFeatures, string[] selectedGenres)
         {
             SetGenres(product, selectedGenres);
             SetFeatures(product, selectedFeatures);
+            SetPreviewImages(product, _previewImages);
             if (ModelState.IsValid)
             {
                 _context.Add(product);
@@ -98,7 +131,8 @@ namespace BITS.Controllers
             }
             PopulateAssignedGenresData(product);
             PopulateAssignedFeaturesData(product);
-            return View(product);
+            Stocktake stocktake= new Stocktake { ProductId = product.ProductId };
+            return View(new ProductStocktakeViewModel { Product = product, Stocktake = stocktake } );
         }
 
         // GET: Products/Edit/5
@@ -114,22 +148,30 @@ namespace BITS.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.sources = _context.Source.ToList();
+            ViewBag.Context = _context;
+            ViewBag.Stocktake = await _context.Stocktake.Where(stock => stock.ProductId == id).ToListAsync();
+
             PopulateAssignedGenresData(product);
             PopulateAssignedFeaturesData(product);
-            return View(product);
+            PopulatePreviewImages(product);
+            Stocktake stocktake = new Stocktake { ProductId = product.ProductId };
+            return View(new ProductStocktakeViewModel { Product = product, Stocktake = stocktake });
         }
 
         // POST: Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // For more, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Product product, string[] selectedGenres, string[] selectedFeatures)
+        public async Task<IActionResult> Edit(int id, Product product, string[] selectedGenres, string[] selectedFeatures, string _previewImages)
         {
             if (id != product.ProductId)
             {
                 return NotFound();
             }
+            SetPreviewImages(product, _previewImages);
             SetGenres(product, selectedGenres);
             SetFeatures(product, selectedFeatures);
             if (ModelState.IsValid)
@@ -154,7 +196,11 @@ namespace BITS.Controllers
             
             PopulateAssignedFeaturesData(product);
             PopulateAssignedGenresData(product);
-            return View(product);
+            ViewBag.sources = _context.Source.ToList();
+            ViewBag.Context = _context;
+            ViewBag.Stocktake = await _context.Stocktake.Where(stock => stock.ProductId == id).ToListAsync();
+            Stocktake stocktake = new Stocktake { ProductId = product.ProductId };
+            return View(new ProductStocktakeViewModel { Product = product, Stocktake = stocktake });
         }
 
         // GET: Products/Delete/5
@@ -244,6 +290,19 @@ namespace BITS.Controllers
             ViewData["Features"] = viewModel;
         }
 
+        private void PopulatePreviewImages(Product product = null)
+        {
+            var viewModel = "";
+            if (product != null && product.PreviewImages.Count > 0)
+            {
+                foreach(var image in product.PreviewImages)
+                {
+                    viewModel = viewModel + image + System.Environment.NewLine;
+                }
+            }
+            ViewData["PreviewImages"] = viewModel;
+        }
+
         private void SetGenres(Product product, string[] selectedGenres)
         {
             if (product.Genres == null)
@@ -289,6 +348,17 @@ namespace BITS.Controllers
                     }
                 }
             }
+        }
+
+        private void SetPreviewImages(Product product, string input)
+        {
+            if (input == null)
+            {
+                throw new ArgumentNullException(nameof(input), "Input string cannot be null.");
+            }
+
+            // Split the input string by Environment.NewLine
+            product.PreviewImages = new List<string>(input.Split(new[] { Environment.NewLine }, StringSplitOptions.None));
         }
     }
 }

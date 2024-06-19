@@ -5,12 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace BITS.ViewModel;
 public class CartViewModel
 {
-    public int ProductId { get; set; }
-    public string Name { get; set; }
-    public string ProductType { get; set; }
-    public string RefundType { get; set; }
-    public string Price { get; set; }
-    public string Picture { get; set; }
+    public List<ProductStocktakeViewModel> ProductStocktake { get; set; } = new List<ProductStocktakeViewModel>();
+    public double Prices { get; set; }
+    public double Discount { get; set; }
+    public double Subtotal { get; set; }
     public int Quantity { get; set; }
 
 }

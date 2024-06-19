@@ -1,4 +1,5 @@
-﻿@model BITS.Models.Product
+﻿@using static BITS.Services.EnumServices
+@model BITS.Models.Product
 
 @{
     ViewData["Title"] = "Details";
@@ -19,12 +20,19 @@
     }
 
     #checkout-thumbnail {
-        display: flex;
-        justify-content: center;
+        height: 270px;
+    }
+
+    #checkout-thumbnail img{
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
     }
 
     .buy-now,
     .add-to-cart{
+        box-sizing: border-box;
         display: block;
         width: calc(100%);
         border-radius: 7px;
@@ -137,6 +145,12 @@
         margin-top: 0.5em;
     }
 
+    .product-rate{
+        padding: 3px 12px;
+        border-radius: 6px;
+        background-color: #1277D9;
+    }
+
 </style>
 <div class="container">
 
@@ -153,7 +167,14 @@
             </a>
         </div>
     </div>
-    <h5><u>Overview</u></h5>
+    <div class="row  align-items-center">
+        <div class="col-lg-auto">
+            <h5><u>Overview</u></h5>
+        </div>
+        <div class="col-lg-auto">
+            <h5 style="color: #ADADAD"><a asp-action="AddOn" asp-route-id="@Model?.ProductId">Add-On</a></h5>
+        </div>
+    </div>
     <div class="row" id="product-content">
         <div class="col-lg-8">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -231,8 +252,7 @@
                             string x = ", ";
                             if (i == Model.Features.Count - 1)
                                 x = " ";
-                            @Model.Features[i] @x
-                            ;
+                            @GetDescription(Model.Features[i]) @x;
                         }
                     </div>
                 </div>
@@ -278,12 +298,27 @@
         <div class="col-lg-4">
             <div class="right">
                 <div id="checkout-thumbnail">
-                    <img class="img-fluid" src="@Model.PreviewImages.Last()" id="checkout-thumbnail-image" />
+                    <img src="@(@Model.PreviewImages.Count != 0 ? Model.PreviewImages.Last() : "")" id="checkout-thumbnail-image" />
                 </div>
-                <div class="d-flex justify-content-between align-items-center product">
-                    <div class="product-type">@Html.DisplayFor(model => model.ProductType)</div>
-                    <div class="product-price">$@ViewBag.Price</div>
-                </div>
+                @{
+                    if (@ViewBag.DiscountRate != null && @ViewBag.DiscountRate != 0)
+                    {
+                        <div class="d-flex justify-content-between align-items-center product">
+                            <div class="product-type">@Html.DisplayFor(model => model.ProductType)</div>
+                            <div class="product-rate">-@ViewBag.DiscountRate%</div>
+                            <div class="product-price"><s>$@Html.DisplayFor(model => model.Price)</s></div>
+                            <div class="product-price">$@ViewBag.DiscountPrice</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex justify-content-between align-items-center product">
+                            <div class="product-type">@Html.DisplayFor(model => model.ProductType)</div>
+                            <div class="product-price">$@Html.DisplayFor(model => model.Price)</div>
+                        </div>
+                    }
+                }
+
                 @{
                     if (@ViewBag.EndDate != null)
                     {

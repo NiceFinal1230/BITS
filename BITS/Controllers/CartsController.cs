@@ -31,68 +31,74 @@ namespace BITS.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            try
+            var user = await _userManager.GetUserAsync(User);
+
+            if(user == null)
             {
-                var user = await _userManager.GetUserAsync(User);
-                
-                List<Cart> carts = (from _cart in _context.Cart
-                                    where _cart.UserId == user.Id
-                                    select _cart).ToList();
-                if (carts == null)
-                    carts = new List<Cart>();
-                else
-                {
-                    List<CartViewModel> list = new List<CartViewModel>();
+                return NotFound();
+            }
 
-                    ViewBag.UserId = user.Id;
-                    foreach(Cart i in carts)
+            ViewBag.UserId = user.Id;
+
+            List<Cart> carts = (from _cart in _context.Cart
+                                where _cart.UserId == user.Id
+                                select _cart).ToList();
+
+            if (carts == null)
+                carts = new();
+
+            CartViewModel vm = new();
+
+            foreach(Cart i in carts)
+            {
+                var item = await _context.Product.FindAsync(i.ProductId);
+                if(item != null)
+                {;
+                    var stocktake = await _context.Stocktake.FirstOrDefaultAsync(x => x.ProductId == i.ProductId);
+                    if (stocktake == null)
                     {
-                        var item = await _context.Product.FindAsync(i.ProductId);
-                        if(item != null)
-                        {
-                            var cartViewModel = new CartViewModel
-                            {
-                                ProductId = i.ProductId,
-                                Name = item.Name,
-                                ProductType = "Base Game",
-                                Price = "99",
-                                Picture = "",
-                                RefundType = "Self-Refundable",
-                                Quantity = i.Quantity
-                            };
-                            list.Add(cartViewModel);
-                        }
-
+                        stocktake = new Stocktake();
                     }
-                    return View(list);
+                    vm.ProductStocktake.Add(new ProductStocktakeViewModel { Product = item, Stocktake = stocktake});
                 }
             }
-            catch (Exception e)
+
+            double prices = 0;
+            double discount = 0;
+
+            foreach(var i in vm.ProductStocktake)
             {
-                Console.WriteLine(e);
+                prices += i.Product.Price;
+                discount += i.Product.Price * (100 - i.Stocktake.DiscountRate)/100;
             }
-            return NotFound();
+
+            vm.Prices = prices;
+            vm.Discount = discount;
+            vm.Subtotal = prices-discount;
+
+            return View(vm);
         }
+
         [Authorize]
         public async Task<IActionResult> Create(int? id)
         {
             if (id == null)
                 return NotFound();
 
-            int productId = (int)id;
             try
             {
-                var prod = await _context.Product.FindAsync(productId);
+                var prod = await _context.Product.FindAsync(id);
                 var user = await _userManager.GetUserAsync(User);
-                var item = new Cart(user.Id, productId, 1);
+                var item = new Cart { UserId = user!.Id, ProductId = (int)id, Quantity = 1 };
                 var cart = (from _cart in _context.Cart
-                           where _cart.UserId == user.Id && _cart.ProductId == productId
-                           select _cart).FirstOrDefault();
+                           where _cart.UserId == user.Id && _cart.ProductId == id
+                            select _cart).FirstOrDefault();
+
                 if (cart == null)
                     _context.Cart.Add(item);
                 else
                 {
-                    cart.Quantity = cart.Quantity + 1;
+                    cart.Quantity++;
                     _context.Cart.Update(cart);
                 }
                 await _context.SaveChangesAsync();
@@ -100,7 +106,7 @@ namespace BITS.Controllers
             catch(Exception e){
                 Console.WriteLine(e);
             }
-            return RedirectToAction(controllerName: "Products", actionName: "Details", routeValues: new { id = productId });
+            return RedirectToAction(controllerName: "Products", actionName: "Details", routeValues: new { id = id });
         }
         [Authorize]
         public async Task<IActionResult> Delete(int id)

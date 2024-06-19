@@ -67,7 +67,8 @@ public static class SeedData
                         GraphicsMinimum = "NVIDIA GeForce GTX 660",
                         GraphicsRecommended = "NVIDIA GeForce GTX 1060",
                         ProductType = "Base Game",
-                        RefundType = "Self-Refundable"
+                        RefundType = "Self-Refundable",
+                        Price = 99.99
                     },
                     new Product
                     {
@@ -98,7 +99,8 @@ public static class SeedData
                         GraphicsMinimum = "NVIDIA GeForce GTX 660",
                         GraphicsRecommended = "NVIDIA GeForce GTX 1060",
                         ProductType = "Base Game",
-                        RefundType = "Self-Refundable"
+                        RefundType = "Self-Refundable",
+                        Price = 99.99
                     },
                     new Product
                     {
@@ -129,7 +131,8 @@ public static class SeedData
                         GraphicsMinimum = "NVIDIA GeForce GTX 660",
                         GraphicsRecommended = "NVIDIA GeForce GTX 1060",
                         ProductType = "Base Game",
-                        RefundType = "Self-Refundable"
+                        RefundType = "Self-Refundable",
+                        Price = 99.99
                     }
                 );
             }
