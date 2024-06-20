@@ -21,36 +21,6 @@ namespace BITS.Controllers
             _context = context;
         }
 
-        // GET: Stocktakes
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Stocktake.ToListAsync());
-        }
-
-        // GET: Stocktakes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var stocktake = await _context.Stocktake
-                .FirstOrDefaultAsync(m => m.StocktakeId == id);
-            if (stocktake == null)
-            {
-                return NotFound();
-            }
-
-            return View(stocktake);
-        }
-
-        // GET: Stocktakes/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
         // POST: Stocktakes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -124,33 +94,15 @@ namespace BITS.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(controllerName: "Products", actionName: "Edit", routeValues: new { id = stocktake.ProductId});
             }
-            return View(stocktake);
-        }
-
-        // GET: Stocktakes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var stocktake = await _context.Stocktake
-                .FirstOrDefaultAsync(m => m.StocktakeId == id);
-            if (stocktake == null)
-            {
-                return NotFound();
-            }
-
-            return View(stocktake);
+            return RedirectToAction(controllerName: "Products", actionName:"Index");
         }
 
         // POST: Stocktakes/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id, int? productId)
         {
             var stocktake = await _context.Stocktake.FindAsync(id);
             if (stocktake != null)
@@ -159,7 +111,7 @@ namespace BITS.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(controllerName: "Products", actionName: "Edit", routeValues: new { id = productId });
         }
 
         private bool StocktakeExists(int id)

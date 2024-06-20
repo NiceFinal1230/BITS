@@ -21,8 +21,37 @@ namespace BITS.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string[]? genres, string? search)
         {
+            // Search By Name
+            if (search != null)
+            {
+                var temp = await _context.Product.Where(product => product.Name.Contains(search)).ToListAsync();
+                return View(temp);
+            }
+
+            // Search By Genres
+            if (genres != null && genres.Length > 0)
+            {
+                List<Product> list = await _context.Product.ToListAsync();
+                List<Product> result = new();
+                HashSet<string> set = genres.ToHashSet();
+                foreach(var product in list)
+                {
+                    var productGenres = product.Genres.ToHashSet();
+                    foreach(var i in productGenres)
+                    {
+                        if (set.Contains(i.ToString()))
+                        {
+                            result.Add(product);
+                            break;
+                        }
+                    }
+                }
+                return View(result);
+            }
+
+            // Default View
             return View(await _context.Product.ToListAsync());
         }
 
@@ -203,29 +232,7 @@ namespace BITS.Controllers
             return View(new ProductStocktakeViewModel { Product = product, Stocktake = stocktake });
         }
 
-        // GET: Products/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Product
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
-        }
-
-        // POST: Products/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var product = await _context.Product.FindAsync(id);
             if (product != null)

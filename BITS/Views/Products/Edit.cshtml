@@ -4,242 +4,345 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<style>
+    .edit{
+        background-color: #222222;
+        padding: 15px;
+    }
 
-<h1>Edit</h1>
+    .row{
+        margin: 0px;
+    }
 
-<h4>Product</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Product.ProductId" />
-            <div class="form-group">
-                <label asp-for="Product.Name" class="control-label"></label>
-                <input asp-for="Product.Name" class="form-control" />
-                <span asp-validation-for="Product.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.Price" class="control-label"></label>
-                <input asp-for="Product.Price" class="form-control" />
-                <span asp-validation-for="Product.Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.Developer" class="control-label"></label>
-                <input asp-for="Product.Developer" class="form-control" />
-                <span asp-validation-for="Product.Developer" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.Publisher" class="control-label"></label>
-                <input asp-for="Product.Publisher" class="form-control" />
-                <span asp-validation-for="Product.Publisher" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.Description" class="control-label"></label>
-                <input asp-for="Product.Description" class="form-control" />
-                <span asp-validation-for="Product.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <table>
-                <p>Genres</p>
-                @{
-                    int count = 0;
-                    List<BITS.ViewModel.AssignedGenresData> list = ViewBag.Genres;
+    label,
+    p{
+        margin: 0px;
+        font-weight: bold;
+    }
 
-                    @:<tr>
-                    foreach (var i in list)
+    input[type],
+    textarea{
+        color-scheme: dark;
+        background-color: #161616;
+        color: white;
+        border: 1px solid #858585;
+        transition: 0.5s;
+        outline: none;
+    }
+
+    textarea:focus,
+    input[type]:focus{
+        background-color: #161616;
+        color: white;
+        border: 1px solid white;
+    }
+
+    textarea{
+        width: 100%;
+    }
+
+    .minimum{
+        opacity: 60%;
+    }
+
+    #delete-button{
+        background-color: #E03030;
+        border-radius: 0.5em;
+        padding: 0.5em 1em;
+        color: white;
+        border: none;
+    }
+
+    #cancel-button{
+        background-color: #E08F30;
+        border-radius: 0.5em;
+        padding: 0.5em 1em;
+        color: white;
+        border: none;
+    }
+
+    #save-button,
+    #add-new-stock,
+    #add-new-stock-expand {
+        background-color: #2E7BEE;
+        border-radius: 0.5em;
+        padding: 0.5em 1em;
+        color: white;
+        border: none;
+    }
+
+    .table td, .table th {
+        padding: 0px;
+        vertical-align: default;
+        border-top: none;
+    }
+
+    .modal-content{
+        background-color: #161616;
+    }
+
+</style>
+<div class="edit container-fluid">
+    <div class="row">
+        <div class="col">
+            <form asp-action="Edit">
+                
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="row justify-content-between align-items-center">
+                    <a asp-action="Index" >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                        </svg>
+                    </a>
+                    <div class="row">
+                        <a asp-action="Delete" asp-route-id="@Model.Product.ProductId" id="delete-button" class="mr-3">
+                            Delete
+                        </a>
+                        <input type="reset" value="Cancel" id="cancel-button" class="mr-3" />
+                        <input type="submit" value="Save" id="save-button" />
+                    </div>
+
+                </div>
+
+                <input type="hidden" asp-for="Product.ProductId" />
+                <input type="hidden" asp-for="Product.LastUpdated" class="form-control" />
+
+                <div class="form-group">
+                    <label asp-for="Product.Name" class="control-label"></label>
+                    <input asp-for="Product.Name" class="form-control" />
+                    <span asp-validation-for="Product.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product.Price" class="control-label"></label>
+                    <input asp-for="Product.Price" class="form-control" />
+                    <span asp-validation-for="Product.Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product.Developer" class="control-label"></label>
+                    <input asp-for="Product.Developer" class="form-control" />
+                    <span asp-validation-for="Product.Developer" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product.Publisher" class="control-label"></label>
+                    <input asp-for="Product.Publisher" class="form-control" />
+                    <span asp-validation-for="Product.Publisher" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product.Description" class="control-label"></label>
+                    <input asp-for="Product.Description" class="form-control" />
+                    <span asp-validation-for="Product.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <p>Genres</p>
+                    @foreach (var i in ViewBag.Genres)
                     {
-                        @:<td>
-                        <input type="checkbox" name="selectedGenres" value="@i.Name" @(Html.Raw(i.Assigned ? "checked=\"checked\"" : "")) />
-                        @i.Name
-                        @:</td>
-                        count++;
-        
-                        if (count % 3 == 0)
-                        {
-                            @:</tr>
-                            @:<tr>
-                        }
+                        <input id="@i.Name" type="checkbox" name="selectedGenres" value="@i.Name" @(Html.Raw(i.Assigned ? "checked=\"checked\"" : "")) />
+                        <label for="@i.Name">@i.Name</label>
                     }
-                    @:</tr>
-                }
-                </table>
-            </div>
-            <div class="form-group">
-                <table>
-                @{
-                    int countFeatures = 0;
-                    List<BITS.ViewModel.AssignedFeaturesData> listFeatures = ViewBag.Features;
-                    
-                    @:<tr>
-                    foreach (var i in listFeatures)
+                </div>
+                <div class="form-group">
+                    <p>Features</p>
+                    @foreach (var i in ViewBag.Features)
                     {
-                        @:<td>
-                        <input type="checkbox" name="selectedFeatures" value="@i.Name" @(Html.Raw(i.Assigned ? "checked=\"checked\"" : "")) />
-                        @i.Name
-                        @:</td>
-                        countFeatures++;
-                        if (countFeatures % 3 == 0)
-                        {
-                            @:</tr>
-                            @:<tr>
-                        }
+                        <input id="@i.Name" type="checkbox" name="selectedFeatures" value="@i.Name" @(Html.Raw(i.Assigned ? "checked=\"checked\"" : "")) />
+                        <label for="@i.Name">@i.Name</label>
                     }
-                    @:</tr>
-                }
-                </table>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.ReleaseDate" class="control-label"></label>
-                <input asp-for="Product.ReleaseDate" class="form-control" />
-                <span asp-validation-for="Product.ReleaseDate" class="text-danger"></span>
-            </div>
-            <div>
-                <label name="_previewImages" id="_previewImages">Game Pictures</label>
-                <textarea name="_previewImages" rows="@Model.Product.PreviewImages.Count">@ViewBag.PreviewImages</textarea>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.LastUpdated" class="control-label"></label>
-                <input asp-for="Product.LastUpdated" class="form-control" />
-                <span asp-validation-for="Product.LastUpdated" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.ProductType" class="control-label"></label>
-                <input asp-for="Product.ProductType" class="form-control" />
-                <span asp-validation-for="Product.ProductType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.RefundType" class="control-label"></label>
-                <input asp-for="Product.RefundType" class="form-control" />
-                <span asp-validation-for="Product.RefundType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.OSMinimum" class="control-label"></label>
-                <input asp-for="Product.OSMinimum" class="form-control" />
-                <span asp-validation-for="Product.OSMinimum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.ProcessorMinimum" class="control-label"></label>
-                <input asp-for="Product.ProcessorMinimum" class="form-control" />
-                <span asp-validation-for="Product.ProcessorMinimum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.MemoryMinimum" class="control-label"></label>
-                <input asp-for="Product.MemoryMinimum" class="form-control" />
-                <span asp-validation-for="Product.MemoryMinimum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.StorageMinimum" class="control-label"></label>
-                <input asp-for="Product.StorageMinimum" class="form-control" />
-                <span asp-validation-for="Product.StorageMinimum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.GraphicsMinimum" class="control-label"></label>
-                <input asp-for="Product.GraphicsMinimum" class="form-control" />
-                <span asp-validation-for="Product.GraphicsMinimum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.OSRecommended" class="control-label"></label>
-                <input asp-for="Product.OSRecommended" class="form-control" />
-                <span asp-validation-for="Product.OSRecommended" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.ProcessorRecommended" class="control-label"></label>
-                <input asp-for="Product.ProcessorRecommended" class="form-control" />
-                <span asp-validation-for="Product.ProcessorRecommended" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.MemoryRecommended" class="control-label"></label>
-                <input asp-for="Product.MemoryRecommended" class="form-control" />
-                <span asp-validation-for="Product.MemoryRecommended" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.StorageRecommended" class="control-label"></label>
-                <input asp-for="Product.StorageRecommended" class="form-control" />
-                <span asp-validation-for="Product.StorageRecommended" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.GraphicsRecommended" class="control-label"></label>
-                <input asp-for="Product.GraphicsRecommended" class="form-control" />
-                <span asp-validation-for="Product.GraphicsRecommended" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.BaseGameId" class="control-label"></label>
-                <input asp-for="Product.BaseGameId" class="form-control" />
-                <span asp-validation-for="Product.BaseGameId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product.ReleaseDate" class="control-label">Release Date</label>
+                    <input asp-for="Product.ReleaseDate" class="form-control" />
+                    <span asp-validation-for="Product.ReleaseDate" class="text-danger"></span>
+                </div>
+                <div>
+                    <label name="_previewImages" id="_previewImages">Game Pictures</label>
+                    <br />
+                    <textarea name="_previewImages" rows="@(Model.Product.PreviewImages.Count <= 5 ? 5 : Model.Product.PreviewImages.Count)">@ViewBag.PreviewImages</textarea>
+                </div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>SourceId</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Discount Rate</th>
-                    <th>Discount Start Date</th>
-                    <th>Discount End Date</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in ViewBag.Stocktake) {
-                <tr>
-                    <td> @await GetSourceName(@item.SourceId, ViewBag.Context) </td>
-                    <td> @item.Quantity </td>
-                    <td> @item.Price </td>
-                    <td> @item.DiscountRate </td>
-                    <td> @item.DiscountStartDate </td>
-                    <td> @item.DiscountEndDate </td>
-                    <td>
-                        <a asp-controller="Stocktakes" asp-action="Edit" asp-route-id="@item.StocktakeId">Edit</a>
-                        <a asp-controller="Stocktakes" asp-action="Delete" asp-route-id="@item.StocktakeId">Delete</a>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
+                <div class="form-group">
+                    <label asp-for="Product.RefundType" class="control-label"></label>
+                    <input asp-for="Product.RefundType" class="form-control" />
+                    <span asp-validation-for="Product.RefundType" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product.ProductType" class="control-label">Product Type: Base Game / Add-On </label>
+                    <input asp-for="Product.ProductType" class="form-control" />
+                    <span asp-validation-for="Product.ProductType" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product.BaseGameId" class="control-label">Base Game Id:</label>
+                    <input asp-for="Product.BaseGameId" class="form-control" />
+                    <span asp-validation-for="Product.BaseGameId" class="text-danger"></span>
+                </div>
+                <p>Minimum System Requirements</p>
+                <div class="form-group">
+                    <label asp-for="Product.OSMinimum" class="control-label minimum">Operating System</label>
+                    <input asp-for="Product.OSMinimum" class="form-control" />
+                    <span asp-validation-for="Product.OSMinimum" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product.ProcessorMinimum" class="control-label minimum">Processor</label>
+                    <input asp-for="Product.ProcessorMinimum" class="form-control" />
+                    <span asp-validation-for="Product.ProcessorMinimum" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product.MemoryMinimum" class="control-label minimum">Memory</label>
+                    <input asp-for="Product.MemoryMinimum" class="form-control" />
+                    <span asp-validation-for="Product.MemoryMinimum" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product.StorageMinimum" class="control-label minimum">Storage</label>
+                    <input asp-for="Product.StorageMinimum" class="form-control" />
+                    <span asp-validation-for="Product.StorageMinimum" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product.GraphicsMinimum" class="control-label minimum">Graphics</label>
+                    <input asp-for="Product.GraphicsMinimum" class="form-control" />
+                    <span asp-validation-for="Product.GraphicsMinimum" class="text-danger"></span>
+                </div>
+                <p>Recommended System Requirements</p>
+                <div class="form-group">
+                    <label asp-for="Product.OSRecommended" class="control-label minimum">Operating System</label>
+                    <input asp-for="Product.OSRecommended" class="form-control" />
+                    <span asp-validation-for="Product.OSRecommended" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product.ProcessorRecommended" class="control-label minimum">Processor</label>
+                    <input asp-for="Product.ProcessorRecommended" class="form-control" />
+                    <span asp-validation-for="Product.ProcessorRecommended" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product.MemoryRecommended" class="control-label minimum">Memory</label>
+                    <input asp-for="Product.MemoryRecommended" class="form-control" />
+                    <span asp-validation-for="Product.MemoryRecommended" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product.StorageRecommended" class="control-label minimum">Storage</label>
+                    <input asp-for="Product.StorageRecommended" class="form-control" />
+                    <span asp-validation-for="Product.StorageRecommended" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Product.GraphicsRecommended" class="control-label minimum">Graphics</label>
+                    <input asp-for="Product.GraphicsRecommended" class="form-control" />
+                    <span asp-validation-for="Product.GraphicsRecommended" class="text-danger"></span>
+                </div>
+            </form>
 
-
-        <form asp-controller="Stocktakes" asp-action="Create" method="post">
-            <div class="form-group">
-                <label asp-for="Stocktake.ProductId" class="control-label"></label>
-                <input asp-for="Stocktake.ProductId" class="form-control" readonly />
-                <span asp-validation-for="Stocktake.ProductId" class="text-danger"></span>
+            <div class="row justify-content-between align-items-center">
+                <p>Product Stocks</p>
+                <button type="button" id="add-new-stock" data-toggle="modal" data-target="#exampleModal">
+                    + New Stock
+                </button>
             </div>
-            <label for="SourceId">Sources</label>
-            <select name="SourceId" id="SourceId">
-                @{
-                    foreach(Source source in ViewBag.Sources)
-                    {
-                        <option value="@source.Id">@source.Name</option>
+            
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Source / Supplier</th>
+                        <th>Ordered Quantity</th>
+                        <th>Buy-In Price</th>
+                        <th>Discount Percentage</th>
+                        <th>Discount Start Date</th>
+                        <th>Discount End Date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Stocktake) {
+                    <tr>
+                        <td> @await GetSourceName(@item.SourceId, ViewBag.Context) </td>
+                        <td> @item.Quantity </td>
+                        <td> @item.Price </td>
+                        <td> @item.DiscountRate </td>
+                        <td> @item.DiscountStartDate </td>
+                        <td> @item.DiscountEndDate </td>
+                        <td class="d-flex justify-content-around">
+                            <a asp-controller="Stocktakes" asp-action="Edit" asp-route-id="@item.StocktakeId">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                </svg>
+                            </a>
+                            <form asp-controller="Stocktakes" asp-action="Delete" asp-route-id="@item.StocktakeId">
+                                    <input type="hidden" name="productId" value="@Model.Product.ProductId" />
+                                <button type="submit" class="bg-transparent border-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                    </svg>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
                     }
-                }
-            </select>
-            <div class="form-group">
-                <label asp-for="Stocktake.Quantity" class="control-label"></label>
-                <input asp-for="Stocktake.Quantity" class="form-control" />
-                <span asp-validation-for="Stocktake.Quantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Stocktake.Price" class="control-label"></label>
-                <input asp-for="Stocktake.Price" class="form-control" />
-                <span asp-validation-for="Stocktake.Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                </tbody>
+            </table>
 
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Stock</h5>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form asp-controller="Stocktakes" asp-action="Create" method="post">
+                                <input type="hidden" asp-for="Stocktake.ProductId" class="form-control"/>
+                                <div class="form-group">
+                                    <label for="SourceId">Source / Supplier</label>
+                                    <br/>
+                                    <select name="SourceId" id="SourceId">
+                                        @foreach (Source source in ViewBag.Sources)
+                                        {
+                                            <option value="@source.Id">@source.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Stocktake.Quantity" class="control-label">Order Quantity</label>
+                                    <input asp-for="Stocktake.Quantity" class="form-control" />
+                                    <span asp-validation-for="Stocktake.Quantity" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Stocktake.Price" class="control-label">Buy-In Price</label>
+                                    <input asp-for="Stocktake.Price" class="form-control" />
+                                    <span asp-validation-for="Stocktake.Price" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Stocktake.DiscountRate" class="control-label">Discount Rate</label>
+                                    <input asp-for="Stocktake.DiscountRate" class="form-control" />
+                                    <span asp-validation-for="Stocktake.DiscountRate" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Stocktake.DiscountStartDate" class="control-label">Discount Start Date</label>
+                                    <input asp-for="Stocktake.DiscountStartDate" class="form-control" />
+                                    <span asp-validation-for="Stocktake.DiscountStartDate" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Stocktake.DiscountEndDate" class="control-label">Discount End Date</label>
+                                    <input asp-for="Stocktake.DiscountEndDate" class="form-control" />
+                                    <span asp-validation-for="Stocktake.DiscountEndDate" class="text-danger"></span>
+                                </div>
+                                <div class="form-group d-flex justify-content-end">
+                                    <input type="submit" value="+ New Stock" id="add-new-stock-expand" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+        </div>
     </div>
+
+
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

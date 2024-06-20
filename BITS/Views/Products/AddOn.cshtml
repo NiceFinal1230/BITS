@@ -57,6 +57,7 @@
             <h5><u>Add-On</u></h5>
         </div>
     </div>
+    <div> @(Model.FirstOrDefault() == null ? "No add-on available." :"") </div>
     <div class="row" id="product-content"></a>
         <div class="col-lg-12">
             @{ int count = 0; }

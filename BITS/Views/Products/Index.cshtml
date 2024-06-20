@@ -1,85 +1,208 @@
 ﻿@model IEnumerable<BITS.Models.Product>
+@using static BITS.Models.Genre
 
 @{
     ViewData["Title"] = "Index";
 }
+<style>
+    .container,
+    .row,
+    .col{
+        margin: 0px;
+        padding: 0px;
+    }
 
-<h1>Index</h1>
+    label,p {
+        margin-bottom: 0px;
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Developer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Publisher)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genres)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Features)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastUpdated)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Developer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Publisher)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @foreach (var genre in item.Genres)
+    .row .col{
+        padding: 6px;
+    }
+
+    p{
+        padding: 6px;
+    }
+
+    .table thead th,
+    .table td{
+        border: none;
+    }
+
+    .col-sm-2,
+    .col-sm-10 {
+        padding: 15px;
+        border-bottom: 1px solid white;
+    }
+
+    .col-sm-10 {
+        padding: 0px;
+        border-bottom: 1px solid white;
+    }
+
+    .container-fluid{
+        width: 100%;
+        padding: 0px;
+    }
+
+    label{
+        padding: 0.5em;
+    }
+
+    input[type="checkbox"] {
+        border-radius: 2.5em;
+        height: 1.5em;
+        width: 1.5em;
+        margin-right: 0.5em;
+    }
+    .column-1,
+    .column-2{
+        border-right: 1px solid white;
+    }
+
+    .search{
+        margin: 1em;
+        border-radius: 2em;
+        padding: 0.5em 1em;
+    }
+
+    .search-button{
+        height: 2.5em;
+        width: 2.5em;
+        border-radius: 3em;
+        padding: 0.5em;
+        background-color: unset;
+        border: 1px solid white;
+    }
+
+    .search-button:hover {
+        cursor: pointer;
+    }
+
+    .create{
+        color: white;
+        padding: 0.5em 1em;
+        border-radius: 0.5em;
+        background-color: #2E7BEE;
+    }
+
+    .create-container{
+        margin: 1em;
+    }
+
+    .column-1-products{
+        font-weight: bold;
+        font-size: 2em;
+    }
+
+
+
+    .column-3-index,
+    .column-3-value {
+        padding: 0px 15px;
+    }
+
+</style>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-sm-2 column-1">
+            <p class="column-1-products"><a asp-action="Index">Products</a></p>
+            
+            <form asp-controller="Products" asp-action="Index">
+                <div class="row d-flex justify-content-between">
+                    <p class="column-1-genres">Search By Genres</p>
+                    <button asp-controller="Products" asp-action="Index" type="submit" class="search-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                        </svg>
+                    </button>
+                </div>
+                @foreach (var genre in Enum.GetValues<Genre>())
                 {
-                    @genre.ToString()
-                    <br />
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <label name="genres" for="@genre">@genre</label>
+                        <input type="checkbox" name="genres" id="@genre" value="@genre" />
+                    </div>
                 }
-            </td>
-            <td>
-                @foreach (var feature in item.Features)
-                {
-                    @feature.ToString()
-                    <br />
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastUpdated)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+            </form>
+        </div>
+        <div class="col-sm-10 column-2">
+            <div class="row justify-content-between">
+                <div class="col d-flex justify-content-start align-items-center">
+                    <form asp-controller="Products" asp-action="Index">
+                        <input class="search" type="search" placeholder="Search by Name" name="search"/>
+                        <button asp-controller="Products" asp-action="Index" type="submit" class="search-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+                <div class="create-container col d-flex justify-content-end align-items-center">
+                    <a class="create" asp-action="Create">+ New Product</a>
+                </div>
+            </div>
+            
+
+            <div class="row column-3-index">
+                <div class="col">@Html.DisplayNameFor(model => model.Name)</div>
+                <div class="col">@Html.DisplayNameFor(model => model.Developer)</div>
+                <div class="col">@Html.DisplayNameFor(model => model.Publisher)</div>
+                <div class="col">@Html.DisplayNameFor(model => model.Description)</div>
+                <div class="col">@Html.DisplayNameFor(model => model.Genres)</div>
+                <div class="col">@Html.DisplayNameFor(model => model.Features)</div>
+                <div class="col">@Html.DisplayNameFor(model => model.ReleaseDate)</div>
+                <div class="col">@Html.DisplayNameFor(model => model.LastUpdated)</div>
+                <div class="col"></div>
+            </div>
+
+            @foreach (var item in Model)
+            {
+                <div class="row column-3-value">
+                    <div class="col">@Html.DisplayFor(modelItem => item.Name)</div>
+                    <div class="col">@Html.DisplayFor(modelItem => item.Developer)</div>
+                    <div class="col">@Html.DisplayFor(modelItem => item.Publisher)</div>
+                    <div class="col">@Html.DisplayFor(modelItem => item.Description)</div>
+                    <div class="col">
+                        @foreach (var genre in item.Genres)
+                        {
+                            @genre.ToString()
+                            @(genre != item.Genres.Last() ? ", " : "")
+                        }
+                    </div>
+                    <div class="col">
+                        @foreach (var feature in item.Features)
+                        {
+                            @feature.ToString()
+                            @(feature != item.Features.Last() ? ", " : "")
+                        }
+                    </div>
+                    <div class="col">@Html.DisplayFor(modelItem => item.ReleaseDate)</div>
+                    <div class="col">@Html.DisplayFor(modelItem => item.LastUpdated)</div>
+                    <div class="col d-flex justify-content-around">
+                        <a asp-action="Edit" asp-route-id="@item.ProductId">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                            </svg>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.ProductId">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                            </svg>
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.ProductId">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-btn" viewBox="0 0 16 16">
+                                <path d="M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z" />
+                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
