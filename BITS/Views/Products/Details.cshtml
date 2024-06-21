@@ -98,7 +98,7 @@
     .share {
         display: flex;
         justify-content: space-evenly;
-        width: 45%;
+        width: 40%;
         text-align: center;
         border: 1px solid #4BC140;
         border-radius: 4px;
@@ -108,7 +108,7 @@
     .report {
         display: flex;
         justify-content: space-evenly;
-        width: 45%;
+        width: 40%;
         text-align: center;
         border: 1px solid #E03030;
         border-radius: 4px;
@@ -150,9 +150,11 @@
         border-radius: 6px;
         background-color: #1277D9;
     }
-
+    #main{
+        margin-top: 1em;
+    }
 </style>
-<div class="container">
+<div class="container" id="main">
 
     <div class="row  align-items-center">
         <div class="col-lg-8"> <h1>@Html.DisplayFor(model => model.Name)</h1> </div>
@@ -298,7 +300,7 @@
         <div class="col-lg-4">
             <div class="right">
                 <div id="checkout-thumbnail">
-                    <img src="@(@Model.PreviewImages.Count != 0 ? Model.PreviewImages.Last() : "")" id="checkout-thumbnail-image" />
+                    <img src="@(@Model.PreviewImages.Count != 0 ? Model.PreviewImages.First() : "")" id="checkout-thumbnail-image" />
                 </div>
                 @{
                     if (@ViewBag.DiscountRate != null && @ViewBag.DiscountRate != 0)
