@@ -1,10 +1,15 @@
 ﻿body {
     background-color: #161616;
     color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 button {
     color: white;
+    background-color: transparent;
+    border: none;
 }
 
 a {
@@ -14,4 +19,15 @@ a {
 a:hover {
     text-decoration: none;
     cursor: pointer;
+}
+
+input[type=reset],
+input[type=submit],
+button{
+    cursor: pointer;
+}
+
+#footer {
+    border-top: 1px solid white;
+    text-align: center;
 }
