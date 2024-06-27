@@ -1,312 +1,315 @@
 ﻿@model IEnumerable<BITS.Models.Product>
 
 @{
-    ViewData["Title"] = "Home Page";
+ViewData["Title"] = "Home Page";
 }
 
 <style>
     /*     #navbar{
-        display: none;
+    display: none;
     } */
 
-    a:hover {
-        background-color: rgb(105,105,105);
-        color: white;
-        transform: translateY(-10px);
-    }
-
     .sale-banner {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 50px;
-        margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 30px;
     }
 
     #reccomended {
-        display: flex;
-        flex-direction: column;
-        margin: 0px auto;
-        width: 1110px;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    margin: 0px auto;
+    width: 1110px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
     }
 
-    #recommended-title{
-        display: block;
-        align-self: start;
+    #recommended-title {
+    display: block;
+    align-self: start;
     }
 
-    .reccomended-container{
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-        transition: transform 0.3s ease-in-out;
+    .reccomended-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
     }
 
     .container {
-        display: block;
-        margin-bottom: 30px;
+    display: block;
+    margin-bottom: 30px;
     }
 
     #reccomended .container .header {
-        display: block;
+    display: block;
     }
 
     .main-game {
-        display: flex;
-        flex-direction: row;
+    display: flex;
+    flex-direction: row;
     }
 
     .main-game a:hover {
-        background-color: transparent;
+    background-color: transparent;
+    color: white;
+    /* transform: translateY(-10px);
+    transition: transform 0.3s ease-in-out; */
     }
 
     .game-list {
-        display: grid;
-        grid-template-rows: repeat(4, 1fr); /* 5 rows for the games */
-        gap: 20px;
+    display: grid;
+    grid-template-rows: repeat(4, 1fr); /* 5 rows for the games */
+    gap: 20px;
     }
 
     .game-list a {
-        height: 115.5px;
-        /* margin-bottom: 20px; */
-        border-radius: 15px;
-        font-weight: bold;
+    height: 115.5px;
+    /* margin-bottom: 20px; */
+    border-radius: 15px;
+    font-weight: bold;
+    }
+
+    .game-list a:hover {
+    background-color: rgb(105,105,105);
+    color: white;
+    /*      transform: translateY(-10px);
+    transition: transform 0.3s ease-in-out; */
     }
 
     .game-list img {
-        width: 150px;
-        height: 115.5px;
-        margin-right: 5px;
+    width: 150px;
+    height: 115.5px;
+    margin-right: 5px;
     }
 
     #new-release {
-        color: #fff;
-        margin-bottom: 30px;
+    color: #fff;
+    margin-bottom: 30px;
     }
 
     #new-release .container {
-        display: block;
-        max-width: 1300px;
-        padding: 0 100px;
-        margin: auto;
+    display: block;
+    max-width: 1300px;
+    padding: 0 100px;
+    margin: auto;
     }
 
     #new-release .container .heading {
-        display: block;
-        margin: 0 0 20px 0;
+    display: block;
+    margin: 0 0 20px 0;
     }
 
     #new-release .container .new-games-list {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        grid-gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 15px;
     }
 
     #new-release .container .new-games-list .single-game {
-        display: block;
-        height: 500px;
-        overflow: hidden;
-        transition: transform 0.3s ease-in-out;
-        position: relative;
-        border-radius: 15px;
+    display: block;
+    height: 500px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+    border-radius: 15px;
     }
 
     #new-release .container .new-games-list .single-game:hover {
-        transform: translateY(-10px);
-        background-color: rgb(105, 105, 105);
-        color: white;
+    transform: translateY(-10px);
+    background-color: rgb(105, 105, 105);
+    color: white;
     }
 
     #new-release .container .new-games-list .single-game .img-box {
-        position: relative;
-        height: 300px;
-        margin: 0 0 10px 0;
+    position: relative;
+    height: 300px;
+    margin: 0 0 10px 0;
     }
 
     #new-release .container .new-games-list .single-game .img-box .game-img {
-        position: absolute;
-        width: auto;
-        height: 100%;
-        left: 50%;
-        transform: translate(-50%);
-        border-radius: 15px;
+    position: absolute;
+    width: auto;
+    height: 100%;
+    left: 50%;
+    transform: translate(-50%);
+    border-radius: 15px;
     }
 
     #new-release .container .new-games-list .single-game .title {
-        padding: 0px 0px 0px 5px;
+    padding: 0px 0px 0px 5px;
     }
 
     #new-release .container .new-games-list .single-game .price {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        font-weight: bold;
-        text-align: end;
-        padding: 0px 10px 10px 0px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-weight: bold;
+    text-align: end;
+    padding: 0px 10px 10px 0px;
     }
 
     #new-release .container .new-games-list .discounted-game {
-        display: block;
-        height: 500px;
-        overflow: hidden;
-        transition: transform 0.3s ease-in-out;
-        position: relative;
-        border-radius: 15px;
+    display: block;
+    height: 500px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+    border-radius: 15px;
     }
 
     #new-release .container .new-games-list .discounted-game:hover {
-        transform: translateY(-10px);
-        background-color: rgb(105, 105, 105);
-        color: white;
+    transform: translateY(-10px);
+    background-color: rgb(105, 105, 105);
+    color: white;
     }
 
     #new-release .container .new-games-list .discounted-game .img-box {
-        position: relative;
-        height: 300px;
-        margin: 0 0 10px 0;
+    position: relative;
+    height: 300px;
+    margin: 0 0 10px 0;
     }
 
     #new-release .container .new-games-list .discounted-game .img-box .game-img {
-        position: absolute;
-        width: auto;
-        height: 100%;
-        left: 50%;
-        transform: translate(-50%);
-        border-radius: 15px;
+    position: absolute;
+    width: auto;
+    height: 100%;
+    left: 50%;
+    transform: translate(-50%);
+    border-radius: 15px;
     }
 
     #new-release .container .new-games-list .discounted-game .title {
-        padding: 0px 0px 0px 5px;
+    padding: 0px 0px 0px 5px;
     }
 
     #new-release .container .new-games-list .discounted-game .discount {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        height: 35px;
-        width: 50px;
-        background-color: #0074E4;
-        padding: 5px;
-        border-radius: 5px;
-        margin: 0 0 10px 10px;
-        font-weight: bold;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 35px;
+    width: 50px;
+    background-color: #0074E4;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0 0 10px 10px;
+    font-weight: bold;
     }
 
     #new-release .container .new-games-list .discounted-game .original-price {
-        position: absolute;
-        right: 0;
-        bottom: 20px;
-        font-weight: bold;
-        text-align: end;
-        padding: 0px 10px 10px 0px;
-        text-decoration: line-through;
-        color: #ADADAD;
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    font-weight: bold;
+    text-align: end;
+    padding: 0px 10px 10px 0px;
+    text-decoration: line-through;
+    color: #ADADAD;
     }
 
     #new-release .container .new-games-list .discounted-game .discounted-price {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        font-weight: bold;
-        text-align: end;
-        padding: 0px 10px 10px 0px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-weight: bold;
+    text-align: end;
+    padding: 0px 10px 10px 0px;
     }
 
     #sale {
-        color: #fff;
-        margin-bottom: 30px;
+    color: #fff;
+    margin-bottom: 30px;
     }
 
     #sale .container {
-        display: block;
-        max-width: 1300px;
-        padding: 0 100px;
-        margin: auto;
+    display: block;
+    max-width: 1300px;
+    padding: 0 100px;
+    margin: auto;
     }
 
     #sale .container .heading {
-        display: block;
-        margin: 0 0 20px 0;
+    display: block;
+    margin: 0 0 20px 0;
     }
 
     #sale .container .games-list {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        grid-gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 15px;
     }
 
     #sale .container .games-list .discounted-game {
-        display: block;
-        height: 500px;
-        overflow: hidden;
-        transition: transform 0.3s ease-in-out;
-        position: relative;
-        border-radius: 15px;
+    display: block;
+    height: 500px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+    border-radius: 15px;
     }
 
     #sale .container .games-list .discounted-game:hover {
-        transform: translateY(-10px);
-        background-color: rgb(105, 105, 105);
-        color: white;
+    transform: translateY(-10px);
+    background-color: rgb(105, 105, 105);
+    color: white;
     }
 
     #sale .container .games-list .discounted-game .img-box {
-        position: relative;
-        height: 300px;
-        margin: 0 0 10px 0;
+    position: relative;
+    height: 300px;
+    margin: 0 0 10px 0;
     }
 
     #sale .container .games-list .discounted-game .img-box .game-img {
-        position: absolute;
-        width: auto;
-        height: 100%;
-        left: 50%;
-        transform: translate(-50%);
-        border-radius: 15px;
+    position: absolute;
+    width: auto;
+    height: 100%;
+    left: 50%;
+    transform: translate(-50%);
+    border-radius: 15px;
     }
 
     #sale .container .games-list .discounted-game .title {
-        padding: 0px 0px 0px 5px;
+    padding: 0px 0px 0px 5px;
     }
 
     #sale .container .games-list .discounted-game .discount {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        height: 35px;
-        width: 50px;
-        background-color: #0074E4;
-        padding: 5px;
-        border-radius: 5px;
-        margin: 0 0 10px 10px;
-        font-weight: bold;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 35px;
+    width: 50px;
+    background-color: #0074E4;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0 0 10px 10px;
+    font-weight: bold;
     }
 
     #sale .container .games-list .discounted-game .original-price {
-        position: absolute;
-        right: 0;
-        bottom: 20px;
-        font-weight: bold;
-        text-align: end;
-        padding: 0px 10px 10px 0px;
-        text-decoration: line-through;
-        color: #ADADAD;
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    font-weight: bold;
+    text-align: end;
+    padding: 0px 10px 10px 0px;
+    text-decoration: line-through;
+    color: #ADADAD;
     }
 
     #sale .container .games-list .discounted-game .discounted-price {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        font-weight: bold;
-        text-align: end;
-        padding: 0px 10px 10px 0px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-weight: bold;
+    text-align: end;
+    padding: 0px 10px 10px 0px;
     }
 
     img {
-        border-radius: 15px;
+    border-radius: 15px;
     }
 </style>
 
@@ -315,7 +318,6 @@
 </div>
 
 <section id="reccomended">
-
     <h3 class="header" id="recommended-title">Reccomended</h3>
     <div class="reccomended-container">
 
@@ -326,12 +328,12 @@
         </div>
 
         <div class="game-list">
-            <a href="/Products/Details/1">
-                <img src="https://live.staticflickr.com/65535/49211372866_a4664c7914_o.jpg" />
-                <span>Ghost of Tsushima</span>
+            <a href="/Products/Details/2">
+                <img src="https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000003402/057249cf707a2a733c876c0eb453bb018ee6ea09f3aea5c350f4d76f70840d00" />
+                <span>Overcooked! 2</span>
             </a>
 
-            <a href="/Products/Details/1">
+            <a href="/Products/Details/3">
                 <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1145350/capsule_616x353.jpg?t=1715727000" />
                 <span>Hades II</span>
             </a>
@@ -358,8 +360,8 @@
                 <a href="/Products/Details/1">
                     <div class="img-box">
                         <img class="game-img"
-                             src="https://image.api.playstation.com/vulcan/ap/rnd/202106/2322/c16gs6a7lbAYzPf7ZTikbH1c.png"
-                             alt="game-pic" />
+                                src="https://image.api.playstation.com/vulcan/ap/rnd/202106/2322/c16gs6a7lbAYzPf7ZTikbH1c.png"
+                                alt="game-pic" />
                     </div>
 
                     <h5 class="title">Ghost of Tsuhima DIRECTOR'S CUT</h5>
@@ -371,8 +373,8 @@
                 <a href="/Products/Details/2">
                     <div class="img-box">
                         <img class="game-img"
-                             src="https://cdnb.artstation.com/p/assets/covers/images/044/223/761/large/paul-chadeisson-paul-chadeisson-01-h3-pc-24-final-extended-6k-thumb.jpg?1639425129"
-                             alt="game-pic" />
+                                src="https://cdnb.artstation.com/p/assets/covers/images/044/223/761/large/paul-chadeisson-paul-chadeisson-01-h3-pc-24-final-extended-6k-thumb.jpg?1639425129"
+                                alt="game-pic" />
                     </div>
 
                     <h5 class="title">Homeworld 3</h5>
@@ -384,8 +386,8 @@
                 <a href="/Products/Details/3">
                     <div class="img-box">
                         <img class="game-img"
-                             src="https://image.api.playstation.com/vulcan/ap/rnd/202309/2015/7c170d967a56776d9e1dc5ebaf45fefccbe9f12ef3fc752e.png"
-                             alt="game-pic" />
+                                src="https://image.api.playstation.com/vulcan/ap/rnd/202309/2015/7c170d967a56776d9e1dc5ebaf45fefccbe9f12ef3fc752e.png"
+                                alt="game-pic" />
                     </div>
 
                     <h5 class="title">Horizon Forbidden West Complete Edition</h5>
@@ -399,8 +401,8 @@
                 <a href="/Products/Details/4">
                     <div class="img-box">
                         <img class="game-img"
-                             src="https://assetsio.gnwcdn.com/co4qum.jpg?width=1200&height=1200&fit=bounds&quality=70&format=jpg&auto=webp"
-                             alt="game-pic" />
+                                src="https://assetsio.gnwcdn.com/co4qum.jpg?width=1200&height=1200&fit=bounds&quality=70&format=jpg&auto=webp"
+                                alt="game-pic" />
                     </div>
 
                     <h5 class="title">V Rising</h5>
@@ -414,8 +416,8 @@
                 <a href="/Products/Details/5">
                     <div class="img-box">
                         <img class="game-img"
-                             src="https://gaming-cdn.com/images/products/14483/orig/little-kitty-big-city-pc-game-steam-cover.jpg?v=1715769211"
-                             alt="game-pic" />
+                                src="https://gaming-cdn.com/images/products/14483/orig/little-kitty-big-city-pc-game-steam-cover.jpg?v=1715769211"
+                                alt="game-pic" />
                     </div>
 
                     <h5 class="title">Little Kitty, Big City</h5>
@@ -437,8 +439,8 @@
                 <a href="/Products/Details/3">
                     <div class="img-box">
                         <img class="game-img"
-                             src="https://cdn1.epicgames.com/offer/2c42520d342a46d7a6e0cfa77b4715de/EGS_DyingLightDefinitiveEdition_Techland_Editions_S2_1200x1600-1401d594bb51eefaee0925f8b3b80d08"
-                             alt="game-pic" />
+                                src="https://cdn1.epicgames.com/offer/2c42520d342a46d7a6e0cfa77b4715de/EGS_DyingLightDefinitiveEdition_Techland_Editions_S2_1200x1600-1401d594bb51eefaee0925f8b3b80d08"
+                                alt="game-pic" />
                     </div>
 
                     <h5 class="title">Dying Light Definitive Edition</h5>
@@ -452,8 +454,8 @@
                 <a href="/Products/Details/3">
                     <div class="img-box">
                         <img class="game-img"
-                             src="https://images.ctfassets.net/usf1vwtuqyxm/4RawEJQJvPyzpu3y51Sova/3576a7fdb536ffe175c41a6cc6561d8e/hogwarts-legacy-main-hero-app-article-hero.jpg"
-                             alt="game-pic" />
+                                src="https://images.ctfassets.net/usf1vwtuqyxm/4RawEJQJvPyzpu3y51Sova/3576a7fdb536ffe175c41a6cc6561d8e/hogwarts-legacy-main-hero-app-article-hero.jpg"
+                                alt="game-pic" />
                     </div>
 
                     <h5 class="title">Hogwarts Legacy</h5>
@@ -467,8 +469,8 @@
                 <a href="/Products/Details/3">
                     <div class="img-box">
                         <img class="game-img"
-                             src="https://image.api.playstation.com/vulcan/ap/rnd/202305/3116/b1641ab1b5ec0c8f76c44e59e9d8a1639c913c98c09d057f.jpg"
-                             alt="game-pic" />
+                                src="https://image.api.playstation.com/vulcan/ap/rnd/202305/3116/b1641ab1b5ec0c8f76c44e59e9d8a1639c913c98c09d057f.jpg"
+                                alt="game-pic" />
                     </div>
 
                     <h5 class="title">Alan Wake 2</h5>
@@ -482,8 +484,8 @@
                 <a href="/Products/Details/4">
                     <div class="img-box">
                         <img class="game-img"
-                             src="https://cdn1.epicgames.com/offer/236c74b4cd2e4e3099cbe2ebdc9686fd/EGS_DeadIsland2_DeepSilverDambusterStudios_S2_1200x1600-efc5201842cf642eb45f73227cd0789b"
-                             alt="game-pic" />
+                                src="https://cdn1.epicgames.com/offer/236c74b4cd2e4e3099cbe2ebdc9686fd/EGS_DeadIsland2_DeepSilverDambusterStudios_S2_1200x1600-efc5201842cf642eb45f73227cd0789b"
+                                alt="game-pic" />
                     </div>
 
                     <h5 class="title">Dead Island 2</h5>
@@ -497,8 +499,8 @@
                 <a href="/Products/Details/5">
                     <div class="img-box">
                         <img class="game-img"
-                             src="https://media.karousell.com/media/photos/products/2022/1/15/god_of_war_4_steam_game_share_1642227877_27c781c9_progressive.jpg"
-                             alt="game-pic" />
+                                src="https://media.karousell.com/media/photos/products/2022/1/15/god_of_war_4_steam_game_share_1642227877_27c781c9_progressive.jpg"
+                                alt="game-pic" />
                     </div>
 
                     <h5 class="title">God of War</h5>
