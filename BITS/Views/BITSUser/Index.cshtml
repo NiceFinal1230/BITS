@@ -5,122 +5,96 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<partial name="_Index" />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Roles)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Salt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HashedPassword)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StreetAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Suburb)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.State)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CardNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CardOwner)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Expiry)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CVV)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Roles)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Salt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HashedPassword)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StreetAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Suburb)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CardNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CardOwner)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Expiry)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CVV)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container-fluid">
+
+    <div class="row" id="main-row">
+        <div class="col-2 column-1">
+            <p class="column-1-products"><a asp-action="Index">Users</a></p>
+            
+            <form asp-controller="BITSUser" asp-action="Index">
+                <div class="row d-flex justify-content-between">
+                    <p class="column-1-genres">Search By Roles</p>
+                    <button asp-controller="BITSUser" asp-action="Index" type="submit" class="search-button">
+                        <partial name="/Views/Shared/Icons/search.cshtml" />
+                    </button>
+                </div>
+@*                 @foreach (var role in ViewBag.Roles)
+                {
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <label name="roles" for="@role">@role</label>
+                        <input type="checkbox" name="roles" id="@role" value="@role" />
+                    </div>
+                } *@
+
+            </form>
+        </div>
+
+        <div class="col-10 column-2" id="iframe-container"></div>
+
+        <div class="col-10 column-2" id="right">
+            <div class="row justify-content-between">
+                <div class="col d-flex justify-content-start align-items-center">
+                    <form asp-controller="BITSUser" asp-action="Index">
+                        <input class="search" type="search" placeholder="Search by Name" name="search"/>
+                        <button asp-controller="BITSUser" asp-action="Index" type="submit" class="search-button">
+                            <partial name="/Views/Shared/Icons/search.cshtml" />
+                        </button>
+                    </form>
+                </div>
+                <div class="create-container col d-flex justify-content-end align-items-center">
+                    <button class="create" onclick="editIFrame('/BITSUser/Create/','')"> + New User</button>
+                </div>
+            </div>
+            
+            <div>
+                <div class="row column-3-index">
+                    @* <div class="col">@Html.DisplayNameFor(model => model.Id)</div> *@
+                    <div class="col">@Html.DisplayNameFor(model => model.UserName)</div>
+                    <div class="col">@Html.DisplayNameFor(model => model.Email)</div>
+                    <div class="col">@Html.DisplayNameFor(model => model.Name)</div>
+                    <div class="col">@Html.DisplayNameFor(model => model.Roles)</div>
+                    <div class="col">@Html.DisplayNameFor(model => model.Salt)</div>
+                    <div class="col">@Html.DisplayNameFor(model => model.HashedPassword)</div>
+                    <div class="col">@Html.DisplayNameFor(model => model.PhoneNumber)</div>
+                    <div class="col">@Html.DisplayNameFor(model => model.StreetAddress)</div>
+                    <div class="col">@Html.DisplayNameFor(model => model.PostCode)</div>
+                    <div class="col">@Html.DisplayNameFor(model => model.Suburb)</div>
+                    <div class="col">@Html.DisplayNameFor(model => model.State)</div>
+                    <div class="col" id="edit-delete-details"></div>
+                </div>
+
+                @foreach (var item in Model)
+                {
+                    <div class="row column-3-value">
+                        @* <div class="col">@Html.DisplayFor(modelItem => item.Id)</div> *@
+                        <div class="col">@Html.DisplayFor(modelItem => item.UserName)</div>
+                        <div class="col">@Html.DisplayFor(modelItem => item.Email)</div>
+                        <div class="col">@Html.DisplayFor(modelItem => item.Name)</div>
+                        <div class="col">@Html.DisplayFor(modelItem => item.Roles)</div>
+                        <div class="col">@Html.DisplayFor(modelItem => item.Salt)</div>
+                        <div class="col">@Html.DisplayFor(modelItem => item.HashedPassword)</div>
+                        <div class="col">@Html.DisplayFor(modelItem => item.PhoneNumber)</div>
+                        <div class="col">@Html.DisplayFor(modelItem => item.StreetAddress)</div>
+                        <div class="col">@Html.DisplayFor(modelItem => item.PostCode)</div>
+                        <div class="col">@Html.DisplayFor(modelItem => item.Suburb)</div>
+                        <div class="col">@Html.DisplayFor(modelItem => item.State)</div>
+                        <div class="col d-flex justify-content-around align-items-start">
+                            <button onclick="editIFrame('/BITSUser/Edit/','@item.Id')">
+                                <partial name="/Views/Shared/Icons/edit.cshtml" />
+                            </button>
+                            <a asp-action="DeleteFromIndex" asp-route-id="@item.Id">
+                                <partial name="/Views/Shared/Icons/delete.cshtml" />
+                            </a>
+                            <button onclick="editIFrame('/BITSUser/Details/','@item.Id')">
+                                <partial name="/Views/Shared/Icons/details.cshtml" />
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>

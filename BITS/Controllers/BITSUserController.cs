@@ -63,7 +63,7 @@ namespace BITS.Controllers
             {
                 _context.Add(BITSUser);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(controllerName: "Products", actionName: "CloseIFrame");
             }
             return View(BITSUser);
         }
@@ -89,66 +89,76 @@ namespace BITS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,UserName,Email,Name,Roles,Salt,HashedPassword,PhoneNumber,StreetAddress,PostCode,Suburb,State,CardNumber,CardOwner,Expiry,CVV")] BITSUser BITSUser)
+        public async Task<IActionResult> Edit(string id, BITSUser BITSUser)
         {
             if (!id.Equals(BITSUser.Id))
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    var user = await _userManager.FindByIdAsync(BITSUser.Id);
-                    user.Name = BITSUser.Name;
-                    user.UserName = BITSUser.UserName;
-                    user.Salt = BITSUser.Salt;
-                    var result = await _userManager.UpdateAsync(user);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BITSUserExists(BITSUser.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        // Reload the entity to get the latest data from the database
-                        _context.Entry(BITSUser).Reload();
-
-                        // Handle the concurrency conflict, e.g., show a message to the user
-                        ModelState.AddModelError("", "The record you attempted to edit was modified by another user.");
-                        return View(BITSUser);
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View(BITSUser);
             }
-            return View(BITSUser);
+
+            var user = await _userManager.FindByIdAsync(BITSUser.Id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.UserName = BITSUser.UserName;
+            user.Name = BITSUser.Name;
+            user.Email = BITSUser.Email;
+
+            if (BITSUser.Password != null)
+            {
+                var token  = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var result = await _userManager.ResetPasswordAsync(user, token, BITSUser.Password);
+                if (!result.Succeeded)
+                {
+                    string error_msg = "";
+                    foreach (var i in result.Errors)
+                        error_msg = i.Description + Environment.NewLine;
+                    ModelState.AddModelError("CustomError", error_msg);
+
+                    return View(BITSUser);
+                }
+            }
+
+            try
+            {
+                var result = await _userManager.UpdateAsync(user);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // Reload the entity to get the latest data from the database
+                _context.Entry(BITSUser).Reload();
+                // Handle the concurrency conflict, e.g., show a message to the user
+                ModelState.AddModelError("", "The record you attempted to edit was modified by another user.");
+
+                return View(BITSUser);
+            }
+            return RedirectToAction(controllerName: "Products", actionName: "CloseIFrame");
         }
 
         // GET: BITSUser/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
+            var BITSUser = await _context.BITSUser.FindAsync(id);
+            if (BITSUser != null)
             {
-                return NotFound();
+                _context.BITSUser.Remove(BITSUser);
             }
 
-            var BITSUser = await _context.BITSUser
-                .FirstOrDefaultAsync(m => m.Id.Equals(id));
-            if (BITSUser == null)
-            {
-                return NotFound();
-            }
-
-            return View(BITSUser);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(controllerName: "Products", actionName: "CloseIFrame");
         }
 
         // POST: BITSUser/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteFromIndex(string id)
         {
             var BITSUser = await _context.BITSUser.FindAsync(id);
             if (BITSUser != null)
@@ -158,6 +168,7 @@ namespace BITS.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+            //return RedirectToAction(controllerName: "Products", actionName: "CloseIFrame");
         }
 
         private bool BITSUserExists(string id)

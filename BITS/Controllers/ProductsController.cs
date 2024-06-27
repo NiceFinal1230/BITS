@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using BITS.Data;
 using BITS.Models;
 using BITS.ViewModel;
+using System.Net;
+using Azure.Core;
 
 namespace BITS.Controllers
 {
@@ -145,9 +147,28 @@ namespace BITS.Controllers
         // POST: Products/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(Product product, string _previewImages, string[] selectedFeatures, string[] selectedGenres)
+        //{
+        //    SetGenres(product, selectedGenres);
+        //    SetFeatures(product, selectedFeatures);
+        //    SetPreviewImages(product, _previewImages);
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(product);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    PopulateAssignedGenresData(product);
+        //    PopulateAssignedFeaturesData(product);
+        //    Stocktake stocktake= new Stocktake { ProductId = product.ProductId };
+        //    return View(new ProductStocktakeViewModel { Product = product, Stocktake = stocktake } );
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product, string _previewImages, string[] selectedFeatures, string[] selectedGenres)
+        public async Task<ActionResult> Create(Product product, string _previewImages, string[] selectedFeatures, string[] selectedGenres)
         {
             SetGenres(product, selectedGenres);
             SetFeatures(product, selectedFeatures);
@@ -156,13 +177,18 @@ namespace BITS.Controllers
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(CloseIFrame));
             }
             PopulateAssignedGenresData(product);
             PopulateAssignedFeaturesData(product);
-            Stocktake stocktake= new Stocktake { ProductId = product.ProductId };
-            return View(new ProductStocktakeViewModel { Product = product, Stocktake = stocktake } );
+            Stocktake stocktake = new Stocktake { ProductId = product.ProductId };
+            return View(new ProductStocktakeViewModel { Product = product, Stocktake = stocktake });
         }
+        public IActionResult CloseIFrame(int? id)
+        {
+            return View();
+        }
+
 
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -222,17 +248,31 @@ namespace BITS.Controllers
                     }
                 }
             }
-            
-            PopulateAssignedFeaturesData(product);
-            PopulateAssignedGenresData(product);
-            ViewBag.sources = _context.Source.ToList();
-            ViewBag.Context = _context;
-            ViewBag.Stocktake = await _context.Stocktake.Where(stock => stock.ProductId == id).ToListAsync();
-            Stocktake stocktake = new Stocktake { ProductId = product.ProductId };
-            return View(new ProductStocktakeViewModel { Product = product, Stocktake = stocktake });
+            return RedirectToAction(nameof(CloseIFrame));
+            //PopulateAssignedFeaturesData(product);
+            //PopulateAssignedGenresData(product);
+            //ViewBag.sources = _context.Source.ToList();
+            //ViewBag.Context = _context;
+            //ViewBag.Stocktake = await _context.Stocktake.Where(stock => stock.ProductId == id).ToListAsync();
+            //Stocktake stocktake = new Stocktake { ProductId = product.ProductId };
+            //return View(new ProductStocktakeViewModel { Product = product, Stocktake = stocktake });
         }
 
         public async Task<IActionResult> Delete(int id)
+        {
+            var product = await _context.Product.FindAsync(id);
+            if (product != null)
+            {
+                _context.Product.Remove(product);
+            }
+
+            await _context.SaveChangesAsync();
+            //return RedirectToAction(nameof(Index));
+
+            return RedirectToAction(nameof(CloseIFrame));
+        }
+
+        public async Task<IActionResult> DeleteFromIndex(int id)
         {
             var product = await _context.Product.FindAsync(id);
             if (product != null)
@@ -320,16 +360,10 @@ namespace BITS.Controllers
                 var set = new HashSet<string>(selectedGenres);
                 foreach (var i in list)
                 {
-                    if (set.Contains(i.ToString()))
-                    {
-                        if (!product.Genres.Contains(i))
-                            product.Genres.Add(i);
-                    }
+                    if (set.Contains(i.ToString())) 
+                        product.Genres.Add(i);
                     else
-                    {
-                        if (product.Genres.Contains(i))
-                            product.Genres.Remove(i);
-                    }
+                        product.Genres.Remove(i);
                 }
             }
         }
@@ -345,13 +379,11 @@ namespace BITS.Controllers
                 {
                     if (set.Contains(i.ToString()))
                     {
-                        if (!product.Features.Contains(i))
-                            product.Features.Add(i);
+                        product.Features.Add(i);
                     }
                     else
                     {
-                        if (product.Features.Contains(i))
-                            product.Features.Remove(i);
+                        product.Features.Remove(i);
                     }
                 }
             }
@@ -361,7 +393,7 @@ namespace BITS.Controllers
         {
             if (input == null)
             {
-                throw new ArgumentNullException(nameof(input), "Input string cannot be null.");
+                return;
             }
 
             // Split the input string by Environment.NewLine

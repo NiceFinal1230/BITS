@@ -14,6 +14,7 @@ public class BITSUser : IdentityUser
     public string? Roles { get; set; } = string.Empty;
     public string? Salt { get; set; } = string.Empty;
     public string? HashedPassword { get; set; } = string.Empty;
+    public string? Password{ get; set; } = string.Empty;
     public override string? PhoneNumber { get; set; } = string.Empty;
     public string? StreetAddress { get; set; } = string.Empty;
     public string? PostCode { get; set; } = string.Empty;
