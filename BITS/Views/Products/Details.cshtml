@@ -181,43 +181,31 @@
         <div class="col-lg-8">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
-                @{
-                    int indicatorCount = 0;
-                    foreach(var item in Model.PreviewImages)
-                    {
-                        if (indicatorCount == 0)
+                    @{
+                        int indicatorCount = 0;
+                        foreach(var item in Model.PreviewImages)
                         {
-                            <li data-target="#carouselExampleIndicators" data-slide-to="@indicatorCount" class="active"></li>
-                        }
-                        else
-                        {
-                            <li data-target="#carouselExampleIndicators" data-slide-to="@indicatorCount"></li>
-                        }
+                            if(item != "")
+                            {
+                                <li data-target="#carouselExampleIndicators" data-slide-to="@indicatorCount" class="@(indicatorCount == 0 ? "active" : "")"></li>
+                            }
                         indicatorCount++;
                     }
                 }
                 </ol>
                 <div class="carousel-inner">
-                @{
-                    int count = 0;
-
-                    foreach (var imageItem in Model.PreviewImages)
-                    {
-                        if (count == 0)
+                    @{
+                        int imageCount = 0;
+                        foreach (var imageItem in Model.PreviewImages)
                         {
-                            <div class="carousel-item active">
-                                <img class="img-fluid" src="@imageItem" alt="@count">
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="carousel-item">
-                                <img class="img-fluid" src="@imageItem" alt="@count">
-                            </div>
-                        }
-                        count++;
+                            if (@imageItem != "")
+                            {
+                                <div class="carousel-item @(imageCount == 0 ? "active" : "")">
+                                    <img class="img-fluid" src="@imageItem" alt="@imageCount">
+                                </div>
+                            }
+                        imageCount++;
                     }
-                
                 }
                 </div>
 
@@ -239,22 +227,23 @@
                 </div>
                 <div class="row">
                     <div class="col-sm">
-                        @for (int i = 0; i < Model.Genres.Count; i++)
-                        {
-                            string x = ", ";
-                            if (i == Model.Genres.Count - 1)
-                                x = " ";
-                            @Model.Genres[i] @x
-                            ;
+                        @{
+                            int genresCount = 0;
+                            foreach(var i in Model.Genres)
+                            {
+                                genresCount++;
+                                @(genresCount == Model.Genres.Count ? @i.ToString() : @i.ToString() + ", ")
+                            }
                         }
                     </div>
                     <div class="col-sm">
-                        @for (int i = 0; i < Model.Features.Count; i++)
-                        {
-                            string x = ", ";
-                            if (i == Model.Features.Count - 1)
-                                x = " ";
-                            @GetDescription(Model.Features[i]) @x;
+                        @{
+                            int featuresCount = 0;
+                            foreach (var i in Model.Features)
+                            {
+                                featuresCount++;
+                                @(featuresCount == Model.Features.Count ? @i.ToString() : @i.ToString() + ", ")
+                            }
                         }
                     </div>
                 </div>
@@ -321,16 +310,8 @@
                     }
                 }
 
-                @{
-                    if (@ViewBag.EndDate != null)
-                    {
-                        <p class="product-sale">Sale ends at @ViewBag.EndDate</p>
-                    }
-                    else
-                    {
-                        <p class="product-sale">No sale available</p>
-                    }
-                }
+                <p class="product-sale">@(@ViewBag.EndDate != null ? "Sale ends at " + @ViewBag.EndDate : "No sale available")</p>
+
                 <button type="button" class="buy-now">Buy Now</button>
                 <a class="add-to-cart" asp-controller="Carts" asp-action="Create" asp-route-id="@Model?.ProductId">Add to Cart</a>
                 

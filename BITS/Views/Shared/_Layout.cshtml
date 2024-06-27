@@ -19,7 +19,7 @@
 
 </head>
 <body>
-    <header>
+    <header id="header">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BITS</a>
@@ -52,11 +52,12 @@
             @RenderBody()
         </main>
     </div>
-    <div class="d-flex justify-content-center align-content-center">
-        <div>
-            &copy; 2024 - BITS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+
+    <div id="footer">
+        &copy; 2024 - BITS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
     </div>
+
+
 
 
     @await RenderSectionAsync("Scripts", required: false)
