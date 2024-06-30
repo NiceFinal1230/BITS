@@ -7,12 +7,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BITS.Data;
 using BITS.Models;
+using BITS.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace BITS.Controllers
 {
     public class SourcesController : Controller
     {
         private readonly BITSContext _context;
+        private UserManager<BITSUser> _userManager;
 
         public SourcesController(BITSContext context)
         {
@@ -20,8 +23,23 @@ namespace BITS.Controllers
         }
 
         // GET: Sources
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string?[] types, string search)
         {
+            ViewBag.Types = await _context.Source.Select(i => i.Types).Distinct().ToListAsync();
+
+            // Search By Name
+            if (search != null)
+            {
+                return View(await _context.Source.Where(i => i.Name.Contains(search)).ToListAsync());
+            }
+
+            // Search By Genres
+            if (types != null && types.Length > 0)
+            {
+                HashSet<string> set = types.ToHashSet();
+                return View(await _context.Source.Where(i => set.Contains(i.Types)).ToListAsync());
+            }
+
             return View(await _context.Source.ToListAsync());
         }
 
@@ -54,13 +72,13 @@ namespace BITS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ExternalLink")] Source source)
+        public async Task<IActionResult> Create(Source source)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(source);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(controllerName: "Products", actionName: "CloseIFrame");
             }
             return View(source);
         }
@@ -86,7 +104,7 @@ namespace BITS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ExternalLink")] Source source)
+        public async Task<IActionResult> Edit(int id, Source source)
         {
             if (id != source.Id)
             {
@@ -111,7 +129,7 @@ namespace BITS.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(controllerName: "Products", actionName: "CloseIFrame");
             }
             return View(source);
         }
@@ -119,25 +137,18 @@ namespace BITS.Controllers
         // GET: Sources/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            var source = await _context.Source.FindAsync(id);
+            if (source != null)
             {
-                return NotFound();
+                _context.Source.Remove(source);
             }
 
-            var source = await _context.Source
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (source == null)
-            {
-                return NotFound();
-            }
+            await _context.SaveChangesAsync();
 
-            return View(source);
+            return RedirectToAction(controllerName: "Products", actionName: "CloseIFrame");
         }
 
-        // POST: Sources/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteFromIndex(int id)
         {
             var source = await _context.Source.FindAsync(id);
             if (source != null)

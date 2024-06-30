@@ -1,46 +1,80 @@
 ﻿@model IEnumerable<BITS.Models.Source>
-
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    table{
-        height: 100vh;
-    }
-</style>
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExternalLink)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExternalLink)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<partial name="_Index" />
+
+<div class="container-fluid">
+    <div class="row" id="main-row">
+        <div class="col-2 column-1">
+            <p class="column-1-products"><a asp-action="Index">Types</a></p>
+
+            <form asp-controller="Sources" asp-action="Index">
+                <div class="row d-flex justify-content-between">
+                    <p class="column-1-genres">Search By Type</p>
+                    <button asp-controller="Sources" asp-action="Index" type="submit" class="search-button">
+                        <partial name="/Views/Shared/Icons/search.cshtml" />
+                    </button>
+                </div>
+                @foreach (var type in ViewBag.Types)
+                {
+                    <div class="row d-flex justify-content-between align-items-center">
+                    <label name="roles" for="@type">@type</label>
+                    <input type="checkbox" name="types" id="@type" value="@type" />
+                    </div>
+                }
+
+            </form>
+        </div>
+
+        <div class="col-10 column-2" id="iframe-container"></div>
+
+        <div class="col-10 column-2" id="right">
+            <div class="row justify-content-between">
+                <div class="col d-flex justify-content-start align-items-center">
+                    <form asp-controller="Sources" asp-action="Index">
+                        <input class="search" type="search" placeholder="Search by Name" name="search" />
+                        <button asp-controller="Sources" asp-action="Index" type="submit" class="search-button">
+                            <partial name="/Views/Shared/Icons/search.cshtml" />
+                        </button>
+                    </form>
+                </div>
+                <div class="create-container col d-flex justify-content-end align-items-center">
+                    <button class="create" onclick="editIFrame('/Sources/Create/','')"> + New Sources</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="row column-3-index">
+                    @* <div class="col">@Html.DisplayNameFor(model => model.Id)</div> *@
+                    <div class="col">@Html.DisplayNameFor(model => model.Name)</div>
+                    <div class="col">@Html.DisplayNameFor(model => model.ExternalLink)</div>
+                    <div class="col" id="edit-delete-details"></div>
+                </div>
+
+                @foreach (var item in Model)
+                {
+                    <div class="row column-3-value">
+                        @* <div class="col">@Html.DisplayFor(modelItem => item.Id)</div> *@
+                        <div class="col">@Html.DisplayFor(modelItem => item.Name)</div>
+                        <div class="col">@Html.DisplayFor(modelItem => item.ExternalLink)</div>
+                        <div class="col d-flex justify-content-around align-items-start">
+                            <button onclick="editIFrame('/Sources/Edit/','@item.Id')">
+                                <partial name="/Views/Shared/Icons/edit.cshtml" />
+                            </button>
+                            <a asp-action="DeleteFromIndex" asp-route-id="@item.Id">
+                                <partial name="/Views/Shared/Icons/delete.cshtml" />
+                            </a>
+                            <button onclick="editIFrame('/Sources/Details/','@item.Id')">
+                                <partial name="/Views/Shared/Icons/details.cshtml" />
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>

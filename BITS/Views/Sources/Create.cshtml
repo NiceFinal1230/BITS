@@ -5,35 +5,47 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<partial name="_Create" />
 
-<h4>Source</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ExternalLink" class="control-label"></label>
-                <input asp-for="ExternalLink" class="form-control" />
-                <span asp-validation-for="ExternalLink" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="edit container-fluid">
+    <div class="row">
+        <div class="col">
+            <form asp-action="Create" id="product-create">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="row justify-content-between align-items-center">
+                    <button onclick="parent.closeIFrame();">
+                        <partial name="/Views/Shared/Icons/close.cshtml" />
+                    </button>
+                    <div class="row">
+                        <input type="reset" value="Reset" id="cancel-button" class="mr-3" />
+                        <input type="submit" value="Save" id="save-button" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ExternalLink" class="control-label"></label>
+                    <input asp-for="ExternalLink" class="form-control" />
+                    <span asp-validation-for="ExternalLink" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Types" class="control-label"></label>
+                    <input asp-for="Types" class="form-control" />
+                    <span asp-validation-for="Types" class="text-danger"></span>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

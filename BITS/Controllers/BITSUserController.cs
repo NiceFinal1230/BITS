@@ -9,6 +9,7 @@ using BITS.Areas.Identity.Data;
 using BITS.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using BITS.Models;
 
 namespace BITS.Controllers
 {
@@ -23,8 +24,23 @@ namespace BITS.Controllers
         }
 
         // GET: BITSUser
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string[] types, string? search)
         {
+            // Search By Name
+            if (search != null)
+            {
+                var temp = await _userManager.Users.Where(user => user.Email.Contains(search)).ToListAsync();
+                return View(temp);
+            }
+
+            // Search By Genres
+            if (types.Length > 0)
+            {
+                HashSet<string> set = types.ToHashSet();
+                List<BITSUser> list = await _userManager.Users.ToListAsync();
+                return View(list.Where(user => set.Contains(user.Roles)));
+            }
+
             return View(await _context.BITSUser.ToListAsync());
         }
 
