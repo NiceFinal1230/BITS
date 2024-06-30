@@ -1,0 +1,209 @@
+﻿@model IEnumerable<BITS.Models.Library>
+
+@{
+    ViewData["Title"] = "Library";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+    .mb-3 {
+        display: flex;
+        width: 100%;
+        float: left;
+        margin-top: 2vh;
+        padding-bottom: 2vh;
+    }
+    .Sort-Buttons {
+        margin-left: 10%;
+    }
+
+    .sortby-form-control {
+        height: 50px;
+        width: 170px;
+        text-align: center;
+        background: none;
+        color: #fff;
+        border:none;
+        text-transform: uppercase;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .sortby-form-control:focus,
+    .sortby-form-control:active {
+        border: none;
+        outline: none; 
+    }
+
+    .sortby-form-control option {
+        background-color: black;
+        color: #fff;
+
+    }
+
+    .View-Buttons {
+        display: flex;
+        margin-left: auto;
+    }
+
+    .image-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        transform:translateX(-42px);
+    }
+
+    .image-button img[alt="Grid"] {
+        transform:translateX(-30px);
+    }
+
+    .image-button img {
+        height: 30px;
+        width: 30px;
+    }
+
+    .image-button:focus,
+    .image-button:active {
+        border: none;
+        outline: none;
+    }
+
+    input.search-bar {
+        color: white !important;
+    }
+
+    .search-bar {
+        height: 50px;
+        margin-right: 11rem;
+        padding: 20px 20px;
+        font-size: 16px;
+        color: white !important;
+        background-color: #3D3D3D;
+        border-radius: 100px;
+        border: none;
+        outline: none;
+    }
+
+    ::placeholder {
+        color: dimgrey !important;
+    }
+
+    .search-bar:focus,
+    .search-bar:active {
+        border:none;
+        outline:none;
+    }
+
+    .container {
+        padding: 20px;
+        max-width: 1180px;
+        margin: 2vh auto;
+    }
+
+    .Library-Game {
+        display: flex;
+        align-items: center;
+        background-color: #222222;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 12px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .Library-Game-Image img {
+        width: 180px;
+        height: 100px;
+        border-radius: 7px;
+    }
+
+    .Library-Game-Details {
+        margin-left: 20px;
+        flex: 1;
+    }
+
+    .Library-Game-Details h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .Library-Game-Details p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .Library-Game-Action {
+        margin-left: auto;
+    }
+
+    .details-link {
+        color: #2E7BEE;
+        text-decoration: none;
+        font-weight:500;
+        float: right;
+        transform: translateX(-2em);
+        margin-bottom: 2px;
+    }
+
+    .details-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<script>
+    function button1Click() {
+        alert("Button 1 clicked");
+    }
+
+    function button2Click() {
+        alert("Button 2 clicked");
+    }
+</script>
+
+<div class="mb-3">
+    <div class="Sort-Buttons"> 
+        <label class="form-label"></label>
+        @Html.DropDownList("Title",
+            ViewBag.Options,
+            "-- Sort By --",
+            new {@class = "sortby-form-control"})
+        <label class="form-label"></label>
+
+        @Html.DropDownList("Title",
+            ViewBag.View,
+            "-- Status --",
+            new { @class = "sortby-form-control" })
+    </div>
+
+     <div class="View-Buttons">
+        <button class="image-button" onclick="button1Click()">
+            <img src="/images/grid.png" alt="Grid">
+        </button>
+        <button class="image-button" onclick="button2Click()">
+            <img src="/images/list.png" alt="List">
+        </button>
+    </div>
+
+    <div class="Search-Bar">
+        <input type="text" class="search-bar" placeholder="Search...">
+    </div>
+</div>
+
+<div class="container">
+    @foreach (var item in Model)
+    {
+        <div class="Library-Game">
+            <div class="Library-Game-Image">
+                <img src="@item.ImageUrl" alt="@item.Name" class="img-fluid"/>
+            </div>
+            <div class="Library-Game-Details">
+                <h3>@item.Name</h3>
+                <p>Date Purchased: @item.DateOfPurchase.ToString("dd MMM, yyyy")</p>
+            </div>
+            <div class="Library-Game-Details">
+                <a href="@Url.Action("Details", "Products", new { id = item.Id })" class="details-link">View Details</a>
+            </div>
+        </div>
+    }
+</div>
