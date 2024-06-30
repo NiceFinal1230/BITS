@@ -65,16 +65,24 @@ namespace BITS.Controllers
 
             double prices = 0;
             double discount = 0;
+            double discountedPrice = 0;
+            double subtotal = 0;
 
             foreach(var i in vm.ProductStocktake)
             {
-                prices += i.Product.Price;
-                discount += i.Product.Price * (100 - i.Stocktake.DiscountRate)/100;
+                double originalPrice = i.Product.Price;
+                double discountRate = i.Stocktake.DiscountRate / 100;
+                double currentDiscount = originalPrice * discountRate;
+                prices += originalPrice; // Total original prices
+                discount += currentDiscount; // Total discounts
+                discountedPrice = originalPrice - currentDiscount; // Price after individual discount
+                subtotal += discountedPrice; // Total after all individual discounts
             }
 
-            vm.Prices = prices;
-            vm.Discount = discount;
-            vm.Subtotal = prices-discount;
+            vm.Prices = Math.Round(prices, 2);
+            vm.Discount = Math.Round(discount, 2);
+            /*vm.Subtotal = Math.Round(prices - discount, 2);*/
+            vm.Subtotal = Math.Round(subtotal, 2);
 
             return View(vm);
         }

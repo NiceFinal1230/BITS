@@ -46,7 +46,7 @@ public static class SeedData
                         Description = "The Galaxy’s Last Line of Offence. Enlist in the Helldivers and join the fight for freedom across a hostile galaxy in a fast, frantic, and ferocious third-person shooter.",
                         Genres = new List<Genre> { Genre.Action, Genre.Shooter },
                         PreviewImages = new List<string> { "https://reservoircreative.studio/app/uploads/2023/09/rsvr-sony-keyart_helldivers2_preorderversion_web.jpg",
-                        "https://assets-prd.ignimgs.com/2023/09/14/vlcsnap-2023-09-14-16h24m15s013-1694726664032.png",
+                        "https://gameranx.com/wp-content/uploads/2023/09/Helldivers-2-Bile-Titan-Liberation-Gameplay-scaled.jpg",
                         "https://media.bleacherreport.com/image/upload/c_fill,g_faces,w_3800,h_2000,q_95/v1707834714/jig2wigcxan0jzfbjzax.jpg",
                         "https://www.dexerto.com/cdn-image/wp-content/uploads/2024/02/20/helldivers-2-how-to-reinforce-teamates.jpg?width=3840&quality=60&format=auto",
                         "https://lh7-us.googleusercontent.com/5DL4Kr8JUrOtL-ILUkFBWFC_tbvXSN09g7qWxYb341G8uGfPmdd0S1vDqhp1uAnPKN7F9EAmPN_XUh7U6x4cx2b4MVDf8AQGoKPbUbnY3k4VB1ujpJ6osa2aeAKU73L9tKe3g1NGZ2Xy3W9krCgafQ",
@@ -133,6 +133,38 @@ public static class SeedData
                         ProductType = "Base Game",
                         RefundType = "Self-Refundable",
                         Price = 26.00
+                    },
+                    new Product
+                    {
+                        Name = "Ghost of Tsushima DIRECTOR's CUT",
+                        Developer = "Sucker Punch Productions, Nixxes Software",
+                        Publisher = "Playstation Publishing LLC",
+                        Description = "A storm is coming. Venture into the complete Ghost of Tsushima DIRECTOR’S CUT on PC; forge your own path through this open-world action adventure and uncover its hidden wonders. Brought to you by Sucker Punch Productions, Nixxes Software and PlayStation Studios.",
+                        Genres = new List<Genre> { Genre.Action, Genre.Adventure },
+                        PreviewImages = new List<string> { "https://image.api.playstation.com/vulcan/ap/rnd/202106/2322/c16gs6a7lbAYzPf7ZTikbH1c.png",
+                        "https://m.media-amazon.com/images/I/81XmpLlEkhS._AC_UF1000,1000_QL80_.jpg",
+                        "https://cdn.mos.cms.futurecdn.net/a6AbJzCQ7fujWzv3nKXYLQ.jpg",
+                        "https://assets.gqindia.com/photos/612488ece3e4c0bf841d090b/16:9/w_2560%2Cc_limit/18AF3C01-36FE-4E86-BB92-B9E4412E8639.jpeg",
+                        "https://assetsio.gnwcdn.com/ghost-of-tsushima-directors-cut-adds-aloy-inspired-armour-in-latest-patch-1644348544971.jpg?width=1600&height=900&fit=crop&quality=100&format=png&enable=upscale&auto=webp",
+                        "https://cdn.arstechnica.net/wp-content/uploads/2021/08/Ghost-of-Tsushima-PS5-7.jpg",
+                        "https://sm.pcmag.com/t/pcmag_uk/review/g/ghost-of-t/ghost-of-tsushima-directors-cut-for-playstation-5_j84k.1920.jpg"},
+                        Features = new List<Features> { Features.CloudSaves, Features.SinglePlayer, Features.Multiplayer, Features.Coop },
+                        ReleaseDate = new DateTime(2024, 05, 16),
+                        //LastUpdatedBy = context.User.Find(3),
+                        LastUpdated = DateTime.Now,
+                        OSMinimum = "Windows 10 64-bit",
+                        OSRecommended = "Windows 10 64-bit",
+                        ProcessorMinimum = "Intel Core i3-7100 or AMD Ryzen 3 1200",
+                        ProcessorRecommended = "Intel Core i5-8600 or AMD Ryzen 5 3600",
+                        MemoryMinimum = "8 GB RAM",
+                        MemoryRecommended = "16 GB RAM",
+                        StorageMinimum = "75 GB available space",
+                        StorageRecommended = "75 GB available space",
+                        GraphicsMinimum = "NVIDIA GeForce GTX 960 or AMD Radeon RX 5500 XT",
+                        GraphicsRecommended = "NVIDIA GeForce RTX 2060 or AMD Radeon RX 5600 XT",
+                        ProductType = "Base Game",
+                        RefundType = "Self-Refundable",
+                        Price = 79.90
                     }
                 );
             }
