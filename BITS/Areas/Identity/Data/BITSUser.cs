@@ -11,6 +11,8 @@ public class BITSUser : IdentityUser
     
     public override string? Email { get; set; } = string.Empty;
     public string? Name { get; set; } = string.Empty;
+    // The actual roles system handle by IdentityManager
+    // This property is used to handle the display of view
     public string? Roles { get; set; } = string.Empty;
     public string? Salt { get; set; } = string.Empty;
     public string? HashedPassword { get; set; } = string.Empty;

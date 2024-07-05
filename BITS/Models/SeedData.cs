@@ -8,17 +8,16 @@ using Mono.TextTemplating;
 using System.Composition;
 using System.Data;
 using BITS.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace BITS.Models;
 public static class SeedData
 {
     public static void Initialize(IServiceProvider serviceProvider)
     {
-        using (var context = new BITSContext(
-            serviceProvider.GetRequiredService<
-                DbContextOptions<BITSContext>>()))
-        {
 
+        using (var context = new BITSContext( serviceProvider.GetRequiredService< DbContextOptions<BITSContext>>()))
+        {
             if (!context.Source.Any())
             {
                 context.Source.AddRange(
@@ -171,6 +170,22 @@ public static class SeedData
 
 
             context.SaveChanges();
+        }
+        var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        SeedRoles(roleManager).Wait();
+    }
+
+    public static string[] roleNames = { "Admin", "Employee", "Customer" };
+    private static async Task SeedRoles(RoleManager<IdentityRole> roleManager)
+    {
+
+        foreach (var roleName in roleNames)
+        {
+            var roleExists = await roleManager.RoleExistsAsync(roleName);
+            if (!roleExists)
+            {
+                await roleManager.CreateAsync(new IdentityRole(roleName));
+            }
         }
     }
 }

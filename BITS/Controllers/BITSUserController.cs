@@ -10,6 +10,9 @@ using BITS.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using BITS.Models;
+using System.Security.Claims;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BITS.Controllers
 {
@@ -17,10 +20,12 @@ namespace BITS.Controllers
     {
         private readonly UserContext _context;
         private UserManager<BITSUser> _userManager;
-        public BITSUserController(UserContext context, UserManager<BITSUser> userManager)
+        private RoleManager<IdentityRole> _roleManager;
+        public BITSUserController(UserContext context, UserManager<BITSUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         // GET: BITSUser
@@ -97,6 +102,8 @@ namespace BITS.Controllers
             {
                 return NotFound();
             }
+            var roles = SeedData.roleNames;
+            ViewBag.AvailableRoles = new SelectList(roles);
             return View(BITSUser);
         }
 
@@ -126,7 +133,15 @@ namespace BITS.Controllers
             user.UserName = BITSUser.UserName;
             user.Name = BITSUser.Name;
             user.Email = BITSUser.Email;
-
+            user.Roles = BITSUser.Roles;
+            var currRoles = await _userManager.GetRolesAsync(user);
+            var removeRoles = await _userManager.RemoveFromRolesAsync(user, currRoles);
+            var userRoleResult = await _userManager.AddToRoleAsync(user, user.Roles);
+            if (!userRoleResult.Succeeded)
+            {
+                Debug.WriteLine("Fail to add role for user " + user.Name);
+            }
+            Debug.WriteLine("Add a new role for user " + user.Name);
             if (BITSUser.Password != null)
             {
                 var token  = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -159,6 +174,7 @@ namespace BITS.Controllers
         }
 
         // GET: BITSUser/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             var BITSUser = await _context.BITSUser.FindAsync(id);
@@ -174,6 +190,8 @@ namespace BITS.Controllers
         // POST: BITSUser/Delete/5
         //[HttpPost]
         //[ValidateAntiForgeryToken]
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteFromIndex(string id)
         {
             var BITSUser = await _context.BITSUser.FindAsync(id);
@@ -191,5 +209,48 @@ namespace BITS.Controllers
         {
             return _context.BITSUser.Any(e => e.Id.Equals(id));
         }
+
+        private async Task<IActionResult> AddOrEditRoles(string id, string roleName)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                Debug.WriteLine(id + " does not exist.");
+                return NotFound();
+            }
+            
+            var roleExists = await _roleManager.RoleExistsAsync(roleName);
+            if (!roleExists)
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole(roleName));
+                if (!roleResult.Succeeded)
+                {
+                    //string error_msg = "";
+                    //foreach (var i in roleResult.Errors)
+                    //    error_msg = i.Description + Environment.NewLine;
+                    //ModelState.AddModelError("CustomError", error_msg);
+                    Debug.WriteLine(roleName + " fail to create");
+                    return NotFound();
+                }
+            }
+            var userRoles = await _userManager.GetRolesAsync(user);
+            if (userRoles.Contains(roleName))
+            {
+                Debug.WriteLine(user.Name + " already has the role");
+                return NotFound();
+            }
+            var result = await _userManager.AddToRoleAsync(user, roleName);
+            if (!result.Succeeded)
+            {
+                //string error_msg = "";
+                //foreach (var i in result.Errors)
+                //    error_msg = i.Description + Environment.NewLine;
+                //ModelState.AddModelError("CustomError", error_msg);
+                Debug.WriteLine(user.Name + " fail to add role");
+                return NotFound();
+            }
+            return RedirectToAction(controllerName: "Products", actionName: "CloseIFrame");
+        }
     }
+
 }
