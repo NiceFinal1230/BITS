@@ -53,7 +53,7 @@ namespace BITS.Controllers
             {
                 var item = await _context.Product.FindAsync(i.ProductId);
                 if(item != null)
-                {;
+                {
                     var stocktake = await _context.Stocktake.FirstOrDefaultAsync(x => x.ProductId == i.ProductId);
                     if (stocktake == null)
                     {
