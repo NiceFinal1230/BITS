@@ -136,7 +136,7 @@ namespace BITS.Controllers
             user.Roles = BITSUser.Roles;
             var currRoles = await _userManager.GetRolesAsync(user);
             var removeRoles = await _userManager.RemoveFromRolesAsync(user, currRoles);
-            var userRoleResult = await _userManager.AddToRoleAsync(user, user.Roles);
+            var userRoleResult = await _userManager.AddToRoleAsync(user, BITSUser.Roles);
             if (!userRoleResult.Succeeded)
             {
                 Debug.WriteLine("Fail to add role for user " + user.Name);

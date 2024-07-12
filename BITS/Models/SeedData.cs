@@ -23,13 +23,15 @@ public static class SeedData
                 context.Source.AddRange(
                     new Source
                     {
-                        Name = "Internal",
-                        ExternalLink = ""
+                        Name = "Bizz",
+                        ExternalLink = "",
+                        Types = "Internal"
                     },
                     new Source
                     {
-                        Name = "External",
-                        ExternalLink = "www.steam.com"
+                        Name = "Steam",
+                        ExternalLink = "www.steam.com",
+                        Types = "External"
                     }
                 );
             }
