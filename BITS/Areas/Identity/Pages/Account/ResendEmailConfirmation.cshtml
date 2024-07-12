@@ -3,20 +3,44 @@
 @{
     ViewData["Title"] = "Resend email confirmation";
 }
+<style>
+    .center-container {
+        display: flex;
+        justify-content: center; /* Centers horizontally */
+        align-items: flex-start; /* Centers vertically */
+        margin-bottom: 30px;
+        margin-top: 30px
+    }
 
-<h1>@ViewData["Title"]</h1>
-<h2>Enter your email.</h2>
+    .resend-email-section {
+        width: 40%;
+        padding: 30px;
+        border-radius: 8px;
+        background-color: rgba(62, 62, 62, 0.8);
+    }
+
+    .center-header {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .submit-btn {
+        margin-top: 30px;
+    }
+</style>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="center-container">
+    <div class="resend-email-section">
         <form method="post">
+            <div class="center-header"><h1>@ViewData["Title"]</h1></div>
+            <h2>Enter your email.</h2>
             <div asp-validation-summary="All" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" aria-required="true" placeholder="name@example.com" />
                 <label asp-for="Input.Email" class="form-label"></label>
+                <input asp-for="Input.Email" class="form-control" aria-required="true" placeholder="name@example.com" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Resend</button>
+            <button type="submit" class="w-100 btn btn-lg btn-primary submit-btn">Resend</button>
         </form>
     </div>
 </div>
