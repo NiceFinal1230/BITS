@@ -23,7 +23,7 @@ public static class SeedData
                 context.Source.AddRange(
                     new Source
                     {
-                        Name = "Bizz",
+                        Name = "Amazon",
                         ExternalLink = "",
                         Types = "Internal"
                     },

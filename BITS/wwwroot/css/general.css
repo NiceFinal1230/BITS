@@ -13,7 +13,9 @@ button {
 }
 
 a {
-    all: unset;
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
 }
 
 a:hover {
@@ -25,6 +27,62 @@ input[type=reset],
 input[type=submit],
 button{
     cursor: pointer;
+}
+
+#header {
+    background-color: #2A2A2A;
+    font-size: large;
+    font-weight: bold;
+}
+
+#header .navSearchbar {
+    border: 3px solid #ccc;
+    border-radius: 20px;
+    padding: 10px;
+    margin-left: 5em;
+    margin-right: 5em;
+    background-color: transparent;
+    color: white;
+    width: 300px;
+}
+
+#header .nav-link {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+#header .circleButtons {
+    background-color: #676666;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropdown-menu {
+    background-color: #676666;
+}
+
+.dropdown-item {
+    color: white;
+}
+
+.dropdown-item:hover {
+    color: blue;
+    background-color: #676666;
+    border-color: transparent;
+}
+
+.dropdown-menu .form-inline .btn-link {
+    color: white;
+}
+
+.dropdown-menu .form-inline .btn-link:hover {
+    color: blue;
+    background-color: #676666;
 }
 
 #footer {
