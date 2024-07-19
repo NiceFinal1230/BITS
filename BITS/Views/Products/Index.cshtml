@@ -53,7 +53,7 @@
                 <div class="col">@Html.DisplayNameFor(model => model.Name)</div>
                 <div class="col">@Html.DisplayNameFor(model => model.Developer)</div>
                 <div class="col">@Html.DisplayNameFor(model => model.Publisher)</div>
-                <div class="col">@Html.DisplayNameFor(model => model.Description)</div>
+                @* <div class="col">@Html.DisplayNameFor(model => model.Description)</div> *@
                 <div class="col">@Html.DisplayNameFor(model => model.Genres)</div>
                 <div class="col">@Html.DisplayNameFor(model => model.Features)</div>
                 <div class="col">@Html.DisplayNameFor(model => model.ReleaseDate)</div>
@@ -67,7 +67,7 @@
                     <div class="col">@Html.DisplayFor(modelItem => item.Name)</div>
                     <div class="col">@Html.DisplayFor(modelItem => item.Developer)</div>
                     <div class="col">@Html.DisplayFor(modelItem => item.Publisher)</div>
-                    <div class="col">@Html.DisplayFor(modelItem => item.Description)</div>
+                    @* <div class="col">@Html.DisplayFor(modelItem => item.Description)</div> *@
                     <div class="col">
                         @foreach (var genre in item.Genres)
                         {

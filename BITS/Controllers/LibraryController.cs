@@ -38,7 +38,7 @@ namespace BITS.Controllers
 
             new Library { Id = 2, Name = "Hades", ImageUrl = "/images/h1.jpeg", DateOfPurchase= DateTime.Now.AddDays(-4), Favorite = false },
 
-            new Library { Id = 2, Name = "Hades II", ImageUrl = "/images/h2.webp", DateOfPurchase= DateTime.Now.AddDays(-5), Favorite = false },
+            new Library { Id = 3, Name = "Hades II", ImageUrl = "/images/h2.webp", DateOfPurchase= DateTime.Now.AddDays(-5), Favorite = false },
 
             new Library { Id = 2, Name = "Sleeping Dogs: Definitive Edition", ImageUrl = "/images/sd.jpg", DateOfPurchase= DateTime.Now.AddDays(-6), Favorite = false },
 

@@ -20,14 +20,6 @@
                         <partial name="/Views/Shared/Icons/search.cshtml" />
                     </button>
                 </div>
-@*                 @foreach (var role in ViewBag.Roles)
-                {
-                    <div class="row d-flex justify-content-between align-items-center">
-                        <label name="roles" for="@role">@role</label>
-                        <input type="checkbox" name="roles" id="@role" value="@role" />
-                    </div>
-                } *@
-
             </form>
         </div>
 
@@ -49,52 +41,44 @@
             </div>
             
             <div>
-                <div class="row column-3-index">
-                    @* <div class="col">@Html.DisplayNameFor(model => model.Id)</div> *@
-                    <div class="col">@Html.DisplayNameFor(model => model.UserName)</div>
-                    <div class="col">@Html.DisplayNameFor(model => model.Email)</div>
-                    <div class="col">@Html.DisplayNameFor(model => model.Name)</div>
-                    <div class="col">@Html.DisplayNameFor(model => model.Roles)</div>
-                    <div class="col">@Html.DisplayNameFor(model => model.Salt)</div>
-                    <div class="col">@Html.DisplayNameFor(model => model.HashedPassword)</div>
-                    <div class="col">@Html.DisplayNameFor(model => model.PhoneNumber)</div>
-                    <div class="col">@Html.DisplayNameFor(model => model.StreetAddress)</div>
-                    <div class="col">@Html.DisplayNameFor(model => model.PostCode)</div>
-                    <div class="col">@Html.DisplayNameFor(model => model.Suburb)</div>
-                    <div class="col">@Html.DisplayNameFor(model => model.State)</div>
-                    <div class="col" id="edit-delete-details"></div>
+                <div class="UserDisplay">
+                    <table class="UserTable">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.UserName)</th>
+                                <th>@Html.DisplayNameFor(model => model.Email)</th>
+                                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                                <th>@Html.DisplayNameFor(model => model.Roles)</th>
+                                <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+                            </tr>
+                        </thead>
+
+                        @foreach (var item in Model)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Roles)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                                    <td>
+                                        <button onclick="editIFrame('/BITSUser/Edit/','@item.Id')">
+                                            <partial name="/Views/Shared/Icons/edit.cshtml" />
+                                        </button>
+                                        <a asp-action="DeleteFromIndex" asp-route-id="@item.Id">
+                                            <partial name="/Views/Shared/Icons/delete.cshtml" />
+                                        </a>
+                                        <button onclick="editIFrame('/BITSUser/Details/','@item.Id')">
+                                            <partial name="/Views/Shared/Icons/details.cshtml" />
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
                 </div>
-
-                @foreach (var item in Model)
-                {
-                    <div class="row column-3-value">
-                        @* <div class="col">@Html.DisplayFor(modelItem => item.Id)</div> *@
-                        <div class="col">@Html.DisplayFor(modelItem => item.UserName)</div>
-                        <div class="col">@Html.DisplayFor(modelItem => item.Email)</div>
-                        <div class="col">@Html.DisplayFor(modelItem => item.Name)</div>
-                        <div class="col">@Html.DisplayFor(modelItem => item.Roles)</div>
-                        <div class="col">@Html.DisplayFor(modelItem => item.Salt)</div>
-                        <div class="col">@Html.DisplayFor(modelItem => item.HashedPassword)</div>
-                        <div class="col">@Html.DisplayFor(modelItem => item.PhoneNumber)</div>
-                        <div class="col">@Html.DisplayFor(modelItem => item.StreetAddress)</div>
-                        <div class="col">@Html.DisplayFor(modelItem => item.PostCode)</div>
-                        <div class="col">@Html.DisplayFor(modelItem => item.Suburb)</div>
-                        <div class="col">@Html.DisplayFor(modelItem => item.State)</div>
-                        <div class="col d-flex justify-content-around align-items-start">
-                            <button onclick="editIFrame('/BITSUser/Edit/','@item.Id')">
-                                <partial name="/Views/Shared/Icons/edit.cshtml" />
-                            </button>
-                            <a asp-action="DeleteFromIndex" asp-route-id="@item.Id">
-                                <partial name="/Views/Shared/Icons/delete.cshtml" />
-                            </a>
-                            <button onclick="editIFrame('/BITSUser/Details/','@item.Id')">
-                                <partial name="/Views/Shared/Icons/details.cshtml" />
-                            </button>
-                        </div>
-                    </div>
-                }
             </div>
-
         </div>
     </div>
 </div>
