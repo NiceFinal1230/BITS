@@ -385,7 +385,7 @@ public static class SeedData
                         MemoryRecommended = "12 GB RAM",
                         StorageMinimum = "7 GB available space",
                         StorageRecommended = "7 GB available space",
-                        GraphicsMinimum = " NVIDIA GeForce GTX 750 Ti (Maxwell or newer), 2 GB or AMD Radeon R7 360, 2 GB",
+                        GraphicsMinimum = "NVIDIA GeForce GTX 750 Ti (Maxwell or newer), 2 GB or AMD Radeon R7 360, 2 GB",
                         GraphicsRecommended = "NVIDIA GeForce GTX 1070, 8 GB or AMD Radeon RX 590, 8 GB",
                         ProductType = "Base Game",
                         RefundType = "Self-Refundable",
@@ -417,6 +417,38 @@ public static class SeedData
                         ProductType = "Base Game",
                         RefundType = "Self-Refundable",
                         Price = 22.00
+                    },
+                    new Product
+                    {
+                        Name = "Dying Light",
+                        Developer = "Techland",
+                        Publisher = "Techland",
+                        Description = "First-person action survival game set in a post-apocalyptic open world overrun by flesh-hungry zombies. Roam a city devastated by a mysterious virus epidemic. Scavenge for supplies, craft weapons, and face hordes of the infected.",
+                        Genres = new List<Genre> { Genre.Action, Genre.RPG }, 
+                        PreviewImages = new List<string> { "https://miro.medium.com/v2/resize:fit:2000/1*B-U71IHMDTKxUmu78WM_6w.png",
+                        "https://dyinglightgame.com/img/screenshots/dl1/2.jpg",
+                        "https://dyinglightgame.com/img/screenshots/dl1/3.jpg",
+                        "https://dyinglightgame.com/img/screenshots/dl1/4.jpg",
+                        "https://dyinglightgame.com/img/screenshots/dl1/5.jpg",
+                        "https://dyinglightgame.com/img/screenshots/dl1/6.jpg",
+                        "https://dyinglightgame.com/img/screenshots/dl1/8.jpg"},
+                        Features = new List<Features> { Features.CloudSaves, Features.SinglePlayer, Features.Coop },
+                        ReleaseDate = new DateTime(2015, 01, 26),
+                        //LastUpdatedBy = context.User.Find(3),
+                        LastUpdated = DateTime.Now,
+                        OSMinimum = "Windows® 7 64-bit or Windows® 8 64-bit or Windows® 8.1 64-bit",
+                        OSRecommended = "Windows® 7 64-bit or Windows® 8 64-bit or Windows® 8.1 64-bit",
+                        ProcessorMinimum = "Intel® Core™ i5-2500 @3.3 GHz or AMD FX-8320 @3.5 GHz",
+                        ProcessorRecommended = "Intel® Core™ i5-4670K @3.4 GHz or AMD FX-8350 @4.0 GHz ",
+                        MemoryMinimum = "4 GB RAM DDR3",
+                        MemoryRecommended = "8 GB RAM DDR3",
+                        StorageMinimum = "40 GB available space",
+                        StorageRecommended = "40 GB available space",
+                        GraphicsMinimum = "NVIDIA® GeForce® GTX 560 or AMD Radeon™ HD 6870 (1GB VRAM)",
+                        GraphicsRecommended = "NVIDIA® GeForce® GTX 780 or AMD Radeon™ R9 290 (2GB VRAM)",
+                        ProductType = "Base Game",
+                        RefundType = "Self-Refundable",
+                        Price = 26.99
                     }
 
                 );
