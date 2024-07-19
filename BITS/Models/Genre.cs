@@ -10,5 +10,10 @@ public enum Genre
     Shooter,
     Casual,
     Simulation,
-    Puzzle
+    Puzzle,
+    Massively_multiplayer,
+    Horror,
+    Racing,
+    Open_world,
+    Turn_based
 }
