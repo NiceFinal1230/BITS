@@ -105,7 +105,7 @@
         @{
             foreach (var item in Model.ProductStocktake)
             {
-                <div class="row cart-product">
+                <div class="row cart-product" style="background-color: @(Model.RunOut.Contains(item.Product.ProductId) ? "#B33636" : "")">
                     <div class="col-auto">
                         <div class="img-container">
                                 <img src="@(item.Product.PreviewImages.Count > 0 ? item.Product.PreviewImages.First() : "")" />
@@ -127,14 +127,20 @@
                         @if (@item.Stocktake.DiscountRate != 0)
                         {
                             <div class="row justify-content-end cart-product-actual-price"><span style="color: #ADADAD; text-decoration: line-through;">$ @item.Product.Price</span></div>
-                            <div class="row justify-content-end">
-                                <div class="cart-product-rate">-@item.Stocktake.DiscountRate%</div>
-                                <div class="cart-product-price">$ @(@item.Product.Price * (100 - item.Stocktake.DiscountRate) / 100)</div>
+                            <div class="row justify-content-between align-items-center">
+                                <div>x @item.Quantity</div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                    <div class="cart-product-rate">-@item.Stocktake.DiscountRate%</div>
+                                    <div class="cart-product-price">$ @(@item.Product.Price * (100 - item.Stocktake.DiscountRate) / 100)</div>
+                                </div>
                             </div>
                         }
                         else
                         {
-                            <div class="row justify-content-end cart-product-actual-price">$ @item.Product.Price</div>
+                            <div class="row justify-content-between align-items-stretch cart-product-actual-price">
+                                <div>x @item.Quantity</div>
+                                <div>$ @item.Product.Price</div>
+                            </div>
                         }
                     </div>
                 </div>
@@ -159,8 +165,21 @@
                         <div class="right-index">Subtotal</div>
                         <div class="right-value">$ @Model.Subtotal</div>
                     </div>
+@*                     <form asp-controller="Orders" asp-action="Index" method="post">
+                        @{
+                            var jsonModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+                        }
+                        <input type="hidden" name="products" value="@jsonModel" />
+                        <input class="checkout-button" type="submit" value="Checkout" id="save-button" />
+                    </form> *@
+                    <form asp-action="Checkout" method="post">
+                        @{
+                            var jsonModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+                        }
+                        <input type="hidden" name="products" value="@jsonModel" />
+                        <input class="checkout-button" type="submit" value="Checkout" id="save-button" />
+                    </form>
 
-                    <a class="checkout-button">Checkout</a>
                 </div>
 
             </div>

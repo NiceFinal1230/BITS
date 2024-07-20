@@ -17,5 +17,7 @@ namespace BITS.Data
         public DbSet<BITS.Models.Product> Product { get; set; } = default!;
         public DbSet<BITS.Models.Cart> Cart { get; set; } = default!;
         public DbSet<BITS.Models.Stocktake> Stocktake { get; set; } = default!;
+        public DbSet<BITS.Models.Order> Order { get; set; } = default!;
+        public DbSet<BITS.Models.ProductsInOrders> ProductsInOrders { get; set; } = default!;
     }
 }

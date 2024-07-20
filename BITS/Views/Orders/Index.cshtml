@@ -1,0 +1,344 @@
+﻿@model BITS.ViewModel.OrdersViewModel
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<style>
+    .col-auto {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .img-container {
+        width: 120px;
+        height: 150px;
+    }
+
+    .img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 10px;
+    }
+
+    .cart-product {
+        margin-top: 1em;
+        margin-bottom: 2em;
+        padding: 1em;
+        background-color: #323232;
+        border-radius: 10px;
+        z-index: 1;
+    }
+
+    .cart-product-type {
+        padding: 3px 12px;
+        border-radius: 6px;
+        background-color: #5E5E5E;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .cart-product-name {
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+
+    .cart-product-refund-type {
+        font-size: 1.25em;
+    }
+
+    .cart-product-rate {
+        display: inline-block;
+        padding: 3px 12px;
+        border-radius: 6px;
+        background-color: #1277D9;
+        font-size: 0.625em;
+        font-weight: bold;
+    }
+
+    .delete-button {
+        padding: 5px;
+    }
+
+    .summary {
+        font-size: 2.25em;
+        font-weight: bold;
+    }
+
+    .left,
+    .card-body {
+        position: relative;
+        top: -8px;
+        background-color: #323232;
+        border: none;
+        border-radius: 10px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+
+    .credit-card-button{
+        border-radius: 10px;
+        padding: 0.75em 1.25em;
+        background-color: #323232;
+        display: flex;
+        align-items: center;
+        gap: 1em;
+    }
+
+    .debit-card-button {
+        margin-top: 1.25em;
+        border-radius: 10px;
+        padding: 0.75em 1.25em;
+        background-color: #323232;
+        display: flex;
+        align-items: center;
+        gap: 1em;
+    }
+
+    .checkout-button {
+        box-sizing: border-box;
+        display: block;
+        width: calc(100%);
+        border-radius: 7px;
+        border: none;
+        padding: 10px;
+        color: white;
+        text-align: center;
+        font-size: 1.5em;
+        margin-top: 2em;
+        margin-bottom: 2em;
+        background-color: #1277D9;
+    }
+
+    .d-flex {
+        gap: 1em;
+    }
+
+    .container{
+        min-height: 100vh;
+    }
+
+    #radio_credit_card,
+    #radio_debit_card{
+        width: 1.4em;
+        height: 1.4em;
+    }
+
+
+
+    .card_type{
+        font-size: 1.8125em;
+        font-weight: bold;
+    }
+
+    .form-floating{
+        padding: 0.25em 0.5em;
+        border-radius: 0.25em;
+        background-color: #434343;
+    }
+
+    .form-floating label {
+        font-size: 0.75em;
+        color: #A1A1A1;
+    }
+
+    .form-floating input[type=text],
+    .form-floating input[type=text]:focus{
+        color: white;
+        background-color: #434343;
+        outline-width: 0px;
+        border: none;
+    }
+
+    .right{
+        background-color: #323232;
+        border-radius: 10px;
+    }
+
+    #order_summary{
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+
+    .subtotal-line{
+        margin: 1em 0px;
+        border-bottom: 1px solid white;
+    }
+
+    .declaration{
+        margin-top: 2em;
+    }
+
+    .total{
+        font-weight: bold;
+    }
+
+    .container-price{
+        gap: 1em;
+    }
+
+    .col-lg-6{
+        box-sizing: border-box;
+    }
+
+
+</style>
+
+<div class="container">
+
+    <h1 style="margin-top: 1em;">Checkout</h1>
+    @if (ViewBag.errMsg != null)
+    {
+        <div class="alert alert-danger"> @ViewBag.errMsg </div>
+    }
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="credit-card-button">
+                <input class="btn btn-primary" type="radio" id="radio_credit_card" name="payment_type" checked/>
+                <partial name="/Views/Shared/Icons/credit_card.cshtml" />
+                <label for="radio_credit_card" class="card_type">Credit Card</label>
+            </div>
+            <div class="collapse show" id="credit_card">
+                <div class="card card-body">
+                    <form class="left" asp-action="Edit">
+                        <div class="form-floating mb-3">
+                            <label asp-for="CardOwner" class="control-label">Name on Card</label>
+                            <input asp-for="CardOwner" class="form-control" />
+                            <span asp-validation-for="CardOwner" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <label asp-for="CardNumber" class="control-label">Card's Number</label>
+                            <input asp-for="CardNumber" class="form-control" />
+                            <span asp-validation-for="CardNumber" class="text-danger"></span>
+                        </div>
+                        <div class="d-flex justify-content-between ">
+                            <div class="form-floating mb-3">
+                                <label asp-for="Expiry" class="control-label">Expiration Date</label>
+                                <input asp-for="Expiry" class="form-control" />
+                                <span asp-validation-for="Expiry" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <label asp-for="CVV" class="control-label"></label>
+                                <input asp-for="CVV" class="form-control" />
+                                <span asp-validation-for="CVV" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="debit-card-button">
+                <input class="btn btn-primary" type="radio" id="radio_debit_card" name="payment_type" />
+                <partial name="/Views/Shared/Icons/debit_card.cshtml" />
+                <label for="radio_debit_card" class="card_type">Debit Card</label>
+            </div>
+            <div class="collapse" id="debit_card">
+                <div class="card card-body">
+                    <form class="left" asp-action="Edit">
+                        <div class="form-floating mb-3">
+                            <label asp-for="CardOwner" class="control-label">Name on Card</label>
+                            <input asp-for="CardOwner" class="form-control" />
+                            <span asp-validation-for="CardOwner" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <label asp-for="CardNumber" class="control-label">Card's Number</label>
+                            <input asp-for="CardNumber" class="form-control" />
+                            <span asp-validation-for="CardNumber" class="text-danger"></span>
+                        </div>
+                        <div class="d-flex justify-content-between ">
+                            <div class="form-floating mb-3">
+                                <label asp-for="Expiry" class="control-label">Expiration Date</label>
+                                <input asp-for="Expiry" class="form-control" />
+                                <span asp-validation-for="Expiry" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <label asp-for="CVV" class="control-label"></label>
+                                <input asp-for="CVV" class="form-control" />
+                                <span asp-validation-for="CVV" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 right">
+
+            <p id="order_summary">Order Summary</p>
+            @{
+                foreach (var item in Model.ProductStocktake)
+                {
+                    <div class="row cart-product" style="background-color: @(Model.RunOut.Contains(item.Product.ProductId) ? "#B33636" : "")">
+                        <div class="col-auto">
+                            <div class="img-container">
+                                <img src="@(item.Product.PreviewImages.Count > 0 ? item.Product.PreviewImages.First() : "")" />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="cart-product-type">@item.Product.ProductType</div>
+                                <div class="cart-product-quantity">x @item.Quantity</div>
+                            </div>
+
+                            <div class="row cart-product-name">@item.Product.Name</div>
+                            <div class="row cart-product-refund-type">@item.Product.RefundType</div>
+
+                            @if (@item.Stocktake.DiscountRate != 0)
+                            {
+                                <div class="row cart-product-rate">-@item.Stocktake.DiscountRate%</div>
+                                <div class="row container-price">
+                                    <div class="cart-product-actual-price"><span style="color: #ADADAD; text-decoration: line-through;">$ @item.Product.Price</span></div>
+                                    <div class="cart-product-price">$ @(@item.Product.Price * (100 - item.Stocktake.DiscountRate) / 100)</div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row justify-content-end cart-product-actual-price">$ @item.Product.Price</div>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            <div class="d-flex justify-content-between">
+                <div class="right-index">Prices</div>
+                <div class="right-value">$ @Model.Prices</div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="right-index">Sale Discount</div>
+                <div class="right-value">@(@Model.Discount > 0 ? "-" : "")$ @Model.Discount</div>
+            </div>
+            <div class="subtotal-line"></div>
+            <div class="d-flex justify-content-between total">
+                <div class="right-index">Total</div>
+                <div class="right-value">$ @Model.Subtotal</div>
+            </div>
+            <p class="declaration">By clicking "Place Order" below, I represent that I am over 18 and an authorized user of this payment method, I agree to the End User License Agreement.</p>
+
+            <form asp-action="Create" method="post">
+                <input type="submit" class="checkout-button" value="Place Order"/>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(onRadiobuttonClick);
+
+    function onRadiobuttonClick() {
+        // Toggle collapse on radio button change
+        $('#radio_credit_card').on('change', toggleWindow);
+        $('#radio_debit_card').on('change', toggleWindow);
+    }
+    function toggleWindow() {
+        if ($('#radio_credit_card').is(':checked')) {
+            $('#credit_card').collapse('show');
+            $('#debit_card').collapse('hide');
+        } else {
+            $('#credit_card').collapse('hide');
+            $('#debit_card').collapse('show');
+        }
+    }
+</script>

@@ -732,8 +732,7 @@ public static class SeedData
                         ProductType = "Edition",
                         RefundType = "Self-Refundable",
                         Price = 22.99
-                    },
-
+                    }
                 );
             }
 

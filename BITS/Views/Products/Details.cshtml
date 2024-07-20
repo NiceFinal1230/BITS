@@ -153,6 +153,7 @@
     #main{
         margin-top: 1em;
     }
+
 </style>
 <div class="container" id="main">
 
@@ -312,7 +313,10 @@
 
                 <p class="product-sale">@(@ViewBag.EndDate != null ? "Sale ends at " + @ViewBag.EndDate : "No sale available")</p>
 
-                <button type="button" class="buy-now">Buy Now</button>
+                <form asp-action="BuyNow" method="post">
+                    <input type="hidden" asp-for="ProductId" />
+                    <input type="submit" value="Buy Now" id="save-button" class="buy-now" />
+                </form>
                 <a class="add-to-cart" asp-controller="Carts" asp-action="Create" asp-route-id="@Model?.ProductId">Add to Cart</a>
                 
                 <div class="right-details">

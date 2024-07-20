@@ -19,7 +19,14 @@ builder.Services
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
 
+// Add session services
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
+
 var app = builder.Build();
+
+// Enable control to access session data using HttpContext.Session
+app.UseSession();
 
 using (var scope = app.Services.CreateScope())
 {

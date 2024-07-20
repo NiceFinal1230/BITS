@@ -8,9 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using BITS.Data;
 using BITS.Models;
 using BITS.ViewModel;
-using System.Net;
-using Azure.Core;
-using System.Security.Policy;
+using BITS.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace BITS.Controllers
 {
@@ -272,6 +271,23 @@ namespace BITS.Controllers
 
             return RedirectToAction(nameof(CloseIFrame));
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BuyNow(int? ProductId)
+        {
+            if(ProductId != null)
+            {
+                var p = await _context.Product.FindAsync(ProductId);
+                if (p != null)
+                {
+                    HttpContext.Session.Set<Product>("product", p);
+                }
+            }
+            HttpContext.Session.Remove("products");
+            return RedirectToAction(controllerName: "Orders", actionName: "Index");
+        }
+
 
         public async Task<IActionResult> DeleteFromIndex(int id)
         {

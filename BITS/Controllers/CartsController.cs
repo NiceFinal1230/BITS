@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.CodeAnalysis;
 using BITS.ViewModel;
 using System.Numerics;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using BITS.Services;
 
 namespace BITS.Controllers
 {
@@ -54,12 +56,16 @@ namespace BITS.Controllers
                 var item = await _context.Product.FindAsync(i.ProductId);
                 if(item != null)
                 {
-                    var stocktake = await _context.Stocktake.FirstOrDefaultAsync(x => x.ProductId == i.ProductId);
+                    var stocktake = await _context.Stocktake.FirstOrDefaultAsync(x => x.ProductId == i.ProductId && x.Quantity >= i.Quantity);
                     if (stocktake == null)
                     {
-                        stocktake = new Stocktake();
+                        vm.RunOut.Add(i.ProductId);
+                        vm.ProductStocktake.Add(new ProductStocktakeViewModel { Product = item, Stocktake = new(), Quantity = i.Quantity });
                     }
-                    vm.ProductStocktake.Add(new ProductStocktakeViewModel { Product = item, Stocktake = stocktake});
+                    else
+                    {
+                        vm.ProductStocktake.Add(new ProductStocktakeViewModel { Product = item, Stocktake = stocktake, Quantity = i.Quantity });
+                    }
                 }
             }
 
@@ -70,7 +76,7 @@ namespace BITS.Controllers
 
             foreach(var i in vm.ProductStocktake)
             {
-                double originalPrice = i.Product.Price;
+                double originalPrice = i.Product.Price * i.Quantity;
                 double discountRate = i.Stocktake.DiscountRate / 100;
                 double currentDiscount = originalPrice * discountRate;
                 prices += originalPrice; // Total original prices
@@ -83,7 +89,6 @@ namespace BITS.Controllers
             vm.Discount = Math.Round(discount, 2);
             /*vm.Subtotal = Math.Round(prices - discount, 2);*/
             vm.Subtotal = Math.Round(subtotal, 2);
-
             return View(vm);
         }
 
@@ -124,12 +129,16 @@ namespace BITS.Controllers
             {
                 var user = await _userManager.GetUserAsync(User);
                 var cart = await _context.Cart.FirstOrDefaultAsync(c => c.UserId == user.Id && c.ProductId == productId);
-
-                if (cart != null)
+                if(cart == null)
+                {
+                    return NotFound();
+                }
+                cart.Quantity--;
+                if (cart.Quantity <= 0)
                 {
                     _context.Cart.Remove(cart);
-                    await _context.SaveChangesAsync();
                 }
+                await _context.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -138,5 +147,23 @@ namespace BITS.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Checkout(string? products)
+        {
+            if(products != null)
+            {
+                var cvm = Newtonsoft.Json.JsonConvert.DeserializeObject<CartViewModel>(products);
+                if(cvm != null)
+                {
+                    HttpContext.Session.Set<CartViewModel>("products", cvm);
+                    HttpContext.Session.SetInt32("", 73);
+                }
+            }
+            HttpContext.Session.Remove("product");
+            return RedirectToAction(controllerName: "Orders", actionName: "Index");
+        }
+        
     }
 }
