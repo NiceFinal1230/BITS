@@ -7,13 +7,17 @@
 
 <partial name="_Index" />
 
+@{
+    var genresFromUrl = Context.Request.Query["genres"].ToString().Split(',').ToList();
+}
+
 <div class="container-fluid">
 
     <div class="row" id="main-row">
         <div class="col-2 column-1">
             <p class="column-1-products"><a asp-action="Index">Products</a></p>
             
-            <form asp-controller="Products" asp-action="Index">
+            <form asp-controller="Products" asp-action="Index" method="get">
                 <div class="row d-flex justify-content-between">
                     <p class="column-1-genres">Search By Genres</p>
                     <button asp-controller="Products" asp-action="Index" type="submit" class="search-button">
@@ -24,7 +28,7 @@
                 {
                     <div class="row d-flex justify-content-between align-items-center">
                         <label name="genres" for="@genre">@genre</label>
-                        <input type="checkbox" name="genres" id="@genre" value="@genre" />
+                        <input type="checkbox" name="genres" id="@genre" value="@genre" @(genresFromUrl.Contains(""+@genre) ? "checked" : "") />
                     </div>
                 }
 

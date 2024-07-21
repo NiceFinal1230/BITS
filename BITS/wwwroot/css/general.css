@@ -89,3 +89,10 @@ button{
     border-top: 1px solid white;
     text-align: center;
 }
+
+.search-button svg{
+    position: relative;
+    top: 50%;
+    left: -20%;
+    transform: translateY(-50%);
+}

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BITS.Models.Product>
+﻿@model BITS.ViewModel.HomeViewModel
 
 @{
 ViewData["Title"] = "Home Page";
@@ -36,6 +36,7 @@ ViewData["Title"] = "Home Page";
     display: flex;
     width: 100%;
     justify-content: space-between;
+    gap: 1em;
     }
 
     .container {
@@ -67,6 +68,8 @@ ViewData["Title"] = "Home Page";
 
     .game-list a {
     height: 115.5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     /* margin-bottom: 20px; */
     border-radius: 15px;
     font-weight: bold;
@@ -79,11 +82,21 @@ ViewData["Title"] = "Home Page";
     transition: transform 0.3s ease-in-out; */
     }
 
-    .game-list img {
+    .game-list a div {
     width: 150px;
     height: 115.5px;
     margin-right: 5px;
     border-radius: 15px;
+    }
+    .game-list a div img {
+    width: 100%;
+    height: 100%;
+    }
+
+    .game-list a p {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
     }
 
     #new-release {
@@ -219,30 +232,31 @@ ViewData["Title"] = "Home Page";
     padding: 0px 10px 10px 0px;
     }
 
-    #sale {
+    .sale {
     color: #fff;
     margin-bottom: 30px;
     }
 
-    #sale .container {
+    .sale .container {
     display: block;
     max-width: 1300px;
     padding: 0 100px;
     margin: auto;
     }
 
-    #sale .container .heading {
+    .sale .container .heading {
     display: block;
     margin: 0 0 20px 0;
     }
 
-    #sale .container .games-list {
+    .sale .container .games-list {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 15px;
     }
 
-    #sale .container .games-list .discounted-game {
+    .sale .container .games-list .discounted-game,
+    .sale .container .games-list .single-game {
     display: block;
     height: 500px;
     overflow: hidden;
@@ -251,19 +265,22 @@ ViewData["Title"] = "Home Page";
     border-radius: 15px;
     }
 
-    #sale .container .games-list .discounted-game:hover {
+    .sale .container .games-list .discounted-game:hover,
+    .sale .container .games-list .single-game:hover{
     transform: translateY(-10px);
     background-color: rgb(105, 105, 105);
     color: white;
     }
 
-    #sale .container .games-list .discounted-game .img-box {
+    .sale .container .games-list .discounted-game .img-box,
+    .sale .container .games-list .single-game .img-box {
     position: relative;
     height: 300px;
     margin: 0 0 10px 0;
     }
 
-    #sale .container .games-list .discounted-game .img-box .game-img {
+    .sale .container .games-list .discounted-game .img-box .game-img,
+    .sale .container .games-list .single-game .img-box .game-img {
     position: absolute;
     width: auto;
     height: 100%;
@@ -272,11 +289,13 @@ ViewData["Title"] = "Home Page";
     border-radius: 15px;
     }
 
-    #sale .container .games-list .discounted-game .title {
+    .sale .container .games-list .discounted-game .title,
+    .sale .container .games-list .single-game .title {
     padding: 0px 0px 0px 5px;
     }
 
-    #sale .container .games-list .discounted-game .discount {
+    .sale .container .games-list .discounted-game .discount,
+    .sale .container .games-list .single-game .discount {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -289,7 +308,8 @@ ViewData["Title"] = "Home Page";
     font-weight: bold;
     }
 
-    #sale .container .games-list .discounted-game .original-price {
+    .sale .container .games-list .discounted-game .original-price,
+    .sale .container .games-list .single-game .original-price {
     position: absolute;
     right: 0;
     bottom: 20px;
@@ -300,7 +320,8 @@ ViewData["Title"] = "Home Page";
     color: #ADADAD;
     }
 
-    #sale .container .games-list .discounted-game .discounted-price {
+    .sale .container .games-list .discounted-game .discounted-price,
+    .sale .container .games-list .single-game .discounted-price {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -323,31 +344,36 @@ ViewData["Title"] = "Home Page";
     <div class="reccomended-container">
 
         <div class="main-game">
-            <a href="/Products/Details/1">
-                <img src="https://reservoircreative.studio/app/uploads/2023/09/rsvr-sony-keyart_helldivers2_preorderversion_web.jpg" style="width: 750px; height: 522px;" />
-            </a>
+            @if(Model.Fixed.Count > 0)
+            {
+                <a asp-controller="Products" asp-action="Details" asp-route-id="@Model.Fixed.First().Product.ProductId">
+                    <img src="@Model.Fixed.First().Product.PreviewImages.First()" style="width: 750px; height: 522px;" />
+                </a>
+            }
+
         </div>
 
         <div class="game-list">
-            <a href="/Products/Details/2">
-                <img src="https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000003402/057249cf707a2a733c876c0eb453bb018ee6ea09f3aea5c350f4d76f70840d00" />
-                <span>Overcooked! 2</span>
-            </a>
-
-            <a href="/Products/Details/3">
-                <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1145350/capsule_616x353.jpg?t=1715727000" />
-                <span>Hades II</span>
-            </a>
-
-            <a href="/Products/Details/1">
-                <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1086940/capsule_616x353.jpg?t=1713271288" />
-                <span>Baldur's Gate 3</span>
-            </a>
-
-            <a href="/Products/Details/1">
-                <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1495710/capsule_616x353.jpg?t=1696436134" />
-                <span>Cyberpunk 2077</span>
-            </a>
+        @{
+            int skip = 0;
+            foreach (var p in Model.Fixed)
+            {
+                if (skip == 0)
+                {
+                    skip++;
+                    continue;
+                }
+                else
+                {
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Product.ProductId">
+                        <div>
+                            <img src="@p.Product.PreviewImages.FirstOrDefault()" alt="@p.Product.Name" />
+                        </div>
+                        <p>@p.Product.Name</p>
+                    </a>
+                }
+            }
+        }
         </div>
     </div>
 </section>
@@ -357,159 +383,126 @@ ViewData["Title"] = "Home Page";
         <h3 class="heading">Top New Releases ></h3>
 
         <div class="new-games-list">
-            <div class="single-game">
-                <a href="/Products/Details/4">
-                    <div class="img-box">
-                        <img class="game-img"
-                                src="https://image.api.playstation.com/vulcan/ap/rnd/202106/2322/c16gs6a7lbAYzPf7ZTikbH1c.png"
-                                alt="game-pic" />
+        @{
+            foreach (var p in Model.NewRelease)
+            {
+                if(p.Stocktake.DiscountRate > 0)
+                {
+                    <div class="discounted-game">
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Product.ProductId">
+                            <div class="img-box">
+                                <img class="game-img" src="@p.Product.PreviewImages.FirstOrDefault()" alt="@p.Product.Name" />
+                            </div>
+
+                            <h5 class="title">@p.Product.Name</h5>
+                            <div class="discount">-@(p.Stocktake.DiscountRate)%</div>
+                            <div class="original-price">SGD @(p.Product.Price)</div>
+                            <div class="discounted-price">SGD @(p.Product.Price * ((100 - p.Stocktake.DiscountRate) / 100))</div>
+                        </a>
                     </div>
+                }                    
 
-                    <h5 class="title">Ghost of Tsuhima DIRECTOR'S CUT</h5>
-                    <div class="price">SGD 79.90</div>
-                </a>
-            </div>
+                else
+                {
+                    <div class="single-game">
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Product.ProductId">
+                            <div class="img-box">
+                                <img class="game-img" src="@p.Product.PreviewImages.FirstOrDefault()" alt="@p.Product.Name" />
+                            </div>
 
-            <div class="single-game">
-                <a href="/Products/Details/2">
-                    <div class="img-box">
-                        <img class="game-img"
-                                src="https://cdnb.artstation.com/p/assets/covers/images/044/223/761/large/paul-chadeisson-paul-chadeisson-01-h3-pc-24-final-extended-6k-thumb.jpg?1639425129"
-                                alt="game-pic" />
+                            <h5 class="title">@p.Product.Name</h5>
+                            <div class="price">SGD @p.Product.Price</div>
+                        </a>
                     </div>
-
-                    <h5 class="title">Homeworld 3</h5>
-                    <div class="price">SGD 79.90</div>
-                </a>
-            </div>
-
-            <div class="discounted-game">
-                <a href="/Products/Details/3">
-                    <div class="img-box">
-                        <img class="game-img"
-                                src="https://image.api.playstation.com/vulcan/ap/rnd/202309/2015/7c170d967a56776d9e1dc5ebaf45fefccbe9f12ef3fc752e.png"
-                                alt="game-pic" />
-                    </div>
-
-                    <h5 class="title">Horizon Forbidden West Complete Edition</h5>
-                    <div class="discount">-20%</div>
-                    <div class="original-price">SGD 79.90</div>
-                    <div class="discounted-price">SGD 63.92</div>
-                </a>
-            </div>
-
-            <div class="discounted-game">
-                <a href="/Products/Details/4">
-                    <div class="img-box">
-                        <img class="game-img"
-                                src="https://assetsio.gnwcdn.com/co4qum.jpg?width=1200&height=1200&fit=bounds&quality=70&format=jpg&auto=webp"
-                                alt="game-pic" />
-                    </div>
-
-                    <h5 class="title">V Rising</h5>
-                    <div class="discount">-10%</div>
-                    <div class="original-price">SGD 29.90</div>
-                    <div class="discounted-price">SGD 26.10</div>
-                </a>
-            </div>
-
-            <div class="discounted-game">
-                <a href="/Products/Details/5">
-                    <div class="img-box">
-                        <img class="game-img"
-                                src="https://gaming-cdn.com/images/products/14483/orig/little-kitty-big-city-pc-game-steam-cover.jpg?v=1715769211"
-                                alt="game-pic" />
-                    </div>
-
-                    <h5 class="title">Little Kitty, Big City</h5>
-                    <div class="discount">-10%</div>
-                    <div class="original-price">SGD 22.00</div>
-                    <div class="discounted-price">SGD 19.80</div>
-                </a>
-            </div>
+                }
+            }
+        }
         </div>
     </div>
 </section>
 
-<section id="sale">
+<section class="sale">
     <div class="container">
         <h3 class="heading">Mega Sale ></h3>
 
         <div class="games-list">
-            <div class="discounted-game">
-                <a href="/Products/Details/3">
-                    <div class="img-box">
-                        <img class="game-img"
-                                src="https://cdn1.epicgames.com/offer/2c42520d342a46d7a6e0cfa77b4715de/EGS_DyingLightDefinitiveEdition_Techland_Editions_S2_1200x1600-1401d594bb51eefaee0925f8b3b80d08"
-                                alt="game-pic" />
-                    </div>
+            @{
+                foreach (var p in Model.MegaSale)
+                {
+                    if (p.Stocktake.DiscountRate > 0)
+                    {
+                        <div class="discounted-game">
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Product.ProductId">
+                                <div class="img-box">
+                                    <img class="game-img" src="@p.Product.PreviewImages.FirstOrDefault()" alt="@p.Product.Name" />
+                                </div>
 
-                    <h5 class="title">Dying Light Definitive Edition</h5>
-                    <div class="discount">-80%</div>
-                    <div class="original-price">SGD 64.99</div>
-                    <div class="discounted-price">SGD 12.99</div>
-                </a>
-            </div>
+                                <h5 class="title">@p.Product.Name</h5>
+                                <div class="discount">-@(p.Stocktake.DiscountRate)%</div>
+                                <div class="original-price">SGD @(p.Product.Price)</div>
+                                <div class="discounted-price">SGD @(p.Product.Price * ((100 - p.Stocktake.DiscountRate) / 100))</div>
+                            </a>
+                        </div>
+                    }
 
-            <div class="discounted-game">
-                <a href="/Products/Details/3">
-                    <div class="img-box">
-                        <img class="game-img"
-                                src="https://images.ctfassets.net/usf1vwtuqyxm/4RawEJQJvPyzpu3y51Sova/3576a7fdb536ffe175c41a6cc6561d8e/hogwarts-legacy-main-hero-app-article-hero.jpg"
-                                alt="game-pic" />
-                    </div>
+                    else
+                    {
+                        <div class="single-game">
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Product.ProductId">
+                                <div class="img-box">
+                                    <img class="game-img" src="@p.Product.PreviewImages.FirstOrDefault()" alt="@p.Product.Name" />
+                                </div>
 
-                    <h5 class="title">Hogwarts Legacy</h5>
-                    <div class="discount">-50%</div>
-                    <div class="original-price">SGD 79.90</div>
-                    <div class="discounted-price">SGD 39.95</div>
-                </a>
-            </div>
+                                <h5 class="title">@p.Product.Name</h5>
+                                <div class="price">SGD @p.Product.Price</div>
+                            </a>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</section>
 
-            <div class="discounted-game">
-                <a href="/Products/Details/3">
-                    <div class="img-box">
-                        <img class="game-img"
-                                src="https://image.api.playstation.com/vulcan/ap/rnd/202305/3116/b1641ab1b5ec0c8f76c44e59e9d8a1639c913c98c09d057f.jpg"
-                                alt="game-pic" />
-                    </div>
+<section class="sale">
+    <div class="container">
+        <h3 class="heading">Explore ></h3>
 
-                    <h5 class="title">Alan Wake 2</h5>
-                    <div class="discount">-20%</div>
-                    <div class="original-price">SGD 79.90</div>
-                    <div class="discounted-price">SGD 63.92</div>
-                </a>
-            </div>
+        <div class="games-list">
+            @{
+                foreach (var p in Model.Explore)
+                {
+                    if (p.Stocktake.DiscountRate > 0)
+                    {
+                        <div class="discounted-game">
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Product.ProductId">
+                                <div class="img-box">
+                                    <img class="game-img" src="@p.Product.PreviewImages.FirstOrDefault()" alt="@p.Product.Name" />
+                                </div>
 
-            <div class="discounted-game">
-                <a href="/Products/Details/4">
-                    <div class="img-box">
-                        <img class="game-img"
-                                src="https://cdn1.epicgames.com/offer/236c74b4cd2e4e3099cbe2ebdc9686fd/EGS_DeadIsland2_DeepSilverDambusterStudios_S2_1200x1600-efc5201842cf642eb45f73227cd0789b"
-                                alt="game-pic" />
-                    </div>
+                                <h5 class="title">@p.Product.Name</h5>
+                                <div class="discount">-@(p.Stocktake.DiscountRate)%</div>
+                                <div class="original-price">SGD @(p.Product.Price)</div>
+                                <div class="discounted-price">SGD @(p.Product.Price * ((100 - p.Stocktake.DiscountRate) / 100))</div>
+                            </a>
+                        </div>
+                    }
 
-                    <h5 class="title">Dead Island 2</h5>
-                    <div class="discount">-50%</div>
-                    <div class="original-price">SGD 78.01</div>
-                    <div class="discounted-price">SGD 39.00</div>
-                </a>
-            </div>
+                    else
+                    {
+                        <div class="single-game">
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Product.ProductId">
+                                <div class="img-box">
+                                    <img class="game-img" src="@p.Product.PreviewImages.FirstOrDefault()" alt="@p.Product.Name" />
+                                </div>
 
-            <div class="discounted-game">
-                <a href="/Products/Details/5">
-                    <div class="img-box">
-                        <img class="game-img"
-                                src="https://media.karousell.com/media/photos/products/2022/1/15/god_of_war_4_steam_game_share_1642227877_27c781c9_progressive.jpg"
-                                alt="game-pic" />
-                    </div>
-
-                    <h5 class="title">God of War</h5>
-                    <div class="discount">-50%</div>
-                    <div class="original-price">SGD 67.90</div>
-                    <div class="discounted-price">SGD 33.95</div>
-                </a>
-            </div>
+                                <h5 class="title">@p.Product.Name</h5>
+                                <div class="price">SGD @p.Product.Price</div>
+                            </a>
+                        </div>
+                    }
+                }
+            }
         </div>
     </div>
 </section>
