@@ -120,7 +120,8 @@ public class OrdersController : Controller
             }
 
             var order = new Order { UserId=user!.Id, OriginalPrice = model.Prices, DiscountPrice = model.Discount, Subtotal = model.Subtotal, StreetAddress = user.StreetAddress, Suburb = user.Suburb, PostCode = user.PostCode, State = user.State };
-            _context.Add(order);
+            _context.Order.Add(order);
+            //must save the changes here, otherwise the order does not have an id
             await _context.SaveChangesAsync();
             foreach (var item in model.ProductStocktake)
             {
@@ -128,8 +129,9 @@ public class OrdersController : Controller
                 var stock = await _context.Stocktake.FirstOrDefaultAsync(x => x.ProductId == id && x.Quantity >= item.Quantity);
                 stock!.Quantity = stock.Quantity - item.Quantity;
                 _context.Stocktake.Update(stock);
-                _context.Add(new ProductsInOrders { OrderId=order.OrderId, Products=id, Quantity=item.Quantity});
+                _context.ProductsInOrders.Add(new () { OrderId=order.OrderId, Products=id, Quantity=item.Quantity});
             }
+            await _context.SaveChangesAsync();
         }
         catch(Exception ex)
         {

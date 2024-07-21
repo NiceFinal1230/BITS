@@ -103,7 +103,9 @@ namespace BITS.Controllers
                 return NotFound();
             }
             var roles = SeedData.roleNames;
+            var role = BITSUser.Roles;
             ViewBag.AvailableRoles = new SelectList(roles);
+            ViewBag.UserRole = role;
             return View(BITSUser);
         }
 

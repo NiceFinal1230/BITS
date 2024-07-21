@@ -14,6 +14,8 @@ public class Order
     public string? PostCode { get; set; } = string.Empty;
     public string? Suburb { get; set; } = string.Empty;
     public string? State { get; set; } = string.Empty;
+    public DateTime? DateOfPurchase { get; set; } = DateTime.Now;
+    public bool? Favorite { get; set; } = false;
 
 }
 

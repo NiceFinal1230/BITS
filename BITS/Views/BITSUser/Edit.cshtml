@@ -29,17 +29,20 @@
                 </div>
 
                 <input type="hidden" asp-for="Id" />
-                
+                <input type="hidden" asp-for="UserName" />
                 
                 <div class="form-group">
                     <label asp-for="Roles" class="control-label"></label>
-                    <select asp-for="Roles" asp-items="ViewBag.AvailableRoles"></select>
+                    <br/>
+                    <select asp-for="Roles" asp-items="ViewBag.AvailableRoles" value="@ViewBag.UserRole">
+                        <option value=""> -- Empty -- </option>
+                    </select>
                     <span asp-validation-for="Roles" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="UserName" class="control-label"></label>
-                    <input asp-for="UserName" class="form-control" />
-                    <span asp-validation-for="UserName" class="text-danger"></span>
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Email" class="control-label"></label>
@@ -52,21 +55,6 @@
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Salt" class="control-label"></label>
-                    <input asp-for="Salt" class="form-control" />
-                    <span asp-validation-for="Salt" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="HashedPassword" class="control-label"></label>
-                    <input asp-for="HashedPassword" class="form-control" />
-                    <span asp-validation-for="HashedPassword" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="PhoneNumber" class="control-label"></label>
                     <input asp-for="PhoneNumber" class="form-control" />
                     <span asp-validation-for="PhoneNumber" class="text-danger"></span>
@@ -77,14 +65,14 @@
                     <span asp-validation-for="StreetAddress" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="PostCode" class="control-label"></label>
-                    <input asp-for="PostCode" class="form-control" />
-                    <span asp-validation-for="PostCode" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="Suburb" class="control-label"></label>
                     <input asp-for="Suburb" class="form-control" />
                     <span asp-validation-for="Suburb" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PostCode" class="control-label"></label>
+                    <input asp-for="PostCode" class="form-control" />
+                    <span asp-validation-for="PostCode" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="State" class="control-label"></label>

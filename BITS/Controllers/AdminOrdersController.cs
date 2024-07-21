@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BITS.Data;
 using BITS.Models;
+using BITS.ViewModel;
 
 namespace BITS.Controllers
 {
@@ -39,7 +40,18 @@ namespace BITS.Controllers
             {
                 return NotFound();
             }
-
+            var raw = await _context.ProductsInOrders.Where(i => i.OrderId == id).ToListAsync();
+            List<ProductStocktakeViewModel> vm = new();
+            foreach (var i in raw)
+            {
+                var p = await _context.Product.FindAsync(i.Products);
+                if (p != null)
+                {
+                    ProductStocktakeViewModel temp = new ProductStocktakeViewModel { Product = p, Quantity = i.Quantity, ProductsInOrders=i };
+                    vm.Add(temp);
+                }
+            }
+            ViewBag.ProductList = vm;
             return View(order);
         }
 
@@ -78,6 +90,18 @@ namespace BITS.Controllers
             {
                 return NotFound();
             }
+            var raw = await _context.ProductsInOrders.Where(i => i.OrderId == id).ToListAsync();
+            List<ProductStocktakeViewModel> vm = new();
+            foreach(var i in raw)
+            {
+                var p = await _context.Product.FindAsync(i.Products);
+                if(p != null)
+                {
+                    ProductStocktakeViewModel temp = new ProductStocktakeViewModel { Product = p, Quantity = i.Quantity, ProductsInOrders = i };
+                    vm.Add(temp);
+                }
+            }
+            ViewBag.ProductList = vm;
             return View(order);
         }
 
@@ -148,6 +172,20 @@ namespace BITS.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> DeleteFromIndex(int id)
+        {
+            var order = await _context.Order.FindAsync(id);
+            if (order != null)
+            {
+                _context.Order.Remove(order);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        
 
         private bool OrderExists(int id)
         {

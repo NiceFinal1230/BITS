@@ -5,89 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    .edit {
-        background-color: #222222;
-        padding: 15px;
-    }
+<partial name="_Edit" />
 
-    .row {
-        margin: 0px;
-    }
-
-    label,
-    p {
-        margin: 0px;
-        font-weight: bold;
-    }
-
-    input[type],
-    textarea {
-        color-scheme: dark;
-        background-color: #161616;
-        color: white;
-        border: 1px solid #858585;
-        transition: 0.5s;
-        outline: none;
-    }
-
-        textarea:focus,
-        input[type]:focus {
-            background-color: #161616;
-            color: white;
-            border: 1px solid white;
-        }
-
-    textarea {
-        width: 100%;
-    }
-
-    .minimum {
-        opacity: 60%;
-    }
-
-    #delete-button {
-        background-color: #E03030;
-        border-radius: 0.5em;
-        padding: 0.5em 1em;
-        color: white;
-        border: none;
-    }
-
-    #cancel-button {
-        background-color: #E08F30;
-        border-radius: 0.5em;
-        padding: 0.5em 1em;
-        color: white;
-        border: none;
-    }
-
-    #save-button,
-    #add-new-stock,
-    #add-new-stock-expand {
-        background-color: #2E7BEE;
-        border-radius: 0.5em;
-        padding: 0.5em 1em;
-        color: white;
-        border: none;
-    }
-
-    .table td, .table th {
-        padding: 0px;
-        vertical-align: default;
-        border-top: none;
-    }
-
-    .modal-content {
-        background-color: #161616;
-    }
-
-    #header,
-    #footer {
-        display: none;
-    }
-
-</style>
 <div class="edit container-fluid">
     <div class="row">
         <div class="col">
@@ -145,63 +64,6 @@
     </div>
 </div>
 
-
-
-
-
-
-
-@* 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="StocktakeId" />
-            <div class="form-group">
-                <label asp-for="ProductId" class="control-label"></label>
-                <input asp-for="ProductId" class="form-control" readonly />
-                <span asp-validation-for="ProductId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SourceId" class="control-label"></label>
-                <input asp-for="SourceId" class="form-control" readonly />
-                <span asp-validation-for="SourceId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" class="form-control" />
-                <span asp-validation-for="Quantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DiscountRate" class="control-label"></label>
-                <input asp-for="DiscountRate" class="form-control" />
-                <span asp-validation-for="DiscountRate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DiscountStartDate" class="control-label"></label>
-                <input asp-for="DiscountStartDate" class="form-control" />
-                <span asp-validation-for="DiscountStartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DiscountEndDate" class="control-label"></label>
-                <input asp-for="DiscountEndDate" class="form-control" />
-                <span asp-validation-for="DiscountEndDate" class="text-danger"></span>
-            </div>
-
-        </form>
-
-    </div>
-</div>
-
-<div>
-    <a asp-controller="Products" asp-action="Edit" asp-route-id="@Model.ProductId">Back to Product</a>
-</div>
- *@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -1,12 +1,30 @@
-﻿using BITS.Models;
+﻿using BITS.Areas.Identity.Data;
+using BITS.Data;
+using BITS.Models;
+using BITS.ViewModel;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace BITS.Controllers
 {
     public class LibraryController : Controller
     {
-        public IActionResult Index()
+
+        private readonly BITSContext _context;
+        private UserManager<BITSUser> _userManager;
+
+        public LibraryController(BITSContext context, UserManager<BITSUser> userManager)
+        {
+            _context = context;
+            _userManager = userManager;
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Index()
         {
             List<string> options = new List<string>()
             {
@@ -28,23 +46,55 @@ namespace BITS.Controllers
 
             ViewBag.View = new SelectList(view);
 
-            var libraries = new List<Library>
-    {
-            new Library { Id = 2, Name = "Alan Wake 2", ImageUrl = "/images/aw2.jpg", DateOfPurchase= DateTime.Now.AddDays(-1), Favorite = false },
+            var user = await _userManager.GetUserAsync(User);
+            
+            var user_orders = await _context.Order.Where(i => i.UserId == user!.Id).ToListAsync();
 
-            new Library { Id = 2, Name = "Ghost of Tsushima DIRECTOR'S CUT", ImageUrl = "/images/got.jpeg", DateOfPurchase= DateTime.Now.AddDays(-2), Favorite = false },
+            List<UserOrdersViewModel> vm = new();
+            foreach (var order in user_orders)
+            {
+                var products_in_orders = await _context.ProductsInOrders.Where(i => i.OrderId == order.OrderId).ToListAsync();
+                foreach (var i in products_in_orders)
+                {
+                    var p = await _context.Product.FindAsync(i.Products);
+                    if (p != null)
+                    {
+                        UserOrdersViewModel temp = new() { Product = p, Quantity = i.Quantity, ProductsInOrders = i, Order = order };
+                        vm.Add(temp);
+                    }
+                }
 
-            new Library { Id = 2, Name = "Grand Theft Auto V: Premium Edition", ImageUrl = "/images/gtav.jpg", DateOfPurchase= DateTime.Now.AddDays(-3), Favorite = false },
+            }
 
-            new Library { Id = 2, Name = "Hades", ImageUrl = "/images/h1.jpeg", DateOfPurchase= DateTime.Now.AddDays(-4), Favorite = false },
+            ViewBag.Library = vm;
 
-            new Library { Id = 3, Name = "Hades II", ImageUrl = "/images/h2.webp", DateOfPurchase= DateTime.Now.AddDays(-5), Favorite = false },
+            return View(vm);
+        }
 
-            new Library { Id = 2, Name = "Sleeping Dogs: Definitive Edition", ImageUrl = "/images/sd.jpg", DateOfPurchase= DateTime.Now.AddDays(-6), Favorite = false },
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Like(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            try
+            {
+                var order = await _context.Order.FindAsync(id);
+                if (order != null)
+                {
+                    order.Favorite = !order.Favorite;
+                    _context.Order.Update(order);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
 
-            new Library { Id = 1, Name = "The Elder Scrolls V: Skyrim Special Edition", ImageUrl = "/images/ess.jpg", DateOfPurchase = DateTime.Now.AddDays(-7), Favorite = true }
-    };
-            return View(libraries);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

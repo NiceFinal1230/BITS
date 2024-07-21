@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BITS.Models.Library>
+﻿@model IEnumerable<BITS.ViewModel.UserOrdersViewModel>
 
 @{
     ViewData["Title"] = "Library";
@@ -149,6 +149,7 @@
     .details-link:hover {
         text-decoration: underline;
     }
+
 </style>
 
 <script>
@@ -195,14 +196,25 @@
     {
         <div class="Library-Game">
             <div class="Library-Game-Image">
-                <img src="@item.ImageUrl" alt="@item.Name" class="img-fluid"/>
+                <img src="@item.Product.PreviewImages.FirstOrDefault()" alt="@item.Product.Name" class="img-fluid" />
             </div>
             <div class="Library-Game-Details">
-                <h3>@item.Name</h3>
-                <p>Date Purchased: @item.DateOfPurchase.ToString("dd MMM, yyyy")</p>
+                <h3>@item.Product.Name</h3>
+                <p>Date Purchased: @item.Order?.DateOfPurchase?.ToString("dd MMM, yyyy")</p>
+                <p>Purchased Quantity: @item.Quantity</p>
             </div>
             <div class="Library-Game-Details">
-                <a href="@Url.Action("Details", "Products", new { id = item.Id })" class="details-link">View Details</a>
+                <a href="@Url.Action("Details", "Products", new { id = item.Product.ProductId })" class="details-link">View Details</a>
+
+                <form asp-action="Like" asp-controller="Library" method="post">
+                    @{
+                        var icon = @item.Order?.Favorite == true ? "/Views/Shared/Icons/like.cshtml" : "/Views/Shared/Icons/dislike.cshtml";
+                    }
+                    <input type="hidden" name="id" value="@item.Order.OrderId" />
+                    <button type="submit">
+                        <partial name="@icon" />
+                    </button>
+                </form>
             </div>
         </div>
     }
