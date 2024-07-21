@@ -383,11 +383,14 @@ ViewData["Title"] = "Home Page";
         <h3 class="heading">Top New Releases ></h3>
 
         <div class="new-games-list">
-        @{
-            foreach (var p in Model.NewRelease)
-            {
-                if(p.Stocktake.DiscountRate > 0)
+            @{
+                foreach (var p in Model.NewRelease)
                 {
+                    if(p.Stocktake.DiscountRate > 0)
+                    {
+                    var temp = p.Product.Price * ((100 - p.Stocktake.DiscountRate) / 100);
+                    var discountedPrice = temp.ToString("F2");
+
                     <div class="discounted-game">
                         <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Product.ProductId">
                             <div class="img-box">
@@ -396,8 +399,8 @@ ViewData["Title"] = "Home Page";
 
                             <h5 class="title">@p.Product.Name</h5>
                             <div class="discount">-@(p.Stocktake.DiscountRate)%</div>
-                            <div class="original-price">SGD @(p.Product.Price)</div>
-                            <div class="discounted-price">SGD @(p.Product.Price * ((100 - p.Stocktake.DiscountRate) / 100))</div>
+                            <div class="original-price">SGD @(p.Product.Price.ToString("F2"))</div>
+                            <div class="discounted-price">SGD @discountedPrice</div>
                         </a>
                     </div>
                 }                    
@@ -411,7 +414,7 @@ ViewData["Title"] = "Home Page";
                             </div>
 
                             <h5 class="title">@p.Product.Name</h5>
-                            <div class="price">SGD @p.Product.Price</div>
+                                <div class="price">SGD @(p.Product.Price.ToString("F2"))</div>
                         </a>
                     </div>
                 }
@@ -429,6 +432,9 @@ ViewData["Title"] = "Home Page";
             @{
                 foreach (var p in Model.MegaSale)
                 {
+                    var temp = p.Product.Price * ((100 - p.Stocktake.DiscountRate) / 100);
+                    var discountedPrice = temp.ToString("F2");
+
                     if (p.Stocktake.DiscountRate > 0)
                     {
                         <div class="discounted-game">
@@ -439,8 +445,8 @@ ViewData["Title"] = "Home Page";
 
                                 <h5 class="title">@p.Product.Name</h5>
                                 <div class="discount">-@(p.Stocktake.DiscountRate)%</div>
-                                <div class="original-price">SGD @(p.Product.Price)</div>
-                                <div class="discounted-price">SGD @(p.Product.Price * ((100 - p.Stocktake.DiscountRate) / 100))</div>
+                                <div class="original-price">SGD @(p.Product.Price.ToString("F2"))</div>
+                                <div class="discounted-price">SGD @discountedPrice</div>
                             </a>
                         </div>
                     }
@@ -454,7 +460,7 @@ ViewData["Title"] = "Home Page";
                                 </div>
 
                                 <h5 class="title">@p.Product.Name</h5>
-                                <div class="price">SGD @p.Product.Price</div>
+                                <div class="price">SGD @(p.Product.Price.ToString("F2"))</div>
                             </a>
                         </div>
                     }
@@ -472,6 +478,9 @@ ViewData["Title"] = "Home Page";
             @{
                 foreach (var p in Model.Explore)
                 {
+                    var temp = p.Product.Price * ((100 - p.Stocktake.DiscountRate) / 100);
+                    var discountedPrice = temp.ToString("F2");
+
                     if (p.Stocktake.DiscountRate > 0)
                     {
                         <div class="discounted-game">
@@ -482,8 +491,8 @@ ViewData["Title"] = "Home Page";
 
                                 <h5 class="title">@p.Product.Name</h5>
                                 <div class="discount">-@(p.Stocktake.DiscountRate)%</div>
-                                <div class="original-price">SGD @(p.Product.Price)</div>
-                                <div class="discounted-price">SGD @(p.Product.Price * ((100 - p.Stocktake.DiscountRate) / 100))</div>
+                                <div class="original-price">SGD @(p.Product.Price.ToString("F2"))</div>
+                                <div class="discounted-price">SGD @(discountedPrice)</div>
                             </a>
                         </div>
                     }
@@ -497,7 +506,7 @@ ViewData["Title"] = "Home Page";
                                 </div>
 
                                 <h5 class="title">@p.Product.Name</h5>
-                                <div class="price">SGD @p.Product.Price</div>
+                                <div class="price">SGD @(p.Product.Price.ToString("F2"))</div>
                             </a>
                         </div>
                     }

@@ -287,15 +287,17 @@
 
                             @if (@item.Stocktake.DiscountRate != 0)
                             {
+                                var temp = item.Product.Price * (100 - item.Stocktake.DiscountRate) / 100;
+                                var price = temp.ToString("F2");
                                 <div class="row cart-product-rate">-@item.Stocktake.DiscountRate%</div>
                                 <div class="row container-price">
-                                    <div class="cart-product-actual-price"><span style="color: #ADADAD; text-decoration: line-through;">$ @item.Product.Price</span></div>
-                                    <div class="cart-product-price">$ @(@item.Product.Price * (100 - item.Stocktake.DiscountRate) / 100)</div>
+                                    <div class="cart-product-actual-price"><span style="color: #ADADAD; text-decoration: line-through;">SGD @item.Product.Price.ToString("F2")</span></div>
+                                    <div class="cart-product-price">SGD @price</div>
                                 </div>
                             }
                             else
                             {
-                                <div class="row justify-content-end cart-product-actual-price">$ @item.Product.Price</div>
+                                <div class="row justify-content-end cart-product-actual-price">SGD @item.Product.Price.ToString("F2")</div>
                             }
                         </div>
                     </div>
@@ -303,16 +305,16 @@
             }
             <div class="d-flex justify-content-between">
                 <div class="right-index">Prices</div>
-                <div class="right-value">$ @Model.Prices</div>
+                <div class="right-value">SGD @Model.Prices.ToString("F2")</div>
             </div>
             <div class="d-flex justify-content-between">
                 <div class="right-index">Sale Discount</div>
-                <div class="right-value">@(@Model.Discount > 0 ? "-" : "")$ @Model.Discount</div>
+                <div class="right-value">@(@Model.Discount > 0 ? "-" : "")SGD @Model.Discount.ToString("F2")</div>
             </div>
             <div class="subtotal-line"></div>
             <div class="d-flex justify-content-between total">
                 <div class="right-index">Total</div>
-                <div class="right-value">$ @Model.Subtotal</div>
+                <div class="right-value">SGD @Model.Subtotal.ToString("F2")</div>
             </div>
             <p class="declaration">By clicking "Place Order" below, I represent that I am over 18 and an authorized user of this payment method, I agree to the End User License Agreement.</p>
 

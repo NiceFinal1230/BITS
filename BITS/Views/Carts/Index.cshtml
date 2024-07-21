@@ -126,12 +126,14 @@
 
                         @if (@item.Stocktake.DiscountRate != 0)
                         {
-                            <div class="row justify-content-end cart-product-actual-price"><span style="color: #ADADAD; text-decoration: line-through;">$ @item.Product.Price</span></div>
+                            var temp = (@item.Product.Price * (100 - item.Stocktake.DiscountRate) / 100);
+                            var price = temp.ToString("F2");
+                            <div class="row justify-content-end cart-product-actual-price"><span style="color: #ADADAD; text-decoration: line-through;">$ @item.Product.Price.ToString("F2")</span></div>
                             <div class="row justify-content-between align-items-center">
                                 <div>x @item.Quantity</div>
-                                    <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center">
                                     <div class="cart-product-rate">-@item.Stocktake.DiscountRate%</div>
-                                    <div class="cart-product-price">$ @(@item.Product.Price * (100 - item.Stocktake.DiscountRate) / 100)</div>
+                                    <div class="cart-product-price">SGD @price</div>
                                 </div>
                             </div>
                         }
@@ -155,15 +157,15 @@
                 <div class="right-details">
                     <div class="d-flex justify-content-between">
                         <div class="right-index">Prices</div>
-                        <div class="right-value">$ @Model.Prices</div>
+                        <div class="right-value">SGD @Model.Prices.ToString("F2")</div>
                     </div>
                     <div class="d-flex justify-content-between">
                         <div class="right-index">Discount</div>
-                        <div class="right-value">-$ @Model.Discount</div>
+                        <div class="right-value">-SGD @Model.Discount.ToString("F2")</div>
                     </div>
                     <div class="d-flex justify-content-between">
                         <div class="right-index">Subtotal</div>
-                        <div class="right-value">$ @Model.Subtotal</div>
+                        <div class="right-value">SGD @Model.Subtotal.ToString("F2")</div>
                     </div>
 @*                     <form asp-controller="Orders" asp-action="Index" method="post">
                         @{

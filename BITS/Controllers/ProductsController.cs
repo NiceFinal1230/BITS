@@ -10,6 +10,7 @@ using BITS.Models;
 using BITS.ViewModel;
 using BITS.Services;
 using Microsoft.AspNetCore.Http;
+using System.Globalization;
 
 namespace BITS.Controllers
 {
@@ -126,7 +127,7 @@ namespace BITS.Controllers
                 ViewBag.Quantity = firstStock.Quantity;
                 ViewBag.SotcktakeId = firstStock.StocktakeId;
                 ViewBag.DiscountRate = firstStock.DiscountRate;
-                ViewBag.DiscountPrice = product.Price * (100 - firstStock.DiscountRate) / 100;
+                ViewBag.DiscountPrice = (product.Price * (100 - firstStock.DiscountRate) / 100).ToString("F2");
                 ViewBag.StartDate = firstStock.DiscountStartDate;
                 ViewBag.EndDate = firstStock.DiscountEndDate;
             }

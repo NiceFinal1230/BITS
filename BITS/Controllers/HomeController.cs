@@ -39,14 +39,16 @@ namespace BITS.Controllers
                 }
                 vm.Add(new() { Product = p, Stocktake = stock });
             }
-
+            var test = vm;
             home.Fixed = vm.TakeLast(5).ToList();
             vm = vm.SkipLast(5).ToList();
 
-            home.NewRelease = vm.OrderByDescending(p => p.Product.ReleaseDate).Take(5).ToList();
+            vm = vm.OrderByDescending(p => p.Product.ReleaseDate).ToList();
+            home.NewRelease = vm.Take(5).ToList();
             vm = vm.Skip(5).ToList();
 
-            home.MegaSale = vm.OrderByDescending(i => i.Stocktake.DiscountRate).Take(5).ToList();
+            vm = vm.OrderByDescending(i => i.Stocktake.DiscountRate).ToList();
+            home.MegaSale = vm.Take(5).ToList();
             vm = vm.Skip(5).ToList();
 
             home.Explore = vm;

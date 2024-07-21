@@ -2,6 +2,7 @@
 using BITS.Services;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BITS.Models;
@@ -35,6 +36,7 @@ public class Product
     public string? StorageRecommended { get; set; }
     public string? GraphicsMinimum { get; set; }
     public string? GraphicsRecommended { get; set; }
+    [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
     public double Price { get; set; }
     public int? BaseGameId { get; set; }
 
