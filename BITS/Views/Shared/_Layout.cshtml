@@ -50,6 +50,10 @@
                                 <li class="nav-item">
                                     <a class="nav-link" asp-area="" asp-controller="Sources" asp-action="Index">Sources</a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="AdminOrders" asp-action="Index">Orders</a>
+                                </li>
                             }
                             else if (User.IsInRole("Employee"))
                             {
@@ -74,6 +78,10 @@
                                 <li class="nav-item">
                                     <a class="nav-link" asp-area="" asp-controller="Library" asp-action="Index">LIBRARY</a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Carts" asp-action="Index">Carts</a>
+                                </li>
                             }
                             else
                             {
@@ -87,7 +95,7 @@
                             }
                         }
 
-                        <li class="nav-item">
+@*                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="BITSUser" asp-action="Index">Users</a>
                         </li>
                         <li class="nav-item">
@@ -100,14 +108,9 @@
                             <a class="nav-link" asp-area="" asp-controller="Sources" asp-action="Index">Sources</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Carts" asp-action="Index">Carts</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Orders" asp-action="Index">Checkout</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="AdminOrders" asp-action="Index">Orders</a>
-                        </li>
+                        </li> *@
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
