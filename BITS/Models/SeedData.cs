@@ -927,7 +927,7 @@ public static class SeedData
                         Publisher = "Game Science",
                         Description = "Black Myth: Wukong is an action RPG rooted in Chinese mythology. You shall set out as the Destined One to venture into the challenges and marvels ahead, to uncover the obscured truth beneath the veil of a glorious legend from the past.",
                         Genres = new List<Genre> { Genre.Action, Genre.Adventure, Genre.RPG },
-                        PreviewImages = new List<string> { "https://image.api.playstation.com/vulcan/ap/rnd/202405/2120/5fd2d705e3b53619bcac56f6ed7837e4605f1457824da2a4.jpeg",
+                        PreviewImages = new List<string> { "https://image.api.playstation.com/vulcan/ap/rnd/202405/2117/bd406f42e9352fdb398efcf21a4ffe575b2306ac40089d21.png",
                         "https://clan.akamai.steamstatic.com/images/44524500/8af93048e52b28660500b01112978c676919379a.png",
                         "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2020/08/black-myth-wukong-dragon.jpg",
                         "https://i0.wp.com/aiptcomics.com/wp-content/uploads/2022/08/Black-Myth-Wukong.jpg",
@@ -1247,7 +1247,7 @@ public static class SeedData
                         Publisher = "KOEI TECMO GAMES CO., LTD.",
                         Description = "Ready to die? Experience a brutal action game from Team NINJA and Koei Tecmo Games. In the age of samurai, a lone traveler must fight his way through the vicious warriors and supernatural Yokai that infest the land in order to find that which he seeks.",
                         Genres = new List<Genre> { Genre.RPG, Genre.Action },
-                        PreviewImages = new List<string> { "https://image.api.playstation.com/cdn/JP0106/CUSA10126_00/8xQ1cgIOPpfiBlUeFJNYnmONOgzFmAImCJYka27o0EZU1A4JVsFA9Fz8VONc54qL.png",
+                        PreviewImages = new List<string> { "https://cdn1.epicgames.com/salesEvent/salesEvent/EGS_NiohTheCompleteEdition_KOEITECMOGAMESCOLTD_S1_2560x1440-2a6124e6033545b37abd715282f8ba98",
                         "https://image.api.playstation.com/vulcan/ap/rnd/202010/3007/9xbcQoqaZB2vAkpPqJrJa8Hw.jpg",
                         "https://m.media-amazon.com/images/I/919JCJJj+NL.jpg",
                         "https://m.media-amazon.com/images/I/91JTVtQ8OwL.jpg",
@@ -1320,13 +1320,12 @@ public static class SeedData
     public static string[] roleNames = { "Admin", "Employee", "Customer" };
     private static async Task SeedRoles(RoleManager<IdentityRole> roleManager)
     {
-
         foreach (var roleName in roleNames)
         {
             var roleExists = await roleManager.RoleExistsAsync(roleName);
             if (!roleExists)
             {
-                await roleManager.CreateAsync(new IdentityRole(roleName));
+                await roleManager.CreateAsync(new IdentityRole(roleName)); 
             }
         }
     }
