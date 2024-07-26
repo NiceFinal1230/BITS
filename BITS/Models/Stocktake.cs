@@ -24,14 +24,14 @@ public class Stocktake
 
     [Range(0, 100, ErrorMessage = "Discount Rate must be between 0 and 100.")]
     public double DiscountRate { get; set; }
-
+/*
     [Required(ErrorMessage = "Discount Start Date is required.")]
     [DataType(DataType.Date)]
-    [Range(typeof(DateTime), "1/1/2000", "12/31/2099", ErrorMessage = "Discount Start Date must be between 01/01/2000 and 12/31/2099.")]
+    [Range(typeof(DateTime), "1/1/2000", "12/31/2099", ErrorMessage = "Discount Start Date must be between 01/01/2000 and 12/31/2099.")]*/
     public DateTime? DiscountStartDate { get; set; }
 
-    [Required(ErrorMessage = "Discount End Date is required.")]
+/*    [Required(ErrorMessage = "Discount End Date is required.")]
     [DataType(DataType.Date)]
-    [Range(typeof(DateTime), "1/1/2000", "12/31/2099", ErrorMessage = "Discount End Date must be between 01/01/2000 and 12/31/2099.")]
+    [Range(typeof(DateTime), "1/1/2000", "12/31/2099", ErrorMessage = "Discount End Date must be between 01/01/2000 and 12/31/2099.")]*/
     public DateTime? DiscountEndDate { get; set; }
 }
