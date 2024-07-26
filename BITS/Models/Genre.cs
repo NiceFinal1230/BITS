@@ -15,5 +15,8 @@ public enum Genre
     Horror,
     Racing,
     Open_world,
-    Turn_based
+    Turn_based,
+    City_builder,
+    Stealth,
+    Fighting
 }
