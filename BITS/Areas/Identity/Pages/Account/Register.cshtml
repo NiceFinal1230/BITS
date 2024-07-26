@@ -27,6 +27,13 @@
         font-weight: bold;
     }
 
+    .logo {
+        display: flex;
+        justify-content: center; /* Centers horizontally */
+        align-items: center; /* Centers vertically */
+        margin-bottom: 20px;
+    }
+
     #footer {
         position: absolute;
         bottom: 0;
@@ -36,6 +43,9 @@
 
 <div class="center-container">
     <div class="register-section">
+        <div class="logo">
+            <img src="~/images/BITSLogo.png" alt="BITS" style="width: 100px;" />
+        </div>
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <div class="center-header"><h1>@ViewData["Title"]</h1></div>
             <hr />
