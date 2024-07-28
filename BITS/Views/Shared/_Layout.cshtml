@@ -40,29 +40,29 @@
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="BITSUser" asp-action="Index">Users</a>
+                                    <a class="nav-link" asp-area="" asp-controller="BITSUser" asp-action="Index">USERS</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index">PRODUCTS</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Sources" asp-action="Index">Sources</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Sources" asp-action="Index">SOURCES</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="AdminOrders" asp-action="Index">Orders</a>
+                                    <a class="nav-link" asp-area="" asp-controller="AdminOrders" asp-action="Index">ORDERS</a>
                                 </li>
                             }
                             else if (User.IsInRole("Employee"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index">PRODUCTS</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Sources" asp-action="Index">Sources</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Sources" asp-action="Index">SOURCES</a>
                                 </li>
                             }
                             else if (User.IsInRole("Customer"))
@@ -80,7 +80,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Carts" asp-action="Index">Carts</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Carts" asp-action="Index">CART</a>
                                 </li>
                             }
                             else
