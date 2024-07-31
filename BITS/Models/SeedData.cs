@@ -720,6 +720,37 @@ public static class SeedData
                     },
                     new Product
                     {
+                        Name = "Dying Light - Hellraid",
+                        Developer = "Techland",
+                        Publisher = "Techland",
+                        Description = "First-person action survival game set in a post-apocalyptic open world overrun by flesh-hungry zombies. Roam a city devastated by a mysterious virus epidemic. Scavenge for supplies, craft weapons, and face hordes of the infected.",
+                        Genres = new List<Genre> { Genre.Action, Genre.RPG },
+                        PreviewImages = new List<string> { "https://image.api.playstation.com/vulcan/ap/rnd/202205/0509/epqfkhzr7P9LVbzYE4i1OPYo.png",
+                        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1300710/ss_7a1ff9dab235cc1b1d5b150082f512e8a64b4190.1920x1080.jpg?t=1683541142",
+                        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1300710/ss_ec3c8c2cca9c85974ec8fb21984df3dd13108d3d.1920x1080.jpg?t=1683541142",
+                        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1300710/ss_833635e2c90519806ba3edb986d23b1d57d52dea.1920x1080.jpg?t=1683541142",
+                        "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1300710/ss_5493cdd4abdd830ba5f610bea5b32ac99e368b30.1920x1080.jpg?t=1683541142", },
+                        Features = new List<Features> { Features.CloudSaves, Features.SinglePlayer, Features.Coop },
+                        ReleaseDate = new DateTime(2015, 01, 26),
+                        //LastUpdatedBy = context.User.Find(3),
+                        LastUpdated = DateTime.Now,
+                        OSMinimum = "Windows® 7 64-bit or Windows® 8 64-bit or Windows® 8.1 64-bit",
+                        OSRecommended = "Windows® 7 64-bit or Windows® 8 64-bit or Windows® 8.1 64-bit",
+                        ProcessorMinimum = "Intel® Core™ i5-2500 @3.3 GHz or AMD FX-8320 @3.5 GHz",
+                        ProcessorRecommended = "Intel® Core™ i5-4670K @3.4 GHz or AMD FX-8350 @4.0 GHz",
+                        MemoryMinimum = "4 GB RAM DDR3",
+                        MemoryRecommended = "8 GB RAM DDR3",
+                        StorageMinimum = "40 GB available space",
+                        StorageRecommended = "40 GB available space",
+                        GraphicsMinimum = "NVIDIA® GeForce® GTX 560 or AMD Radeon™ HD 6870 (1GB VRAM)",
+                        GraphicsRecommended = "NVIDIA® GeForce® GTX 780 or AMD Radeon™ R9 290 (2GB VRAM)",
+                        ProductType = "Base Game",
+                        RefundType = "Self-Refundable",
+                        Price = 10.00,
+                        BaseGameId = 22
+                    },
+                    new Product
+                    {
                         Name = "Hogwarts Legacy",
                         Developer = "Avalanche Software",
                         Publisher = "Warner Bros. Games",
@@ -781,7 +812,7 @@ public static class SeedData
                         ProductType = "Base Game",
                         RefundType = "Self-Refundable",
                         Price = 19.90,
-                        BaseGameId = 23
+                        BaseGameId = 24
                     },
                     new Product
                     {
