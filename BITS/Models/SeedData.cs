@@ -157,10 +157,10 @@ public static class SeedData
                         StorageRecommended = "10 GB available space",
                         GraphicsMinimum = "GeForce GTX 950, Radeon R7 360, or Intel HD Graphics 630",
                         GraphicsRecommended = "GeForce RTX 2060, Radeon RX 5600 XT, or Intel Arc A580",
-                        ProductType = "Add-On,
+                        ProductType = "Add-On",
                         RefundType = "Self-Refundable",
                         Price = 7.78,
-                        BaseGameId = 3
+                        BaseGameId = 4
                     },
                     new Product
                     {
@@ -419,7 +419,7 @@ public static class SeedData
                         ProductType = "Add-On",
                         RefundType = "Self-Refundable",
                         Price = 13.90,
-                        BaseGameId = 11
+                        BaseGameId = 12
                     },
                     new Product
                     {
@@ -484,7 +484,7 @@ public static class SeedData
                         ProductType = "Add-On",
                         RefundType = "Self-Refundable",
                         Price = 26.90,
-                        BaseGameId = 104
+                        BaseGameId = 13
                     },
                     new Product
                     {
@@ -511,7 +511,7 @@ public static class SeedData
                         ProductType = "Add-On",
                         RefundType = "Self-Refundable",
                         Price = 13.50,
-                        BaseGameId = 104
+                        BaseGameId = 13
                     },
                     new Product
                     {
@@ -538,7 +538,7 @@ public static class SeedData
                         ProductType = "Add-On",
                         RefundType = "Self-Refundable",
                         Price = 10.90,
-                        BaseGameId = 104
+                        BaseGameId = 13
                     },
                     new Product
                     {
