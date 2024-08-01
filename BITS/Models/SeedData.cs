@@ -157,7 +157,7 @@ public static class SeedData
                         StorageRecommended = "10 GB available space",
                         GraphicsMinimum = "GeForce GTX 950, Radeon R7 360, or Intel HD Graphics 630",
                         GraphicsRecommended = "GeForce RTX 2060, Radeon RX 5600 XT, or Intel Arc A580",
-                        ProductType = "Base Game",
+                        ProductType = "Add-On,
                         RefundType = "Self-Refundable",
                         Price = 7.78,
                         BaseGameId = 3
@@ -201,7 +201,7 @@ public static class SeedData
                         Publisher = "Larian Studios",
                         Description = "Baldur’s Gate 3 is a story-rich, party-based RPG set in the universe of Dungeons & Dragons, where your choices shape a tale of fellowship and betrayal, survival and sacrifice, and the lure of absolute power.",
                         Genres = new List<Genre> { Genre.Adventure, Genre.RPG, Genre.Strategy },
-                        PreviewImages = new List<string> { "https://image.api.playstation.com/vulcan/ap/rnd/202302/2321/3098481c9164bb5f33069b37e49fba1a572ea3b89971ee7b.jpg",
+                        PreviewImages = new List<string> { "https://ggkeys.com/wp-content/uploads/2024/07/Baldurs-Gate-3-GGKeys.png",
                         "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1086940/ss_c73bc54415178c07fef85f54ee26621728c77504.1920x1080.jpg?t=1721123311",
                         "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1086940/ss_73d93bea842b93914d966622104dcb8c0f42972b.1920x1080.jpg?t=1721123311",
                         "https://rpgamer.com/wp-content/uploads/2020/02/baldurs-gate-iii_2020-02-27_001-scaled.jpg",
@@ -254,7 +254,7 @@ public static class SeedData
                         StorageRecommended = "150 GB available space",
                         GraphicsMinimum = "Nvidia GTX 970 or RX 480 (4GB+ of VRAM)",
                         GraphicsRecommended = "Nvidia 2060 Super or RX 5700 XT (8GB+ of VRAM)",
-                        ProductType = "Base Game",
+                        ProductType = "Add-On",
                         RefundType = "Self-Refundable",
                         Price = 10.00,
                         BaseGameId = 6
@@ -266,7 +266,7 @@ public static class SeedData
                         Publisher = "CD PROJEKT RED",
                         Description = "Cyberpunk 2077 is an open-world, action-adventure RPG set in the dark future of Night City — a dangerous megalopolis obsessed with power, glamor, and ceaseless body modification.",
                         Genres = new List<Genre> { Genre.Action, Genre.Adventure, Genre.Open_world, Genre.RPG },
-                        PreviewImages = new List<string> { "https://static.wikia.nocookie.net/cyberpunk/images/9/99/Cyberpunk2077-keyart-male_v.png/revision/latest?cb=20201201001241",
+                        PreviewImages = new List<string> { "https://cdn1.epicgames.com/offer/77f2b98e2cef40c8a7437518bf420e47/EGS_Cyberpunk2077_CDPROJEKTRED_S1_03_2560x1440-359e77d3cd0a40aebf3bbc130d14c5c7",
                         "https://cdn.decrypt.co/wp-content/uploads/2024/02/Decrypt-Wallpaper-Format-1600-x-900-px-20-gID_7.png",
                         "https://www.escapistmagazine.com/wp-content/uploads/2023/09/cyberpunk2.0.jpg?fit=1920%2C1080",
                         "https://gamingbolt.com/wp-content/uploads/2021/06/The-Ascent_05.jpg",
@@ -319,7 +319,7 @@ public static class SeedData
                         StorageRecommended = "70 GB available space",
                         GraphicsMinimum = "GeForce GTX 1060 6GB or Radeon RX 580 8GB or Arc A380",
                         GraphicsRecommended = "GeForce RTX 2060 SUPER or Radeon RX 5700 XT or Arc A770",
-                        ProductType = "Base Game",
+                        ProductType = "Add-On",
                         RefundType = "Self-Refundable",
                         Price = 34.99,
                         BaseGameId = 8
@@ -416,7 +416,7 @@ public static class SeedData
                         StorageRecommended = "120 GB available space",
                         GraphicsMinimum = "NVIDIA 9800 GT 1GB or AMD HD 4870 1GB (DX 10, 10.1, 11)",
                         GraphicsRecommended = "NVIDIA GTX 660 2GB or AMD HD 7870 2GB",
-                        ProductType = "Base Game",
+                        ProductType = "Add-On",
                         RefundType = "Self-Refundable",
                         Price = 13.90,
                         BaseGameId = 11
@@ -481,10 +481,10 @@ public static class SeedData
                         StorageRecommended = "40 GB available space",
                         GraphicsMinimum = "Nvidia GTX 1060 or AMD RX 480 or Intel ARC A380",
                         GraphicsRecommended = "Nvidia GTX 1080 TI or AMD RX5700 o Intel ARC A580",
-                        ProductType = "Base Game",
+                        ProductType = "Add-On",
                         RefundType = "Self-Refundable",
                         Price = 26.90,
-                        BaseGameId = 13
+                        BaseGameId = 104
                     },
                     new Product
                     {
@@ -508,10 +508,10 @@ public static class SeedData
                         StorageRecommended = "40 GB available space",
                         GraphicsMinimum = "Nvidia GTX 1060 or AMD RX 480 or Intel ARC A380",
                         GraphicsRecommended = "Nvidia GTX 1080 TI or AMD RX5700 o Intel ARC A580",
-                        ProductType = "Base Game",
+                        ProductType = "Add-On",
                         RefundType = "Self-Refundable",
                         Price = 13.50,
-                        BaseGameId = 13
+                        BaseGameId = 104
                     },
                     new Product
                     {
@@ -535,10 +535,10 @@ public static class SeedData
                         StorageRecommended = "40 GB available space",
                         GraphicsMinimum = "Nvidia GTX 1060 or AMD RX 480 or Intel ARC A380",
                         GraphicsRecommended = "Nvidia GTX 1080 TI or AMD RX5700 o Intel ARC A580",
-                        ProductType = "Base Game",
+                        ProductType = "Add-On",
                         RefundType = "Self-Refundable",
                         Price = 10.90,
-                        BaseGameId = 13
+                        BaseGameId = 104
                     },
                     new Product
                     {
@@ -632,7 +632,7 @@ public static class SeedData
                         StorageRecommended = "7 GB available space",
                         GraphicsMinimum = "NVIDIA GeForce GTX 750 Ti (Maxwell or newer), 2 GB or AMD Radeon R7 360, 2 GB",
                         GraphicsRecommended = "NVIDIA GeForce GTX 1070, 8 GB or AMD Radeon RX 590, 8 GB",
-                        ProductType = "Base Game",
+                        ProductType = "Add-On",
                         RefundType = "Self-Refundable",
                         Price = 18.50,
                         BaseGameId = 18
@@ -681,7 +681,7 @@ public static class SeedData
                         MemoryMinimum = "4 GB RAM",
                         StorageMinimum = "4 GB available space",
                         GraphicsMinimum = "Nvidia GeForce GTX 650 / Radeon HD 7510",
-                        ProductType = "Base Game",
+                        ProductType = "Add-On",
                         RefundType = "Self-Refundable",
                         Price = 9.00,
                         BaseGameId = 20
@@ -744,7 +744,7 @@ public static class SeedData
                         StorageRecommended = "40 GB available space",
                         GraphicsMinimum = "NVIDIA® GeForce® GTX 560 or AMD Radeon™ HD 6870 (1GB VRAM)",
                         GraphicsRecommended = "NVIDIA® GeForce® GTX 780 or AMD Radeon™ R9 290 (2GB VRAM)",
-                        ProductType = "Base Game",
+                        ProductType = "Add-On",
                         RefundType = "Self-Refundable",
                         Price = 10.00,
                         BaseGameId = 22
@@ -809,7 +809,7 @@ public static class SeedData
                         StorageRecommended = "85 GB available space",
                         GraphicsMinimum = "NVIDIA GeForce GTX 960 4GB or AMD Radeon RX 470 4GB",
                         GraphicsRecommended = "NVIDIA GeForce 1080 Ti or AMD Radeon RX 5700 XT or INTEL Arc A770",
-                        ProductType = "Base Game",
+                        ProductType = "Add-On",
                         RefundType = "Self-Refundable",
                         Price = 19.90,
                         BaseGameId = 24
@@ -949,7 +949,7 @@ public static class SeedData
                         Publisher = "CI Games",
                         Description = "A vast world awaits in all-new, dark fantasy action-RPG, Lords of the Fallen. As one of the fabled Dark Crusaders, embark on an epic quest to overthrow Adyr, the demon God.",
                         Genres = new List<Genre> { Genre.Action, Genre.RPG },
-                        PreviewImages = new List<string> { "https://image.api.playstation.com/vulcan/ap/rnd/202404/2210/f51f6d0574ca0210a16f2b1f6b3ed9feacb325d40f1d764e.jpg",
+                        PreviewImages = new List<string> { "https://products.eneba.games/resized-products/iew-9FiCLGwZ6DiZZBVr9J1fUbReHHcwtmDNhOn4dxY_1920x1080_1x-0.jpg",
                         "https://image.api.playstation.com/vulcan/ap/rnd/202310/1010/9963554c205679580fc8e6c20a97a8ccbe32b3ee94484143.jpg",
                         "https://m.media-amazon.com/images/I/81ycERXtOnL.jpg",
                         "https://image.api.playstation.com/vulcan/ap/rnd/202304/2408/c9d4827a19f3bfa48e24c368ad21d4723f76cab66fc9bfdb.jpg",
@@ -1136,7 +1136,7 @@ public static class SeedData
                         Publisher = "Bandai Namco Entertainment",
                         Description = "Get ready for the next chapter in the legendary fighting game franchise, TEKKEN 8.",
                         Genres = new List<Genre> { Genre.Action },
-                        PreviewImages = new List<string> { "https://image.api.playstation.com/vulcan/ap/rnd/202308/0312/c7c8d6fcc443743f7e9a704319fc2e2c7883b95673ca4a5e.jpg",
+                        PreviewImages = new List<string> { "https://gamemusic.bn-ent.net/W4vE39ckQu/wp-content/uploads/2024/01/%E9%89%84%E6%8B%B38_%E9%85%8D%E4%BF%A1%E7%94%A8%E3%82%B8%E3%83%A3%E3%82%B1%E3%83%83%E3%83%88_KV1_01-scaled.jpg",
                         "https://www.bandainamcostudios.com/en/wp-content/uploads/sites/2/2024/03/resized_TEKKEN_8_Third_KA_FINISH_4K_%E9%96%8B%E7%99%BA%E3%82%BF%E3%82%A4%E3%83%88%E3%83%AB.png",
                         "https://sm.ign.com/ign_ap/gallery/t/tekken-8-r/tekken-8-reina-screenshots_3y72.jpg",
                         "https://cdn.mos.cms.futurecdn.net/faFrpx2Brcg553kmjQzePC.jpg",
