@@ -5,6 +5,9 @@
 }
 
 <style>
+    * {
+        font-family: "Roboto", sans-serif;
+    }
     .col-auto {
         display: flex;
         justify-content: center;
@@ -14,6 +17,9 @@
     .img-container {
         width: 120px;
         height: 150px;
+        transform: translateX(-15px);
+        border: 2px solid #474747;
+        border-radius: 10px;
     }
 
     .img-container img {
@@ -25,7 +31,8 @@
     }
 
     .cart-product {
-        margin-top: 1em;
+        max-width: 100%;
+        transform: translateX(1em);
         margin-bottom: 2em;
         padding: 1em;
         background-color: #323232;
@@ -127,11 +134,10 @@
         height: 1.4em;
     }
 
-
-
     .card_type{
         font-size: 1.8125em;
         font-weight: bold;
+        margin-bottom: 0;
     }
 
     .form-floating{
@@ -159,7 +165,8 @@
     }
 
     #order_summary{
-        font-size: 1.5em;
+        font-size: 1.4em;
+        margin-top: 1em;
         font-weight: bold;
     }
 
@@ -170,6 +177,7 @@
 
     .declaration{
         margin-top: 2em;
+        margin-bottom: -1em;
     }
 
     .total{
@@ -182,6 +190,8 @@
 
     .col-lg-6{
         box-sizing: border-box;
+        margin-bottom: 2em;
+        max-height: 600px;
     }
 
 
@@ -218,7 +228,7 @@
                             <span asp-validation-for="CardOwner" class="text-danger"></span>
                         </div>
                         <div class="form-floating mb-3">
-                            <label asp-for="CardNumber" class="control-label">Card's Number</label>
+                            <label asp-for="CardNumber" class="control-label">Card Number</label>
                             <input asp-for="CardNumber" class="form-control" />
                             <span asp-validation-for="CardNumber" class="text-danger"></span>
                         </div>
@@ -278,7 +288,7 @@
             @{
                 foreach (var item in Model.ProductStocktake)
                 {
-                    <div class="row cart-product" style="background-color: @(Model.RunOut.Contains(item.Product.ProductId) ? "#B33636" : "")">
+                    <div class="row cart-product" style="background-color: @(Model.RunOut.Contains(item.Product.ProductId) ? "#b40028" : "")">
                         <div class="col-auto">
                             <div class="img-container">
                                 <img src="@(item.Product.PreviewImages.Count > 0 ? item.Product.PreviewImages.First() : "")" />

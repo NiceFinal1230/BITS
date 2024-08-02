@@ -7,20 +7,24 @@
 <style>
     .center-container {
         display: flex;
-        flex-direction: column;
         justify-content: center; /* Centers horizontally */
         align-items: center; /* Centers vertically */
         min-height: 90vh;
+        background: lightgrey;
+        background: linear-gradient(rgba(0, 0, 0, .64), rgba(0, 0, 0, .64)), url('@Url.Content("~/images/welcomeBG.jpg")') no-repeat center center;
+        background-size: cover;
+        background-attachment: fixed;
     }
 
     .login-section {
         width: 30%;
         padding-top: 30px;
-        padding-left: 30px;
         padding-right: 30px;
+        padding-left: 30px;
         border-radius: 8px;
         background-color: rgba(62, 62, 62, 0.8);
-        margin-top: 1em;
+        margin-top: 2em;
+        margin-bottom: 3em;
     }
 
     .login-section .logo {
@@ -46,9 +50,12 @@
     }
 
     #footer {
+        border-top: 1px solid white;
+        text-align: center;
         bottom: 0;
         width: 100%;
-        margin-top: 3em;
+        margin-bottom: 2em;
+        padding-top: 2em;
     }
    
 </style>
@@ -66,12 +73,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
                 <label asp-for="Input.Email" class="form-label">Email</label>
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email@example.com" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <label asp-for="Input.Password" class="form-label">Password</label>
-                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div>
@@ -82,13 +89,13 @@
             </div>
             <div class="text-center">
                 <p>
-                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot Account Password</a>
                 </p>
                 <p>
-                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register New Account</a>
                 </p>
                 <p>
-                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Send Email Confirmation</a>
                 </p>
             </div>
             <div>
