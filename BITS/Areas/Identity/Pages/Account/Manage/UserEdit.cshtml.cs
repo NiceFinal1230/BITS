@@ -35,15 +35,15 @@ namespace BITS.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            public string StreetAddress { get; set; }
-            public string Suburb { get; set; }
-            public string PostCode { get; set; }
-            public string State { get; set; }
+            public string StreetAddress { get; set; } = string.Empty;
+            public string Suburb { get; set; } = string.Empty;
+            public string PostCode { get; set; } = string.Empty;
+            public string State { get; set; } = string.Empty;
         }
-        public string StreetAddress { get; set; }
-        public string Suburb { get; set; }
-        public string PostCode { get; set; }
-        public string State { get; set; }
+        public string StreetAddress { get; set; } = string.Empty;
+        public string Suburb { get; set; } = string.Empty;
+        public string PostCode { get; set; } = string.Empty;
+        public string State { get; set; } = string.Empty;
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
