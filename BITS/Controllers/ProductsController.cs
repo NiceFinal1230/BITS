@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BITS.Data;
 using BITS.Models;
 using BITS.ViewModel;
 using BITS.Services;
-using Microsoft.AspNetCore.Http;
-using System.Globalization;
 
 namespace BITS.Controllers
 {
@@ -145,28 +139,6 @@ namespace BITS.Controllers
             return View(product);
         }
 
-        // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create(Product product, string _previewImages, string[] selectedFeatures, string[] selectedGenres)
-        //{
-        //    SetGenres(product, selectedGenres);
-        //    SetFeatures(product, selectedFeatures);
-        //    SetPreviewImages(product, _previewImages);
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(product);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    PopulateAssignedGenresData(product);
-        //    PopulateAssignedFeaturesData(product);
-        //    Stocktake stocktake= new Stocktake { ProductId = product.ProductId };
-        //    return View(new ProductStocktakeViewModel { Product = product, Stocktake = stocktake } );
-        //}
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Product product, string _previewImages, string[] selectedFeatures, string[] selectedGenres)
@@ -182,8 +154,7 @@ namespace BITS.Controllers
             }
             PopulateAssignedGenresData(product);
             PopulateAssignedFeaturesData(product);
-            Stocktake stocktake = new Stocktake { ProductId = product.ProductId };
-            return View(new ProductStocktakeViewModel { Product = product, Stocktake = stocktake });
+            return View(product);
         }
         public IActionResult CloseIFrame(int? id)
         {
@@ -208,7 +179,6 @@ namespace BITS.Controllers
             ViewBag.sources = _context.Source.ToList();
             ViewBag.Context = _context;
             ViewBag.Stocktake = await _context.Stocktake.Where(stock => stock.ProductId == id).ToListAsync();
-
             PopulateAssignedGenresData(product);
             PopulateAssignedFeaturesData(product);
             PopulatePreviewImages(product);
@@ -236,6 +206,7 @@ namespace BITS.Controllers
                 {
                     _context.Update(product);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(CloseIFrame));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -249,14 +220,14 @@ namespace BITS.Controllers
                     }
                 }
             }
-            return RedirectToAction(nameof(CloseIFrame));
-            //PopulateAssignedFeaturesData(product);
-            //PopulateAssignedGenresData(product);
-            //ViewBag.sources = _context.Source.ToList();
-            //ViewBag.Context = _context;
-            //ViewBag.Stocktake = await _context.Stocktake.Where(stock => stock.ProductId == id).ToListAsync();
-            //Stocktake stocktake = new Stocktake { ProductId = product.ProductId };
-            //return View(new ProductStocktakeViewModel { Product = product, Stocktake = stocktake });
+            PopulateAssignedFeaturesData(product);
+            PopulateAssignedGenresData(product);
+            PopulatePreviewImages(product);
+            ViewBag.sources = _context.Source.ToList();
+            ViewBag.Context = _context;
+            ViewBag.Stocktake = await _context.Stocktake.Where(stock => stock.ProductId == id).ToListAsync();
+            Stocktake stocktake = new Stocktake { ProductId = product.ProductId };
+            return View(new ProductStocktakeViewModel { Product = product, Stocktake = stocktake });
         }
 
         public async Task<IActionResult> Delete(int id)

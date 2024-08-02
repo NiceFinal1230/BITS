@@ -6,12 +6,16 @@
 
 <partial name="_Index" />
 
+@{
+    var sourcesFromUrl = Context.Request.Query["types"].ToString().Split(',').ToList();
+}
+
 <div class="container-fluid">
     <div class="row" id="main-row">
         <div class="col-2 column-1">
             <p class="column-1-products"><a asp-action="Index">Types</a></p>
 
-            <form asp-controller="Sources" asp-action="Index">
+            <form asp-controller="Sources" asp-action="Index" method="get">
                 <div class="row d-flex justify-content-between">
                     <p class="column-1-genres">Search By Type</p>
                     <button asp-controller="Sources" asp-action="Index" type="submit" class="search-button">
@@ -22,7 +26,7 @@
                 {
                     <div class="row d-flex justify-content-between align-items-center">
                     <label name="roles" for="@type">@type</label>
-                    <input type="checkbox" name="types" id="@type" value="@type" />
+                        <input type="checkbox" name="types" id="@type" value="@type" @(sourcesFromUrl.Contains("" + @type) ? "checked" : "") />
                     </div>
                 }
 

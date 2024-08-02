@@ -6,7 +6,6 @@
 }
 
 <partial name="_Edit"/>
-
 <div class="edit container-fluid">
     <div class="row">
         <div class="col">
@@ -28,7 +27,6 @@
 
                 </div>
 
-                <input type="hidden" asp-for="Id" />
                 <input type="hidden" asp-for="UserName" />
                 
                 <div class="form-group">
@@ -38,6 +36,10 @@
                         <option value=""> -- Empty -- </option>
                     </select>
                     <span asp-validation-for="Roles" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" readonly/>
                 </div>
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>

@@ -1,0 +1,383 @@
+﻿@model BITS.ViewModel.HomeViewModel
+
+@{
+ViewData["Title"] = "Home Page";
+}
+
+<style>
+    /*     #navbar{
+    display: none;
+    } */
+
+    .sale-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    }
+
+    #reccomended {
+    display: flex;
+    flex-direction: column;
+    margin: 0px auto;
+    width: 1110px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    }
+
+    #recommended-title {
+    display: block;
+    align-self: start;
+    }
+
+    .reccomended-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 1em;
+    }
+
+    .container {
+    display: block;
+    margin-bottom: 30px;
+    }
+
+    #reccomended .container .header {
+    display: block;
+    }
+
+    .main-game {
+    display: flex;
+    flex-direction: row;
+    }
+
+    .main-game a:hover {
+    background-color: transparent;
+    color: white;
+    /* transform: translateY(-10px);
+    transition: transform 0.3s ease-in-out; */
+    }
+
+    .game-list {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr); /* 5 rows for the games */
+    gap: 20px;
+    }
+
+    .game-list a {
+    height: 115.5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* margin-bottom: 20px; */
+    border-radius: 15px;
+    font-weight: bold;
+    }
+
+    .game-list a:hover {
+    background-color: rgb(105,105,105);
+    color: white;
+    /*      transform: translateY(-10px);
+    transition: transform 0.3s ease-in-out; */
+    }
+
+    .game-list a div {
+    width: 150px;
+    height: 115.5px;
+    margin-right: 5px;
+    border-radius: 15px;
+    }
+    .game-list a div img {
+    width: 100%;
+    height: 100%;
+    }
+
+    .game-list a p {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    #new-release {
+    color: #fff;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    }
+
+    #new-release .container {
+    display: block;
+    max-width: 1300px;
+    padding: 0 100px;
+    margin: auto;
+    }
+
+    #new-release .container .heading {
+    display: block;
+    margin: 0 0 20px 0;
+    }
+
+    #new-release .container .new-games-list {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 15px;
+    }
+
+    #new-release .container .new-games-list .single-game {
+    display: block;
+    height: 500px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+    border-radius: 15px;
+    }
+
+    #new-release .container .new-games-list .single-game:hover {
+    transform: translateY(-10px);
+    background-color: rgb(105, 105, 105);
+    color: white;
+    }
+
+    #new-release .container .new-games-list .single-game .img-box {
+    position: relative;
+    height: 300px;
+    margin: 0 0 10px 0;
+    }
+
+    #new-release .container .new-games-list .single-game .img-box .game-img {
+    position: absolute;
+    width: auto;
+    height: 100%;
+    left: 50%;
+    transform: translate(-50%);
+    border-radius: 15px;
+    }
+
+    #new-release .container .new-games-list .single-game .title {
+    padding: 0px 0px 0px 5px;
+    }
+
+    #new-release .container .new-games-list .single-game .price {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-weight: bold;
+    text-align: end;
+    padding: 0px 10px 10px 0px;
+    }
+
+    #new-release .container .new-games-list .discounted-game {
+    display: block;
+    height: 500px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+    border-radius: 15px;
+    }
+
+    #new-release .container .new-games-list .discounted-game:hover {
+    transform: translateY(-10px);
+    background-color: rgb(105, 105, 105);
+    color: white;
+    }
+
+    #new-release .container .new-games-list .discounted-game .img-box {
+    position: relative;
+    height: 300px;
+    margin: 0 0 10px 0;
+    }
+
+    #new-release .container .new-games-list .discounted-game .img-box .game-img {
+    position: absolute;
+    width: auto;
+    height: 100%;
+    left: 50%;
+    transform: translate(-50%);
+    border-radius: 15px;
+    }
+
+    #new-release .container .new-games-list .discounted-game .title {
+    padding: 0px 0px 0px 5px;
+    }
+
+    #new-release .container .new-games-list .discounted-game .discount {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 35px;
+    width: 50px;
+    background-color: #0074E4;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0 0 10px 10px;
+    font-weight: bold;
+    }
+
+    #new-release .container .new-games-list .discounted-game .original-price {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    font-weight: bold;
+    text-align: end;
+    padding: 0px 10px 10px 0px;
+    text-decoration: line-through;
+    color: #ADADAD;
+    }
+
+    #new-release .container .new-games-list .discounted-game .discounted-price {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-weight: bold;
+    text-align: end;
+    padding: 0px 10px 10px 0px;
+    }
+
+    .sale {
+    color: #fff;
+    margin-bottom: 30px;
+    }
+
+    .sale .container {
+    display: block;
+    max-width: 1300px;
+    padding: 0 100px;
+    margin: auto;
+    }
+
+    .sale .container .heading {
+    display: block;
+    margin: 0 0 20px 0;
+    }
+
+    .sale .container .games-list {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 15px;
+    }
+
+    .sale .container .games-list .discounted-game,
+    .sale .container .games-list .single-game {
+    display: block;
+    height: 500px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+    border-radius: 15px;
+    }
+
+    .sale .container .games-list .discounted-game:hover,
+    .sale .container .games-list .single-game:hover{
+    transform: translateY(-10px);
+    background-color: rgb(105, 105, 105);
+    color: white;
+    }
+
+    .sale .container .games-list .discounted-game .img-box,
+    .sale .container .games-list .single-game .img-box {
+    position: relative;
+    height: 300px;
+    margin: 0 0 10px 0;
+    }
+
+    .sale .container .games-list .discounted-game .img-box .game-img,
+    .sale .container .games-list .single-game .img-box .game-img {
+    position: absolute;
+    width: auto;
+    height: 100%;
+    left: 50%;
+    transform: translate(-50%);
+    border-radius: 15px;
+    }
+
+    .sale .container .games-list .discounted-game .title,
+    .sale .container .games-list .single-game .title {
+    padding: 0px 0px 0px 5px;
+    }
+
+    .sale .container .games-list .discounted-game .discount,
+    .sale .container .games-list .single-game .discount {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 35px;
+    width: 50px;
+    background-color: #0074E4;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0 0 10px 10px;
+    font-weight: bold;
+    }
+
+    .sale .container .games-list .discounted-game .original-price,
+    .sale .container .games-list .single-game .original-price {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    font-weight: bold;
+    text-align: end;
+    padding: 0px 10px 10px 0px;
+    text-decoration: line-through;
+    color: #ADADAD;
+    }
+
+    .sale .container .games-list .discounted-game .discounted-price,
+    .sale .container .games-list .single-game .discounted-price {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-weight: bold;
+    text-align: end;
+    padding: 0px 10px 10px 0px;
+    }
+
+    /* img {
+    border-radius: 15px;
+    } */
+</style>
+
+<section id="new-release">
+    <div class="container">
+        <h3 class="heading">Available Products/Add-On:</h3>
+
+        <div class="new-games-list">
+            @{
+                foreach (var p in Model.Search)
+                {
+                    if(p.Stocktake.DiscountRate > 0)
+                    {
+                    var temp = p.Product.Price * ((100 - p.Stocktake.DiscountRate) / 100);
+                    var discountedPrice = temp.ToString("F2");
+
+                    <div class="discounted-game">
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Product.ProductId">
+                            <div class="img-box">
+                                <img class="game-img" src="@p.Product.PreviewImages.FirstOrDefault()" alt="@p.Product.Name" />
+                            </div>
+
+                            <h5 class="title">@p.Product.Name</h5>
+                            <div class="discount">-@(p.Stocktake.DiscountRate)%</div>
+                            <div class="original-price">SGD @(p.Product.Price.ToString("F2"))</div>
+                            <div class="discounted-price">SGD @discountedPrice</div>
+                        </a>
+                    </div>
+                }                    
+
+                else
+                {
+                    <div class="single-game">
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Product.ProductId">
+                            <div class="img-box">
+                                <img class="game-img" src="@p.Product.PreviewImages.FirstOrDefault()" alt="@p.Product.Name" />
+                            </div>
+
+                            <h5 class="title">@p.Product.Name</h5>
+                                <div class="price">SGD @(p.Product.Price.ToString("F2"))</div>
+                        </a>
+                    </div>
+                }
+            }
+        }
+        </div>
+    </div>
+</section>

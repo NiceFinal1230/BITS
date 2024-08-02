@@ -14,6 +14,25 @@
                 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+                @{
+                    if (TempData["err"] != null)
+                    {
+                        var errorMessagesJson = TempData["err"].ToString();
+                        var errorMessages = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(errorMessagesJson);
+                        <div class="alert alert-danger" role="alert">
+                            Unable to create a new stock due to following issues:
+                        </div>
+                        foreach (var error in errorMessages)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @error
+                            </div>
+                        }
+                    }
+                }
+
+
+
                 <div class="row justify-content-between align-items-center">
                     <button onclick="parent.closeIFrame();">
                         <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">

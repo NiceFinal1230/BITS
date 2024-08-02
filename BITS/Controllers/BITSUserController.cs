@@ -13,6 +13,8 @@ using BITS.Models;
 using System.Security.Claims;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
+using System.Text.RegularExpressions;
+using Microsoft.Extensions.Primitives;
 
 namespace BITS.Controllers
 {
@@ -29,21 +31,29 @@ namespace BITS.Controllers
         }
 
         // GET: BITSUser
-        public async Task<IActionResult> Index(string[] types, string? search)
+        public async Task<IActionResult> Index(string[] roles, string? search)
         {
+            var raw = await _roleManager.Roles.ToListAsync();
+            List<string> _roles = new();
+            foreach(var i in raw)
+            {
+                _roles.Add(i.Name);
+            }
+            ViewBag.Types = _roles;
+
             // Search By Name
             if (search != null)
             {
-                var temp = await _userManager.Users.Where(user => user.Email.Contains(search)).ToListAsync();
+                var temp = await _userManager.Users.Where(user => user.Name.Contains(search)).ToListAsync();
                 return View(temp);
             }
 
             // Search By Genres
-            if (types.Length > 0)
+            if (roles.Length > 0)
             {
-                HashSet<string> set = types.ToHashSet();
-                List<BITSUser> list = await _userManager.Users.ToListAsync();
-                return View(list.Where(user => set.Contains(user.Roles)));
+                HashSet<string> set = roles.ToHashSet();
+                List<BITSUser> list = await _userManager.Users.Where(user => set.Contains(user.Roles)).ToListAsync();
+                return View(list);
             }
 
             return View(await _context.BITSUser.ToListAsync());
@@ -70,6 +80,7 @@ namespace BITS.Controllers
         // GET: BITSUser/Create
         public IActionResult Create()
         {
+            ViewBag.AvailableRoles = new SelectList(SeedData.roleNames);
             return View();
         }
 
@@ -78,14 +89,19 @@ namespace BITS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserName,Email,Name,Roles,Salt,HashedPassword,PhoneNumber,StreetAddress,PostCode,Suburb,State,CardNumber,CardOwner,Expiry,CVV")] BITSUser BITSUser)
+        public async Task<IActionResult> Create(BITSUser BITSUser)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(BITSUser);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(controllerName: "Products", actionName: "CloseIFrame");
+                BITSUser.UserName = BITSUser.Email;
+                var user = await _userManager.CreateAsync(BITSUser, BITSUser.Password);
+                if (user.Succeeded)
+                {
+                    return RedirectToAction(controllerName: "Products", actionName: "CloseIFrame");
+                }
             }
+            ViewBag.AvailableRoles = new SelectList(SeedData.roleNames);
+            ViewBag.UserRole = BITSUser.Roles;
             return View(BITSUser);
         }
 
@@ -102,10 +118,8 @@ namespace BITS.Controllers
             {
                 return NotFound();
             }
-            var roles = SeedData.roleNames;
-            var role = BITSUser.Roles;
-            ViewBag.AvailableRoles = new SelectList(roles);
-            ViewBag.UserRole = role;
+            ViewBag.AvailableRoles = new SelectList(SeedData.roleNames);
+            ViewBag.UserRole = BITSUser.Roles;
             return View(BITSUser);
         }
 
@@ -119,10 +133,12 @@ namespace BITS.Controllers
             if (!id.Equals(BITSUser.Id))
             {
                 return NotFound();
-            }
+            }   
 
             if (!ModelState.IsValid)
             {
+                ViewBag.AvailableRoles = new SelectList(SeedData.roleNames);
+                ViewBag.UserRole = BITSUser.Roles;
                 return View(BITSUser);
             }
 
@@ -134,7 +150,6 @@ namespace BITS.Controllers
 
             user.UserName = BITSUser.UserName;
             user.Name = BITSUser.Name;
-            user.Email = BITSUser.Email;
             user.Roles = BITSUser.Roles;
             var currRoles = await _userManager.GetRolesAsync(user);
             var removeRoles = await _userManager.RemoveFromRolesAsync(user, currRoles);
@@ -158,7 +173,31 @@ namespace BITS.Controllers
                     return View(BITSUser);
                 }
             }
+            if(user.Email != BITSUser.Email)
+            {
+                var token = await _userManager.GenerateChangeEmailTokenAsync(user, BITSUser.Email);
+                var result = await _userManager.ChangeEmailAsync(user, BITSUser.Email, token);
+                user.Email = BITSUser.Email;
+                if (!result.Succeeded)
+                {
+                    string error_msg = "";
+                    foreach (var i in result.Errors)
+                        error_msg = i.Description + Environment.NewLine;
+                    ModelState.AddModelError("CustomError", error_msg);
 
+                    return View(BITSUser);
+                }
+                var username_result = await _userManager.SetUserNameAsync(user, BITSUser.Email);
+                if (!username_result.Succeeded)
+                {
+                    string error_msg = "";
+                    foreach (var i in username_result.Errors)
+                        error_msg = i.Description + Environment.NewLine;
+                    ModelState.AddModelError("CustomError", error_msg);
+
+                    return View(BITSUser);
+                }
+            }
             try
             {
                 var result = await _userManager.UpdateAsync(user);
@@ -253,6 +292,26 @@ namespace BITS.Controllers
             }
             return RedirectToAction(controllerName: "Products", actionName: "CloseIFrame");
         }
+
+        //public async Task<IActionResult> UserEdit(string id)
+        //{
+        //    if (string.IsNullOrEmpty(id))
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var BITSUser = await _context.BITSUser.FindAsync(id);
+        //    if (BITSUser == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(BITSUser);
+        //}
+
+        // POST: BITSUser/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
     }
 
 }

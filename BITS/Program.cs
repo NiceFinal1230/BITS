@@ -17,7 +17,7 @@ builder.Services
     .AddEntityFrameworkStores<UserContext>();
 
 // Add services to the container.
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation().AddSessionStateTempDataProvider();
 
 // Add session services
 builder.Services.AddDistributedMemoryCache();

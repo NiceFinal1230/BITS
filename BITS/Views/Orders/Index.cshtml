@@ -190,10 +190,18 @@
 <div class="container">
 
     <h1 style="margin-top: 1em;">Checkout</h1>
-    @if (ViewBag.errMsg != null)
-    {
-        <div class="alert alert-danger"> @ViewBag.errMsg </div>
+    @{
+        foreach (var item in Model.ProductStocktake)
+        {
+            if (Model.RunOut.Contains(item.Product.ProductId))
+            {
+                <div class="alert alert-danger"> @item.Product.Name does not have sufficient stock.</div>
+            }
+        }
     }
+@*     @{
+        <div class="alert alert-danger"> @ViewBag.errMsg </div>
+    } *@
     <div class="row">
         <div class="col-lg-6">
             <div class="credit-card-button">

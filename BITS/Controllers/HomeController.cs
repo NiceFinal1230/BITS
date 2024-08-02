@@ -24,16 +24,29 @@ namespace BITS.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Search(string search)
+        {
+            if(search == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            HomeViewModel home = new();
+            var vm = await GetProducts();
+            var test = vm.Where(i => i.Product.Name.ToLower().Contains(search.ToLower())).ToList();
+            home.Search = test;
+            return View(home);
+        }
+
+        public async Task<List<ProductStocktakeViewModel>> GetProducts()
         {
             List<ProductStocktakeViewModel> vm = new();
-            HomeViewModel home = new();
             var list = await _context.Product.ToListAsync();
             foreach (var p in list)
             {
                 //var stock = await _context.Stocktake.FirstOrDefaultAsync(s => s.ProductId == p.ProductId && s.Quantity > 0);
                 var stock = await _context.Stocktake.FirstOrDefaultAsync(s => s.ProductId == p.ProductId);
-                if(stock == null)
+                if (stock == null)
                 {
                     stock = new();
                 }
@@ -43,6 +56,15 @@ namespace BITS.Controllers
             vm = vm.Where(i => i.Product.BaseGameId == null).ToList();
 
             var test = vm;
+            return vm;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            HomeViewModel home = new();
+
+            var vm = await GetProducts();
+
             home.Fixed = vm.TakeLast(5).ToList();
             vm = vm.SkipLast(5).ToList();
 
@@ -63,6 +85,8 @@ namespace BITS.Controllers
         {
             return View();
         }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

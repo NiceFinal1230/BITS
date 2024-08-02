@@ -109,7 +109,15 @@
 <div class="container">
 
     <h1 style="margin-top: 1em;">My Cart</h1>
-
+    @{
+        foreach (var item in Model.ProductStocktake)
+        {
+            if (Model.RunOut.Contains(item.Product.ProductId))
+            {
+                <div class="alert alert-danger"> @item.Product.Name does not have sufficient stock.</div>
+            }
+        }
+    }
     <div class="row">
         <div class="col-lg-8">
         @{
@@ -154,6 +162,7 @@
                                 <div>$ @item.Product.Price</div>
                             </div>
                         }
+                        <div class="row">@(Model.RunOut.Contains(item.Product.ProductId) ? "This product is not available right now." : "")</div>
                     </div>
                 </div>
 

@@ -8,21 +8,41 @@ using Microsoft.EntityFrameworkCore;
 using BITS.Data;
 using BITS.Models;
 using BITS.ViewModel;
+using Azure.Identity;
+using BITS.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace BITS.Controllers
 {
     public class AdminOrdersController : Controller
     {
         private readonly BITSContext _context;
+        private UserManager<BITSUser> _userManager;
 
-        public AdminOrdersController(BITSContext context)
+        public AdminOrdersController(BITSContext context, UserManager<BITSUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: AdminOrders
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? start_date, string? end_date, string search)
         {
+            // Search By Id
+            if (search != null)
+            {
+                return View(await _context.Order.Where(i => i.OrderId.ToString().Contains(search)).ToListAsync());
+            }
+
+            // Search By Date
+            if (start_date != null && end_date != null)
+            {
+                var parsed_start_date = DateTime.Parse(start_date);
+                var parsed_end_date = DateTime.Parse(end_date);
+
+                return View(await _context.Order.Where(i => i.DateOfPurchase >= parsed_start_date && i.DateOfPurchase <= parsed_end_date).ToListAsync());
+            }
+
             return View(await _context.Order.ToListAsync());
         }
 
@@ -72,7 +92,7 @@ namespace BITS.Controllers
             {
                 _context.Add(order);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(controllerName: "Products", actionName: "CloseIFrame");
             }
             return View(order);
         }
@@ -90,19 +110,25 @@ namespace BITS.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.ProductList = await PopulateProductList(id);
+            return View(order);
+        }
+
+        private async Task<List<ProductStocktakeViewModel>> PopulateProductList(int? id)
+        {
             var raw = await _context.ProductsInOrders.Where(i => i.OrderId == id).ToListAsync();
             List<ProductStocktakeViewModel> vm = new();
-            foreach(var i in raw)
+            foreach (var i in raw)
             {
                 var p = await _context.Product.FindAsync(i.Products);
-                if(p != null)
+                if (p != null)
                 {
                     ProductStocktakeViewModel temp = new ProductStocktakeViewModel { Product = p, Quantity = i.Quantity, ProductsInOrders = i };
                     vm.Add(temp);
                 }
             }
-            ViewBag.ProductList = vm;
-            return View(order);
+            return vm;
         }
 
         // POST: AdminOrders/Edit/5
@@ -110,7 +136,7 @@ namespace BITS.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderId,OriginalPrice,Subtotal,DiscountPrice,UserId,StreetAddress,PostCode,Suburb,State")] Order order)
+        public async Task<IActionResult> Edit(int id, Order order)
         {
             if (id != order.OrderId)
             {
@@ -135,8 +161,9 @@ namespace BITS.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(controllerName: "Products", actionName: "CloseIFrame");
             }
+            ViewBag.ProductList = await PopulateProductList(id);
             return View(order);
         }
 

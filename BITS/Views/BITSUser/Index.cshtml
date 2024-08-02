@@ -7,19 +7,30 @@
 
 <partial name="_Index" />
 
+@{
+    var rolesFromUrl = Context.Request.Query["roles"].ToString().Split(',').ToList();
+}
+
 <div class="container-fluid">
 
     <div class="row" id="main-row">
         <div class="col-2 column-1">
             <p class="column-1-products"><a asp-action="Index">Users</a></p>
             
-            <form asp-controller="BITSUser" asp-action="Index">
+            <form asp-controller="BITSUser" asp-action="Index" method="get">
                 <div class="row d-flex justify-content-between">
                     <p class="column-1-genres">Search By Roles</p>
                     <button asp-controller="BITSUser" asp-action="Index" type="submit" class="search-button">
                         <partial name="/Views/Shared/Icons/search.cshtml" />
                     </button>
                 </div>
+                @foreach (var role in ViewBag.Types)
+                {
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <label name="roles" for="@role">@role</label>
+                        <input type="checkbox" name="roles" id="@role" value="@role" @(rolesFromUrl.Contains("" + @role) ? "checked" : "") />
+                    </div>
+                }
             </form>
         </div>
 

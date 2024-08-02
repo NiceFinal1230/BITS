@@ -1,0 +1,95 @@
+﻿@page
+@model UserEditModel
+@{
+    ViewData["Title"] = "Edit Profile";
+    ViewData["ActivePage"] = ManageNavPages.UserEdit;
+}
+
+<partial name="_Edit" />
+<style>
+    .row {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    #header,
+    #footer {
+        display: block;
+    }
+
+    body {
+        height: 100vh;
+    }
+
+    #saving {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+</style>
+
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<form id="set-password-form" method="post">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-floating mb-3">
+        <label asp-for="StreetAddress" class="form-label">Original Street Address</label>
+        <input asp-for="StreetAddress" class="form-control" disabled />
+    </div>
+    <div class="form-floating mb-3">
+        <label asp-for="Suburb" class="form-label">Original Suburb</label>
+        <input asp-for="Suburb" class="form-control" disabled />
+    </div>
+    <div class="form-floating mb-3">
+        <label asp-for="PostCode" class="form-label">Original PostCode</label>
+        <input asp-for="PostCode" class="form-control" disabled />
+    </div>
+    <div class="form-floating mb-3">
+        <label asp-for="State" class="form-label">Original State</label>
+        <input asp-for="State" class="form-control" disabled />
+    </div>
+    <div class="form-group">
+        <label asp-for="Input.StreetAddress" class="control-label">New Street Address</label>
+        <input asp-for="Input.StreetAddress" class="form-control" />
+        <span asp-validation-for="Input.StreetAddress" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.Suburb" class="control-label">New Suburb</label>
+        <input asp-for="Input.Suburb" class="form-control" />
+        <span asp-validation-for="Input.Suburb" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.PostCode" class="control-label">New PostCode</label>
+        <input asp-for="Input.PostCode" class="form-control" />
+        <span asp-validation-for="Input.PostCode" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.State" class="control-label">New State</label>
+        <select asp-for="Input.State" class="form-control">
+            <option value="">-- States --</option>
+            <option value="Australian Capital Territory">Australian Capital Territory</option>
+            <option value="New South Wales">New South Wales</option>
+            <option value="Northern Territory">Northern Territory</option>
+            <option value="Queensland">Queensland</option>
+            <option value="South Australia">South Australia</option>
+            <option value="Tasmania">Tasmania</option>
+            <option value="Victoria">Victoria</option>
+            <option value="Western Australia">Western Australia</option>
+        </select>
+        <span asp-validation-for="Input.State" class="text-danger"></span>
+    </div>
+
+    <div class="row justify-content-between align-items-center">
+        <div class="row" id="saving">
+            <input type="reset" value="Reset" id="cancel-button" class="mr-3" />
+            <input type="submit" value="Save" id="save-button" />
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

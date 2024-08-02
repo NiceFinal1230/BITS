@@ -7,19 +7,32 @@
 
 <partial name="_Index" />
 
+@{
+    var start_date_FromUrl = Context.Request.Query["start_date"].ToString();
+    var end_date_FromUrl = Context.Request.Query["end_date"].ToString();
+}
+
 <div class="container-fluid">
 
     <div class="row" id="main-row">
         <div class="col-2 column-1">
-            <p class="column-1-products"><a asp-action="Index">Users</a></p>
+            <p class="column-1-products"><a asp-action="Index">Orders</a></p>
 
-            <form asp-controller="BITSUser" asp-action="Index">
+            <form asp-controller="BITSUser" asp-action="Index" method="get">
                 <div class="row d-flex justify-content-between">
                     <p class="column-1-genres">Search By Date</p>
                     <button asp-controller="AdminOrders" asp-action="Index" type="submit" class="search-button">
                         <partial name="/Views/Shared/Icons/search.cshtml" />
                     </button>
                 </div>
+                <label>
+                    Start Date <span class="text-danger">*</span>
+                    <input class="search" type="date" name="start_date" value=@(start_date_FromUrl != "" ? start_date_FromUrl : "12-30-2000") />
+                </label>
+                <label>
+                    End Date <span class="text-danger">*</span>
+                    <input class="search" type="date" name="end_date" value=@(start_date_FromUrl != "" ? end_date_FromUrl : "12-30-2000") />
+                </label>
             </form>
         </div>
 
@@ -29,14 +42,14 @@
             <div class="row justify-content-between">
                 <div class="col d-flex justify-content-start align-items-center">
                     <form asp-controller="AdminOrders" asp-action="Index">
-                        <input class="search" type="search" placeholder="Search by Username" name="search" />
+                        <input class="search" type="search" placeholder="Search by Id" name="search" />
                         <button asp-controller="AdminOrders" asp-action="Index" type="submit" class="search-button">
                             <partial name="/Views/Shared/Icons/search.cshtml" />
                         </button>
                     </form>
                 </div>
                 <div class="create-container col d-flex justify-content-end align-items-center">
-                    <button class="create" onclick="editIFrame('/BITSUser/Create/','')"> + New User</button>
+                    <button class="create" onclick="editIFrame('/AdminOrders/Create/','')"> + New Order</button>
                 </div>
             </div>
 

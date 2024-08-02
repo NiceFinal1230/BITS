@@ -1672,6 +1672,7 @@ public static class SeedData
             admin.Name = "GM001";
             admin.Email = "admin@gmail.com";
             admin.UserName = "admin@gmail.com";
+            admin.Roles = "Admin";
             await userManager.CreateAsync(admin, "Abcd1234!");
             await userManager.AddToRoleAsync(admin, "Admin");
         }
@@ -1683,6 +1684,7 @@ public static class SeedData
             employee.Name = "EMP001";
             employee.Email = "employee@gmail.com";
             employee.UserName = "employee@gmail.com";
+            employee.Roles = "Employee";
             await userManager.CreateAsync(employee, "Abcd1234!");
             await userManager.AddToRoleAsync(employee, "Employee");
         }
@@ -1694,6 +1696,7 @@ public static class SeedData
             customer.Name = "Xiao Ming";
             customer.Email = "customer@gmail.com";
             customer.UserName = "customer@gmail.com";
+            customer.Roles = "Customer";
             await userManager.CreateAsync(customer, "Abcd1234!");
             await userManager.AddToRoleAsync(customer, "Customer");
         }
