@@ -39,6 +39,9 @@ namespace BITS.Controllers
                 }
                 vm.Add(new() { Product = p, Stocktake = stock });
             }
+
+            vm = vm.Where(i => i.Product.BaseGameId == null).ToList();
+
             var test = vm;
             home.Fixed = vm.TakeLast(5).ToList();
             vm = vm.SkipLast(5).ToList();
