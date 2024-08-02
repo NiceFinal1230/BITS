@@ -24,6 +24,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
 </head>
+
+<style>
+    #ly{
+        align-items: center;
+    }
+</style>
+
 <body>
     <header id="header">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow" id="navbar">
@@ -37,7 +44,7 @@
                 </button>
 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1" id="ly">
                         @if (SignInManager.IsSignedIn(User))
                         {
                             @if (User.IsInRole("Admin"))

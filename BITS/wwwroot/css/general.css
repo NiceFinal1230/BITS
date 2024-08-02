@@ -43,7 +43,7 @@ button{
 }
 
 #header .navSearchbar {
-    border: 3px solid #ccc;
+    border: 2px solid #ccc;
     border-radius: 20px;
     padding: 10px;
     margin-left: 5em;
@@ -52,6 +52,8 @@ button{
     color: white;
     width: 250px;
     outline: none;
+    font-size: medium;
+    padding-left: 32px;
 }
 
 #header .circleButtons {
@@ -106,5 +108,5 @@ button{
 }
 
 #product-search{
-    margin-right: 5em;
+    margin-right: 5em;  
 }

@@ -4062,6 +4062,7 @@ input[type="button"].btn-block {
 
 .nav-link {
   display: block;
+  align-items: center;
   padding: 0.5rem 1rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -4266,6 +4267,7 @@ input[type="button"].btn-block {
     position: absolute;
   }
   .navbar-expand-sm .navbar-nav .nav-link {
+    align-items: center;
     padding-right: 1.5rem;
     padding-left: 1.5rem;
   }
@@ -4308,6 +4310,7 @@ input[type="button"].btn-block {
     position: absolute;
   }
   .navbar-expand-md .navbar-nav .nav-link {
+    align-items: center;
     padding-right: 1.5rem;
     padding-left: 1.5rem;
   }
@@ -4350,6 +4353,7 @@ input[type="button"].btn-block {
     position: absolute;
   }
   .navbar-expand-lg .navbar-nav .nav-link {
+    align-items: center;
     padding-right: 1.5rem;
     padding-left: 1.5rem;
   }
@@ -4392,6 +4396,7 @@ input[type="button"].btn-block {
     position: absolute;
   }
   .navbar-expand-xl .navbar-nav .nav-link {
+    align-items: center;
     padding-right: 1.5rem;
     padding-left: 1.5rem;
   }
@@ -4434,6 +4439,7 @@ input[type="button"].btn-block {
 }
 
 .navbar-expand .navbar-nav .nav-link {
+  align-items: center;
   padding-right: 1.5rem;
   padding-left: 1.5rem;
 }

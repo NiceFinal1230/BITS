@@ -10,26 +10,26 @@
         flex-direction: column;
         justify-content: center; /* Centers horizontally */
         align-items: center; /* Centers vertically */
-        min-height: 100vh;
+        min-height: 90vh;
     }
 
     .login-section {
-        width: 70%;
-        height: 50%;
-        padding: 30px;
+        width: 30%;
+        padding-top: 30px;
+        padding-left: 30px;
+        padding-right: 30px;
         border-radius: 8px;
         background-color: rgba(62, 62, 62, 0.8);
-        margin-top: 5em;
-        margin-bottom: 5em;
+        margin-top: 1em;
     }
 
     .login-section .logo {
         display: flex;
         justify-content: center; /* Centers horizontally */
-        align-items: center;
+        align-items: center; /* Centers vertically */
+        margin-bottom: 10px;
     }
         
-
     .center-header {
         text-align: center;
         font-weight: bold;
@@ -56,12 +56,12 @@
 <div class="center-container">
     <section class="login-section">
         <div class="logo">
-            <img src="~/images/BITSLogo.png" alt="BITS" style="width: 100px;" />
+            <img src="~/images/BITSLogo.png" alt="BITS" style="width: 75px;" />
         </div>
 
         <form id="account" method="post" class="center">
             <div class="center-header">
-                <h1>@ViewData["Title"]</h1>
+                <h2>@ViewData["Title"]</h2>
             </div>
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
