@@ -14,9 +14,34 @@
         float: left;
         margin-top: 2vh;
         padding-bottom: 2vh;
+        align-items: center;
     }
     .Sort-Buttons {
+        display: flex;
+        align-items: center;
         margin-left: 10%;
+    }
+
+    #sortOrderSelect {
+        height: 50px;
+        width: 170px;
+        text-align: center;
+        background: none;
+        color: #fff;
+        border: none;
+        text-transform: uppercase;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    #sortOrderSelect:focus,
+    #sortOrderSelect:active {
+        border: none;
+        outline: none;
+    }
+
+    #sortOrderSelect option {
+        background-color: black;
+        color: #fff
     }
 
     .sortby-form-control {
@@ -38,8 +63,7 @@
 
     .sortby-form-control option {
         background-color: black;
-        color: #fff;
-
+        color: #fff
     }
 
     .View-Buttons {
@@ -162,20 +186,41 @@
     }
 </script>
 
+
 <div class="mb-3">
-    <div class="Sort-Buttons"> 
-        <label class="form-label"></label>
-        @Html.DropDownList("Title",
-            ViewBag.Options,
-            "-- Sort By --",
-            new {@class = "sortby-form-control"})
-        <label class="form-label"></label>
+    <div class="Sort-Buttons">
+        <form method="get" asp-action="Index">
+            <select id="sortOrderSelect" name="sortOrder" asp-items="ViewBag.Options" onchange="this.form.submit()">
+                <option value="" disable selected>@ViewBag.SelectedOption</option>
+            </select>
+            <button type="submit" style="display: none">Sort</button>
+        </form>
 
         @Html.DropDownList("Title",
             ViewBag.View,
             "-- Status --",
             new { @class = "sortby-form-control" })
     </div>
+
+    <script>
+        function removePlaceholderAndSubmit() {
+            const selectElement = document.getElementById('sortOrderSelect');
+            const placeholderOption = selectElement.querySelector('option[value=""]');
+
+            if (placeholderOption) {
+                selectElement.removeChild(placeholderOption);
+            }
+
+            selectElement.form.submit();
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const selectElement = document.getElementById('sortOrderSelect');
+            selectElement.addEventListener('change', function () {
+                selectElement.options[0].text = selectElement.options[selectElement.selectedIndex].text;
+            });
+        });
+    </script>
 
      <div class="View-Buttons">
         <button class="image-button" onclick="button1Click()">
