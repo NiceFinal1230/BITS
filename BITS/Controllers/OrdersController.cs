@@ -28,41 +28,56 @@ public class OrdersController : Controller
     [Authorize]
     public async Task<IActionResult> Index()
     {
+        // Initialize view models for the cart and orders
         CartViewModel model = new();
         OrdersViewModel vm = new();
+
+        // Check if there is an error message in TempData and assign it to ViewBag
         if(TempData["errMsg"] != null)
         {
             ViewBag.errMsg = TempData["errMsg"]!.ToString();
         }
+
+        // Retrieve the products from the session
         var products = HttpContext.Session.Get<CartViewModel>("products");
         if (products != null)
         {
+            // If products are found, set IsCartItem to true and assign the products to the model
             vm.IsCartItem = true;
             model = products;
         }
+
+        // Retrieve a single product from the session
         var single_product = HttpContext.Session.Get<Product>("product");
         if (single_product != null)
         {
+            // Find the product in the context using the product ID
             var item = await _context.Product.FindAsync(single_product.ProductId);
             if (item != null)
             {
+                // Check the stock for the product
                 var stocktake = await _context.Stocktake.FirstOrDefaultAsync(x => x.ProductId == single_product.ProductId && x.Quantity > 0);
                 if (stocktake == null)
                 {
+                    // If no stock is found, add the product ID to the RunOut list and add the product with an empty Stocktake object to the model
                     vm.RunOut.Add(single_product.ProductId);
                     model.ProductStocktake.Add(new ProductStocktakeViewModel { Product = item, Stocktake = new(), Quantity = 1 });
                 }
                 else 
                 {
+                    // If stock is found, add the product with the Stocktake object to the model
                     model.ProductStocktake.Add(new ProductStocktakeViewModel { Product = item, Stocktake = stocktake, Quantity = 1 }); 
                 }
             }
         }
 
+        // Retrieve the current user
         var user = await _userManager.GetUserAsync(User);
 
+        // Assign the user ID to ViewBag
         ViewBag.UserId = user.Id;
 
+        // If the model is not null, add the products and RunOut list to the orders view model
         if (model != null)
         {
             foreach (var product in model.ProductStocktake)
@@ -72,11 +87,13 @@ public class OrdersController : Controller
             vm.RunOut.AddRange(model.RunOut);
         }
 
+        // Initialize variables for calculating prices and discounts
         double prices = 0;
         double discount = 0;
         double discountedPrice = 0;
         double subtotal = 0;
 
+        // Calculate the total prices, discounts, and subtotal
         foreach (var i in vm.ProductStocktake)
         {
             double originalPrice = i.Product.Price * i.Quantity;
@@ -88,9 +105,12 @@ public class OrdersController : Controller
             subtotal += discountedPrice; // Total after all individual discounts
         }
 
+        // Round the calculated values and assign them to the orders view model
         vm.Prices = Math.Round(prices, 2);
         vm.Discount = Math.Round(discount, 2);
         vm.Subtotal = Math.Round(subtotal, 2);
+
+        // Store the orders view model in the session
         HttpContext.Session.Set<OrdersViewModel>("orders", vm);
         return View(vm);
     }
@@ -124,7 +144,8 @@ public class OrdersController : Controller
             }
 
             // Create a new order and save it to the database
-            var order = new Order { UserId=user!.Id, OriginalPrice = model.Prices, DiscountPrice = model.Discount, Subtotal = model.Subtotal, StreetAddress = user.StreetAddress, Suburb = user.Suburb, PostCode = user.PostCode, State = user.State };
+            var order = new Order { UserId=user!.Id, OriginalPrice = model.Prices, DiscountPrice = model.Discount, Subtotal = model.Subtotal,
+            StreetAddress = user.StreetAddress, Suburb = user.Suburb, PostCode = user.PostCode, State = user.State };
             _context.Order.Add(order);
 
             // Save changes to generate the order ID

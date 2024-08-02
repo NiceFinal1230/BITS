@@ -201,6 +201,7 @@ public class ProductsController : Controller
     // Method to display the product edit form
     public async Task<IActionResult> Edit(int? id)
     {
+        // Check if the ID parameter is null
         if (id == null)
         {
             return NotFound();
@@ -227,21 +228,31 @@ public class ProductsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, Product product, string[] selectedGenres, string[] selectedFeatures, string _previewImages)
     {
+        // Check if the provided ID matches the product's ID
         if (id != product.ProductId)
         {
             return NotFound();
         }
+        // Update the product's preview images
         SetPreviewImages(product, _previewImages);
+
+        // Update the product's genres
         SetGenres(product, selectedGenres);
+
+        // Update the product's features
         SetFeatures(product, selectedFeatures);
+
+        // If model is valid update the product in the database
         if (ModelState.IsValid)
         {
             try
             {
+
                 _context.Update(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(CloseIFrame));
             }
+            // Handle concurrency errors (e.g., if the product was deleted by another user)
             catch (DbUpdateConcurrencyException)
             {
                 if (!ProductExists(product.ProductId))
@@ -254,13 +265,31 @@ public class ProductsController : Controller
                 }
             }
         }
+
+        // If model is not valid, return to original page with same data
+
+        // Populate the data for assigned features related to the product
         PopulateAssignedFeaturesData(product);
+
+        // Populate the data for assigned genres related to the product
         PopulateAssignedGenresData(product);
+
+        // Populate the preview images for the product
         PopulatePreviewImages(product);
+
+        // Retrieve a list of sources from the database and store it in ViewBag for use in the view
         ViewBag.sources = _context.Source.ToList();
+
+        // Store the database context in ViewBag
         ViewBag.Context = _context;
+
+        // Retrieve stocktake details associated with the product and store them in ViewBag
         ViewBag.Stocktake = await _context.Stocktake.Where(stock => stock.ProductId == id).ToListAsync();
+
+        // Create a new instance of Stocktake with the product ID
         Stocktake stocktake = new Stocktake { ProductId = product.ProductId };
+
+        // Return the view with a new ProductStocktakeViewModel containing the product and stocktake details
         return View(new ProductStocktakeViewModel { Product = product, Stocktake = stocktake });
     }
 
@@ -283,15 +312,22 @@ public class ProductsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> BuyNow(int? ProductId)
     {
-        if(ProductId != null)
+        // Check if the provided ProductId is not null
+        if (ProductId != null)
         {
+            // Attempt to find the product with the given ProductId in the database
             var p = await _context.Product.FindAsync(ProductId);
+
+            // Store the product in the session with the key "product", if product is not null
             if (p != null)
             {
                 HttpContext.Session.Set<Product>("product", p);
             }
         }
+
+        // Remove the "products" session data if it exists
         HttpContext.Session.Remove("products");
+
         return RedirectToAction(controllerName: "Orders", actionName: "Index");
     }
 
@@ -307,11 +343,13 @@ public class ProductsController : Controller
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
+
     // Method to check if a product exists
     private bool ProductExists(int id)
     {
         return _context.Product.Any(e => e.ProductId == id);
     }
+    
     // Method to populate assigned genres data for the view
     private void PopulateAssignedGenresData(Product product = null)
     {

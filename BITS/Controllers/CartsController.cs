@@ -130,20 +130,29 @@ namespace BITS.Controllers
         }
 
 
-
+        //Get: Remove item from cart
         [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             int productId = id;
             try
             {
+                // Get the currently logged-in user
                 var user = await _userManager.GetUserAsync(User);
+
+                // Find the cart item for the current user and the specified product
                 var cart = await _context.Cart.FirstOrDefaultAsync(c => c.UserId == user.Id && c.ProductId == productId);
+
+                // If the cart item is not found, return a NotFound result
                 if(cart == null)
                 {
                     return NotFound();
                 }
+
+                // Decrement the quantity of the product in the cart
                 cart.Quantity--;
+
+                // If the quantity is less than or equal to zero, remove the cart item
                 if (cart.Quantity <= 0)
                 {
                     _context.Cart.Remove(cart);
@@ -162,15 +171,22 @@ namespace BITS.Controllers
         [Authorize]
         public IActionResult Checkout(string? products)
         {
+            // Check if the products parameter is not null
             if(products != null)
             {
+                // Deserialize the products JSON string into a CartViewModel object
                 var cvm = Newtonsoft.Json.JsonConvert.DeserializeObject<CartViewModel>(products);
+
+                // If deserialization is successful and cvm is not null
                 if(cvm != null)
                 {
+                    // Store the CartViewModel object in the session with the key "products"
                     HttpContext.Session.Set<CartViewModel>("products", cvm);
+                    // Store an integer value in the session with an empty key (this is likely a mistake or placeholder)
                     HttpContext.Session.SetInt32("", 73);
                 }
             }
+            // Remove any existing "product" key from the session
             HttpContext.Session.Remove("product");
             return RedirectToAction(controllerName: "Orders", actionName: "Index");
         }
