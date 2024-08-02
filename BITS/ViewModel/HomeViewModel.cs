@@ -9,6 +9,7 @@ public class HomeViewModel
     public List<ProductStocktakeViewModel> NewRelease { get; set; } = new List<ProductStocktakeViewModel>();
     public List<ProductStocktakeViewModel> MegaSale { get; set; } = new List<ProductStocktakeViewModel>();
     public List<ProductStocktakeViewModel> Explore { get; set; } = new List<ProductStocktakeViewModel>();
+    public List<ProductStocktakeViewModel>? Search { get; set; } = new List<ProductStocktakeViewModel>();
 
 }
 

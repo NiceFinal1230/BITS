@@ -7,22 +7,31 @@
 <style>
     .center-container {
         display: flex;
+        flex-direction: column;
         justify-content: center; /* Centers horizontally */
         align-items: center; /* Centers vertically */
-      
+        min-height: 100vh;
     }
 
     .login-section {
-        width: 40%;
+        width: 70%;
+        height: 50%;
         padding: 30px;
         border-radius: 8px;
         background-color: rgba(62, 62, 62, 0.8);
         margin-top: 5em;
+        margin-bottom: 5em;
     }
+
+    .login-section .logo {
+        display: flex;
+        justify-content: center; /* Centers horizontally */
+        align-items: center;
+    }
+        
 
     .center-header {
         text-align: center;
-        margin-top: 15px;
         font-weight: bold;
     }
 
@@ -37,17 +46,19 @@
     }
 
     #footer {
-        position: absolute;
         bottom: 0;
         width: 100%;
+        margin-top: 3em;
     }
+   
 </style>
 
 <div class="center-container">
     <section class="login-section">
-        <div class="center-container">
+        <div class="logo">
             <img src="~/images/BITSLogo.png" alt="BITS" style="width: 100px;" />
         </div>
+
         <form id="account" method="post" class="center">
             <div class="center-header">
                 <h1>@ViewData["Title"]</h1>

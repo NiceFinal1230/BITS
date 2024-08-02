@@ -71,7 +71,13 @@
                             else if (User.IsInRole("Customer"))
                             {
                                 <li class="nav-item">
-                                    <input type="text" class="navSearchbar" placeholder="Search"/>
+                                    <form asp-controller="AdminOrders" asp-action="Index">
+                                        <input type="text" class="navSearchbar" placeholder="Search" name="search"/>
+                                        <button asp-controller="Home" asp-action="Search" type="submit" id="product-search">
+                                            <partial name="/Views/Shared/Icons/search.cshtml" />
+                                        </button>
+                                    </form>
+                                    
                                 </li>
 
                                 <li class="nav-item">
@@ -80,10 +86,6 @@
 
                                 <li class="nav-item">
                                     <a class="nav-link" asp-area="" asp-controller="Library" asp-action="Index">LIBRARY</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Carts" asp-action="Index">CART</a>
                                 </li>
                             }
                             else

@@ -8,6 +8,7 @@ public class CartViewModel
 {
     public List<ProductStocktakeViewModel> ProductStocktake { get; set; } = new List<ProductStocktakeViewModel>();
     public HashSet<int> RunOut { get; set; } = new HashSet<int>();
+
     [DisplayFormat(DataFormatString = "{0:F2}")]
     public double Prices { get; set; }
     [DisplayFormat(DataFormatString = "{0:F2}")]

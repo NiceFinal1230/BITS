@@ -136,6 +136,11 @@
                     <span asp-validation-for="OrderId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                    <label asp-for="DateOfPurchase" class="control-label"></label>
+                    <input asp-for="DateOfPurchase" class="form-control" />
+                    <span asp-validation-for="DateOfPurchase" class="text-danger"></span>
+                </div>
+                <div class="form-group">
                     <label asp-for="OriginalPrice" class="control-label"></label>
                     <input asp-for="OriginalPrice" class="form-control" />
                     <span asp-validation-for="OriginalPrice" class="text-danger"></span>
@@ -178,44 +183,47 @@
             </div>
 
         @{
-            foreach (var item in ViewBag.ProductList)
+            if (ViewBag.ProductList != null)
             {
-                <div class="row cart-product">
-                    <div class="col-auto">
-                        <div class="img-container">
-                            <img src="@(item.Product.PreviewImages.Count > 0 ? item.Product.PreviewImages[0] : "")" />
-                        </div>
-                    </div>
-                    <div class="col">
-                        
-                        <div class="row justify-content-between align-items-center">
-                            <div class="cart-product-type">@item.Product.ProductType</div>
-                            <div class="d-flex">
-                                <a asp-controller="ProductsInOrders" asp-action="Edit" asp-route-id="@item.ProductsInOrders.ProductsInOrdersId">
-                                    <partial name="/Views/Shared/Icons/edit.cshtml" />
-                                </a>
-                                <form asp-controller="ProductsInOrders" asp-action="Delete" asp-route-id="@item.ProductsInOrders.ProductsInOrdersId">
-                                    <input type="hidden" name="productId" value="@item.ProductsInOrders.ProductsInOrdersId" />
-                                    <button type="submit" class="bg-transparent border-0">
-                                        <partial name="/Views/Shared/Icons/delete.cshtml" />
-                                    </button>
-                                </form>
+                foreach (var item in ViewBag.ProductList)
+                {
+                    <div class="row cart-product">
+                        <div class="col-auto">
+                            <div class="img-container">
+                                <img src="@(item.Product.PreviewImages.Count > 0 ? item.Product.PreviewImages[0] : "")" />
                             </div>
                         </div>
+                        <div class="col">
 
-                        <div class="row cart-product-name">@item.Product.Name</div>
-                        <div class="row justify-content-between align-items-stretch cart-product-actual-price">
-                            <div>Purchased Quantity: </div>
-                            <div>x @item.Quantity</div>
-                        </div>
-                        <div class="row justify-content-between align-items-stretch cart-product-actual-price">
-                            <div>Original Price: </div>
-                            <div>$ @item.Product.Price</div>
-                        </div>
+                            <div class="row justify-content-between align-items-center">
+                                <div class="cart-product-type">@item.Product.ProductType</div>
+                                <div class="d-flex">
+                                    <a asp-controller="ProductsInOrders" asp-action="Edit" asp-route-id="@item.ProductsInOrders.ProductsInOrdersId">
+                                        <partial name="/Views/Shared/Icons/edit.cshtml" />
+                                    </a>
+                                    <form asp-controller="ProductsInOrders" asp-action="Delete" asp-route-id="@item.ProductsInOrders.ProductsInOrdersId">
+                                        <input type="hidden" name="productId" value="@item.ProductsInOrders.ProductsInOrdersId" />
+                                        <button type="submit" class="bg-transparent border-0">
+                                            <partial name="/Views/Shared/Icons/delete.cshtml" />
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
 
+                            <div class="row cart-product-name">@item.Product.Name</div>
+                            <div class="row justify-content-between align-items-stretch cart-product-actual-price">
+                                <div>Purchased Quantity: </div>
+                                <div>x @item.Quantity</div>
+                            </div>
+                            <div class="row justify-content-between align-items-stretch cart-product-actual-price">
+                                <div>Original Price: </div>
+                                <div>$ @item.Product.Price</div>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
 
+                }
             }
         }
 

@@ -1,20 +1,30 @@
 ﻿@model BITS.Areas.Identity.Data.BITSUser
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<partial name="_Create" />
+
+<partial name="_Edit"/>
+<style>
+    #header,
+    #footer {
+        display: block;
+    }
+    body{
+        height: 100vh;
+    }
+</style>
 
 <div class="edit container-fluid">
     <div class="row">
         <div class="col">
-            <form asp-action="Create" id="product-create">
+            <form asp-action="Edit">
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="row justify-content-between align-items-center">
-                    <button onclick="parent.closeIFrame();">
+                    <button asp-controller="/Identity/Account/Manage">
                         <partial name="/Views/Shared/Icons/close.cshtml" />
                     </button>
                     <div class="row">
@@ -24,34 +34,13 @@
 
                 </div>
 
-                <div class="form-group">
-                    <label asp-for="Roles" class="control-label"></label>
-                    <br />
-                    <select asp-for="Roles" asp-items="ViewBag.AvailableRoles" value="@ViewBag.UserRole">
-                        <option value=""> -- Empty -- </option>
-                    </select>
-                    <span asp-validation-for="Roles" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" class="form-control" placeholder="Password must have uppercase letter, lowercase letter, digit and symbol." />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PhoneNumber" class="control-label"></label>
-                    <input asp-for="PhoneNumber" class="form-control" />
-                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                </div>
+                <input type="hidden" asp-for="UserName" />
+                <input type="hidden" asp-for="Roles" />
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Name" />
+                <input type="hidden" asp-for="Email" />
+                <input type="hidden" asp-for="Password" />
+                <input type="hidden" asp-for="PhoneNumber" />
                 <div class="form-group">
                     <label asp-for="StreetAddress" class="control-label"></label>
                     <input asp-for="StreetAddress" class="form-control" />
@@ -72,7 +61,9 @@
                     <input asp-for="State" class="form-control" />
                     <span asp-validation-for="State" class="text-danger"></span>
                 </div>
+
             </form>
+
         </div>
     </div>
 </div>

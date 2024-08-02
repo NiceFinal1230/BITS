@@ -9,6 +9,10 @@ using BITS.Data;
 using BITS.Models;
 using BITS.ViewModel;
 using Microsoft.CodeAnalysis;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Newtonsoft.Json;
 
 namespace BITS.Controllers
 {
@@ -42,9 +46,13 @@ namespace BITS.Controllers
             {
                 _context.Add(stocktake);
                 await _context.SaveChangesAsync();
+                TempData["msg"] = stocktake.Quantity + " has been added to the product" + stocktake.ProductId;
                 return RedirectToAction(controllerName: "Products", actionName: "Edit", routeValues: new { id = stocktake.ProductId });
             }
-            return View(stocktake);
+            //return Page();
+            List<string> errors = ModelState.Values .SelectMany(v => v.Errors) .Select(e => e.ErrorMessage) .ToList();
+            TempData["err"] = JsonConvert.SerializeObject(errors);
+            return RedirectToAction(controllerName: "Products", actionName: "Edit", routeValues: new { id = stocktake.ProductId });
         }
 
         // GET: Stocktakes/Edit/5
@@ -96,7 +104,7 @@ namespace BITS.Controllers
                 }
                 return RedirectToAction(controllerName: "Products", actionName: "Edit", routeValues: new { id = stocktake.ProductId});
             }
-            return RedirectToAction(controllerName: "Products", actionName:"Index");
+            return View(new Stocktake { ProductId = stocktake.ProductId });
         }
 
         // POST: Stocktakes/Delete/5

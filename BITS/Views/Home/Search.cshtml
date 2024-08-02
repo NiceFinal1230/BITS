@@ -102,6 +102,7 @@ ViewData["Title"] = "Home Page";
     #new-release {
     color: #fff;
     margin-bottom: 30px;
+    margin-top: 30px;
     }
 
     #new-release .container {
@@ -133,6 +134,7 @@ ViewData["Title"] = "Home Page";
 
     #new-release .container .new-games-list .single-game:hover {
     transform: translateY(-10px);
+    background-color: rgb(105, 105, 105);
     color: white;
     }
 
@@ -158,11 +160,10 @@ ViewData["Title"] = "Home Page";
     #new-release .container .new-games-list .single-game .price {
     position: absolute;
     right: 0;
-    bottom: 20px;
+    bottom: 0;
     font-weight: bold;
     text-align: end;
     padding: 0px 10px 10px 0px;
-    color: white;
     }
 
     #new-release .container .new-games-list .discounted-game {
@@ -268,6 +269,7 @@ ViewData["Title"] = "Home Page";
     .sale .container .games-list .discounted-game:hover,
     .sale .container .games-list .single-game:hover{
     transform: translateY(-10px);
+    background-color: rgb(105, 105, 105);
     color: white;
     }
 
@@ -307,16 +309,6 @@ ViewData["Title"] = "Home Page";
     font-weight: bold;
     }
 
-    .sale .container .games-list .single-game .price {
-    position: absolute;
-    right: 0;
-    bottom: 20px;
-    font-weight: bold;
-    text-align: end;
-    padding: 0px 10px 10px 0px;
-    color: white;
-    }
-
     .sale .container .games-list .discounted-game .original-price,
     .sale .container .games-list .single-game .original-price {
     position: absolute;
@@ -339,67 +331,18 @@ ViewData["Title"] = "Home Page";
     padding: 0px 10px 10px 0px;
     }
 
-    #footer {
-        bottom: 0;
-        width: 100%;
-        margin-top: 3em;
-    }
-
     /* img {
     border-radius: 15px;
     } */
 </style>
 
-<div class="sale-banner">
-    <img src="~/images/Sale banner.png" style="width: 1110px; height: 420px;" />
-</div>
-
-<section id="reccomended">
-    <h3 class="header" id="recommended-title">Recommended</h3>
-    <div class="reccomended-container">
-
-        <div class="main-game">
-            @if(Model.Fixed.Count > 0)
-            {
-                <a asp-controller="Products" asp-action="Details" asp-route-id="@Model.Fixed.First().Product.ProductId">
-                    <img src="@Model.Fixed.First().Product.PreviewImages.First()" style="width: 750px; height: 522px;" />
-                </a>
-            }
-
-        </div>
-
-        <div class="game-list">
-        @{
-            int skip = 0;
-            foreach (var p in Model.Fixed)
-            {
-                if (skip == 0)
-                {
-                    skip++;
-                    continue;
-                }
-                else
-                {
-                    <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Product.ProductId">
-                        <div>
-                            <img src="@p.Product.PreviewImages.FirstOrDefault()" alt="@p.Product.Name" />
-                        </div>
-                        <p>@p.Product.Name</p>
-                    </a>
-                }
-            }
-        }
-        </div>
-    </div>
-</section>
-
 <section id="new-release">
     <div class="container">
-        <h3 class="heading">Top New Releases ></h3>
+        <h3 class="heading">Available Products/Add-On:</h3>
 
         <div class="new-games-list">
             @{
-                foreach (var p in Model.NewRelease)
+                foreach (var p in Model.Search)
                 {
                     if(p.Stocktake.DiscountRate > 0)
                     {
@@ -438,96 +381,3 @@ ViewData["Title"] = "Home Page";
         </div>
     </div>
 </section>
-
-<section class="sale">
-    <div class="container">
-        <h3 class="heading">Mega Sale ></h3>
-
-        <div class="games-list">
-            @{
-                foreach (var p in Model.MegaSale)
-                {
-                    var temp = p.Product.Price * ((100 - p.Stocktake.DiscountRate) / 100);
-                    var discountedPrice = temp.ToString("F2");
-
-                    if (p.Stocktake.DiscountRate > 0)
-                    {
-                        <div class="discounted-game">
-                            <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Product.ProductId">
-                                <div class="img-box">
-                                    <img class="game-img" src="@p.Product.PreviewImages.FirstOrDefault()" alt="@p.Product.Name" />
-                                </div>
-
-                                <h5 class="title">@p.Product.Name</h5>
-                                <div class="discount">-@(p.Stocktake.DiscountRate)%</div>
-                                <div class="original-price">SGD @(p.Product.Price.ToString("F2"))</div>
-                                <div class="discounted-price">SGD @discountedPrice</div>
-                            </a>
-                        </div>
-                    }
-
-                    else
-                    {
-                        <div class="single-game">
-                            <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Product.ProductId">
-                                <div class="img-box">
-                                    <img class="game-img" src="@p.Product.PreviewImages.FirstOrDefault()" alt="@p.Product.Name" />
-                                </div>
-
-                                <h5 class="title">@p.Product.Name</h5>
-                                <div class="price">SGD @(p.Product.Price.ToString("F2"))</div>
-                            </a>
-                        </div>
-                    }
-                }
-            }
-        </div>
-    </div>
-</section>
-
-<section class="sale">
-    <div class="container">
-        <h3 class="heading">Explore ></h3>
-
-        <div class="games-list">
-            @{
-                foreach (var p in Model.Explore)
-                {
-                    var temp = p.Product.Price * ((100 - p.Stocktake.DiscountRate) / 100);
-                    var discountedPrice = temp.ToString("F2");
-
-                    if (p.Stocktake.DiscountRate > 0)
-                    {
-                        <div class="discounted-game">
-                            <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Product.ProductId">
-                                <div class="img-box">
-                                    <img class="game-img" src="@p.Product.PreviewImages.FirstOrDefault()" alt="@p.Product.Name" />
-                                </div>
-
-                                <h5 class="title">@p.Product.Name</h5>
-                                <div class="discount">-@(p.Stocktake.DiscountRate)%</div>
-                                <div class="original-price">SGD @(p.Product.Price.ToString("F2"))</div>
-                                <div class="discounted-price">SGD @(discountedPrice)</div>
-                            </a>
-                        </div>
-                    }
-
-                    else
-                    {
-                        <div class="single-game">
-                            <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Product.ProductId">
-                                <div class="img-box">
-                                    <img class="game-img" src="@p.Product.PreviewImages.FirstOrDefault()" alt="@p.Product.Name" />
-                                </div>
-
-                                <h5 class="title">@p.Product.Name</h5>
-                                <div class="price">SGD @(p.Product.Price.ToString("F2"))</div>
-                            </a>
-                        </div>
-                    }
-                }
-            }
-        </div>
-    </div>
-</section>
-

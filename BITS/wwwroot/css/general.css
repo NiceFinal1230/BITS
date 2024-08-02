@@ -43,12 +43,11 @@ button{
 }
 
 #header .navSearchbar {
-    border: 2.5px solid #ccc;
-    border-radius: 50px;
-    padding: 7px;
-    padding-left: 25px;
-    margin-left: 7em;
-    margin-right: 1.25em;
+    border: 3px solid #ccc;
+    border-radius: 20px;
+    padding: 10px;
+    margin-left: 5em;
+    margin-right: 0.5em;
     background-color: transparent;
     color: white;
     width: 250px;
@@ -104,4 +103,8 @@ button{
     top: 50%;
     left: -20%;
     transform: translateY(-50%);
+}
+
+#product-search{
+    margin-right: 5em;
 }

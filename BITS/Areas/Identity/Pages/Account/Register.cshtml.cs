@@ -31,12 +31,7 @@ namespace BITS.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public RegisterModel(
-            UserManager<BITSUser> userManager,
-            IUserStore<BITSUser> userStore,
-            SignInManager<BITSUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+        public RegisterModel( UserManager<BITSUser> userManager, IUserStore<BITSUser> userStore, SignInManager<BITSUser> signInManager, ILogger<RegisterModel> logger, IEmailSender emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -118,7 +113,7 @@ namespace BITS.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
                 user.Name = Input.Username;
-
+                user.Roles = "Customer";
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -129,6 +124,7 @@ namespace BITS.Areas.Identity.Pages.Account
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var role_result = await _userManager.AddToRoleAsync(user, "Customer");
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
