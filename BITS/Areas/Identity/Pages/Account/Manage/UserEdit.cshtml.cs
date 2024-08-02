@@ -61,13 +61,21 @@ namespace BITS.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
-
+            // Retrieve the current user
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
+            if(Input.StreetAddress == null || Input.PostCode == null || Input.State == "")
+            {
+                ModelState.AddModelError(string.Empty, "You are required to fill in the Street Address, PostCode and State.");
+                return Page();
+            }
+
+
+            // Validate the street address input
             if (Regex.IsMatch(Input.StreetAddress, @"^(?=.*[a-zA-Z])(?=.*\d).+$"))
             {
                 user.StreetAddress = Input.StreetAddress;
@@ -78,6 +86,7 @@ namespace BITS.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
+            // Validate the postcode input
             int value;
             bool isNumber = int.TryParse(Input.PostCode, out value);
             if (isNumber == true)
@@ -90,6 +99,7 @@ namespace BITS.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
+            // Define a set of valid states
             HashSet<string> states = new HashSet<string> { "Australian Capital Territory", "New South Wales", "Northern Territory", "Queensland", "South Australia", "Tasmania", "Victoria", "Western Australia" };
 
             if (states.Contains(Input.State))
@@ -102,20 +112,24 @@ namespace BITS.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
+            // Update the suburb
             user.Suburb = Input.Suburb;
 
-            var changePasswordResult = await _userManager.UpdateAsync(user);
-            if (!changePasswordResult.Succeeded)
+            // Update the user's profile in the database
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
             {
-                foreach (var error in changePasswordResult.Errors)
+                foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                     return Page();
                 }
             }
 
+            // Set the status message
             StatusMessage = "Your profile has been changed.";
 
+            // Redirect to the same page to reflect changes
             return RedirectToPage();
         }
     }

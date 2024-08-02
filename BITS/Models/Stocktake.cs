@@ -16,14 +16,14 @@ public class Stocktake
 
     [Required(ErrorMessage = "Quantity is required.")]
     [Range(1, int.MaxValue, ErrorMessage = "Quantity must be a positive number.")]
-    public int Quantity { get; set; } = 1;
+    public int Quantity { get; set; };
 
     [Required(ErrorMessage = "Price is required.")]
-    [Range(0.01, double.MaxValue, ErrorMessage = "Price must be a positive number.")]
-    public double Price { get; set; } = 0.01;
+    [Range(0.01, double.MaxValue, ErrorMessage = "Price greater than 0.")]
+    public double Price { get; set; } = 0;
 
     [Range(0, 100, ErrorMessage = "Discount Rate must be between 0 and 100.")]
-    public double DiscountRate { get; set; } = 1;
+    public double DiscountRate { get; set; } = 0;
 /*
     [Required(ErrorMessage = "Discount Start Date is required.")]
     [DataType(DataType.Date)]

@@ -95,18 +95,24 @@ namespace BITS.Controllers
         [Authorize]
         public async Task<IActionResult> Create(int? id)
         {
+            // Check if the product ID is null
             if (id == null)
                 return NotFound();
 
             try
             {
+                // Find the product in the database using the provided ID
                 var prod = await _context.Product.FindAsync(id);
+                // Get the currently logged-in user
                 var user = await _userManager.GetUserAsync(User);
+                // Create a new Cart item with the user's ID and the product ID, initializing the quantity to 1
                 var item = new Cart { UserId = user!.Id, ProductId = (int)id, Quantity = 1 };
+                // Check if the cart already contains this product for the current user
                 var cart = (from _cart in _context.Cart
                            where _cart.UserId == user.Id && _cart.ProductId == id
                             select _cart).FirstOrDefault();
-
+                // If the product is not in the cart, add the new item
+                // If the product is already in the cart, increase the quantity
                 if (cart == null)
                     _context.Cart.Add(item);
                 else
@@ -114,6 +120,7 @@ namespace BITS.Controllers
                     cart.Quantity++;
                     _context.Cart.Update(cart);
                 }
+                // Save the changes to the database
                 await _context.SaveChangesAsync();
             }
             catch(Exception e){
@@ -121,6 +128,9 @@ namespace BITS.Controllers
             }
             return RedirectToAction(controllerName: "Products", actionName: "Details", routeValues: new { id = id });
         }
+
+
+
         [Authorize]
         public async Task<IActionResult> Delete(int id)
         {

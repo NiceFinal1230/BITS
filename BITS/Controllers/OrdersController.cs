@@ -99,15 +99,19 @@ public class OrdersController : Controller
     [HttpPost]
     public async Task<IActionResult> Create()
     {
-
+        // Retrieve the orders model from the session
         var model = HttpContext.Session.Get<OrdersViewModel>("orders");
         if(model == null)
         {
             return NotFound();
         }
+
+        // Get the current user
         var user = await _userManager.GetUserAsync(User);
+
         try
         {
+            // Check if there is sufficient stock for each product in the order
             foreach (var item in model.ProductStocktake)
             {
                 var id = item.Product.ProductId;
@@ -119,10 +123,14 @@ public class OrdersController : Controller
                 }
             }
 
+            // Create a new order and save it to the database
             var order = new Order { UserId=user!.Id, OriginalPrice = model.Prices, DiscountPrice = model.Discount, Subtotal = model.Subtotal, StreetAddress = user.StreetAddress, Suburb = user.Suburb, PostCode = user.PostCode, State = user.State };
             _context.Order.Add(order);
-            //must save the changes here, otherwise the order does not have an id
+
+            // Save changes to generate the order ID
             await _context.SaveChangesAsync();
+
+            // Update stock quantities and add products to the order
             foreach (var item in model.ProductStocktake)
             {
                 var id = item.Product.ProductId;
@@ -131,12 +139,14 @@ public class OrdersController : Controller
                 _context.Stocktake.Update(stock);
                 _context.ProductsInOrders.Add(new () { OrderId=order.OrderId, Products=id, Quantity=item.Quantity});
             }
+            // Save changes to the database
             await _context.SaveChangesAsync();
         }
         catch(Exception ex)
         {
             Debug.WriteLine(ex.ToString());
         }
+        // If the order was created from items in the cart, remove the items from the cart
         if (model.IsCartItem)
         {
             var itemsToRemove = await _context.Cart.Where(x => x.UserId == user.Id).ToListAsync();
