@@ -24,27 +24,26 @@ namespace BITS.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
             List<string> options = new List<string>()
             {
-                "Title",
-                "Date Purchased",
+                "Alphabetical",
                 "Oldest",
                 "Recent"
             };
 
             ViewBag.Options = new SelectList(options);
 
-            List<string> view = new List<string>()
+            List<string> views = new List<string>()
             {
                 "Favorite",
-                "Completed",
-                "Dropped",
                 "All"
             };
 
-            ViewBag.View = new SelectList(view);
+            ViewBag.View = new SelectList(options);
+
+            ViewBag.SelectedOption = string.IsNullOrEmpty(sortOrder) ? "Sort By" : sortOrder;
 
             var user = await _userManager.GetUserAsync(User);
             
@@ -65,6 +64,13 @@ namespace BITS.Controllers
                 }
 
             }
+
+            vm = sortOrder switch
+            {
+                "Alphabetical" => vm.OrderBy(v => v.Product.Name).ToList(),
+                "Oldest" => vm.OrderBy(v => v.Order.DateOfPurchase).ToList(),
+                "Recent" => vm.OrderByDescending(v => v.Order.DateOfPurchase).ToList(), _ => vm
+            };
 
             ViewBag.Library = vm;
 
