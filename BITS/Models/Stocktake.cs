@@ -16,7 +16,7 @@ public class Stocktake
 
     [Required(ErrorMessage = "Quantity is required.")]
     [Range(1, int.MaxValue, ErrorMessage = "Quantity must be a positive number.")]
-    public int Quantity { get; set; };
+    public int Quantity { get; set; }
 
     [Required(ErrorMessage = "Price is required.")]
     [Range(0.01, double.MaxValue, ErrorMessage = "Price greater than 0.")]
